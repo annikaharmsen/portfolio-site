@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $fillable = [
+        'icon_name',
         'title',
         'subtitle',
         'description',
@@ -15,10 +16,10 @@ class Project extends Model
     ];
 
     public function skills() {
-        return $this->hasManyThrough(Skill::class, ProjectSkill::class);
+        return $this->belongsToMany(Skill::class, 'project_skills');
     }
 
     public function technologies() {
-        return $this->hasManyThrough(Technology::class, ProjectTechnology::class);
+        return $this->belongsToMany(Technology::class, 'project_technologies');
     }
 }

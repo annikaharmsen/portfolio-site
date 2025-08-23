@@ -1,13 +1,14 @@
 export type Project = {
     //columns
+    icon_name: string;
     title: string;
     subtitle: string;
     description: string;
-    repo_link: string;
-    demo_link: string;
+    repo_link?: string;
+    demo_link?: string;
     // relations
-    skills: Skills;
-    technologies: Technologies;
+    skills?: Skills;
+    technologies?: Technologies;
     // counts
     skills_count: number;
     technologies_count: number;
@@ -19,9 +20,10 @@ export type Projects = Project[];
 
 export type Skill = {
     //columns
+    icon_name: string;
     name: string;
     // relations
-    projects: Projects;
+    projects?: Projects;
     // counts
     projects_count: number;
     // exists
@@ -33,7 +35,7 @@ export type Technology = {
     //columns
     name: string;
     // relations
-    projects: Projects;
+    projects?: Projects;
     // counts
     projects_count: number;
     // exists
