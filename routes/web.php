@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::domain('admin.' . env('APP_DOMAIN'))->middleware('auth')->group( function () {
-    Route::get('/', function () { Inertia::render('dashboard', []);});
+    Route::get('/', function () {
+        return Inertia::render('dashboard');
+    })->name('dashboard');
     Route::resource('project', ProjectController::class);
 }
 );
