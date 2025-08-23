@@ -1,5 +1,5 @@
+import { Badge } from '@/components/ui/badge';
 import { Technology } from '@/types/types';
-import { Badge } from 'lucide-react';
 
 export function Show({ technology }: { technology: Technology }) {
     return (
