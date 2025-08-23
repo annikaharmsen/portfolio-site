@@ -12,7 +12,9 @@ class Project extends Model
         'subtitle',
         'description',
         'repo_link',
-        'demo_link'
+        'demo_link',
+        'featured',
+        'date'
     ];
 
     public function skills() {

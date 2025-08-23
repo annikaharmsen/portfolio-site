@@ -4,7 +4,7 @@ import { Project } from '@/types/types';
 import { ExternalLink, Github } from 'lucide-react';
 import SkillsIndex from '../skills/index';
 import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 export function Show({ project }: { project: Project }) {
     return (
@@ -24,7 +24,14 @@ export function Show({ project }: { project: Project }) {
                             {/* title and subtitle */}
                             <div>
                                 <CardTitle className="mb-1 font-sans text-lg">{project.title}</CardTitle>
-                                <CardDescription className="text-sm">{project.subtitle}</CardDescription>
+                                {project.date && (
+                                    <p className="mt-1 text-xs text-muted-foreground">
+                                        {new Date(project.date).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                        })}
+                                    </p>
+                                )}
                             </div>
                         </div>
 

@@ -6,6 +6,8 @@ export type Project = {
     description: string;
     repo_link?: string;
     demo_link?: string;
+    featured: boolean;
+    date?: string;
     // relations
     skills?: Skills;
     technologies?: Technologies;

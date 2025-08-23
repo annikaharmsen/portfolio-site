@@ -6,6 +6,9 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('home', [
-              'projects' => Project::with(['skills', 'technologies'])->get()
+              'projects' => Project::with(['skills', 'technologies'])
+                             ->orderBy('featured', 'desc')
+                             ->orderBy('date', 'desc')
+                             ->get()
             ]);
 })->name('home');
