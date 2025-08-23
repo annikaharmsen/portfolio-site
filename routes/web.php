@@ -5,10 +5,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('home', [
+    return Inertia::render('portfolio', [
               'projects' => Project::with(['skills', 'technologies'])
                              ->orderBy('featured', 'desc')
                              ->orderBy('date', 'desc')
                              ->get()
             ]);
-})->name('home');
+})->name('portfolio');
+
+

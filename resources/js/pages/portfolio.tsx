@@ -7,18 +7,18 @@ import ProjectsSection from '@/components/projects-section';
 import SkillsSection from '@/components/skills-section';
 import { Projects } from '@/types/types';
 
-export default function Home({ projects }: { projects: Projects }) {
-	return (
-		<>
-			<Navigation />
+export default function Portfolio({ projects }: { projects: Projects }) {
+    return (
+        <>
+            <Navigation />
 
-			<HeroSection />
-			<AboutSection />
-			<SkillsSection />
-			<ProjectsSection projects={projects} />
-			<ContactSection />
+            <HeroSection />
+            <AboutSection />
+            <SkillsSection />
+            <ProjectsSection projects={projects} />
+            <ContactSection />
 
-			<Footer />
-		</>
-	);
+            <Footer />
+        </>
+    );
 }
