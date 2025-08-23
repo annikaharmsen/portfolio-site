@@ -9,7 +9,7 @@ export default function AppLogoIcon(props: SVGAttributes<SVGSVGElement>) {
                         font-family: 'Fascinate';
                         font-style: normal;
                         font-weight: 400;
-                        src: url(/public/Fascinate/Fascinate-Regular.ttf) format('truetype');
+                        src: url(/Fascinate/Fascinate-Regular.ttf) format('truetype');
                     }`}
                 </style>
             </defs>
