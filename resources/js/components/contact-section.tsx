@@ -30,11 +30,16 @@ export default function ContactSection() {
                 body: JSON.stringify(data),
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
+            const responseData = await response.text();
+            console.log('Response data:', responseData);
+
             if (response.ok) {
                 setSubmitStatus('success');
                 e.currentTarget.reset();
             } else {
-                console.log('not okay');
+                console.log('Response not okay - status:', response.status);
                 setSubmitStatus('error');
             }
         } catch (error) {
