@@ -15,7 +15,7 @@ export default function Portfolio({ projects }: { projects: Projects }) {
             <HeroSection />
             <AboutSection />
             <SkillsSection />
-            <ProjectsSection projects={projects} />
+            {projects && projects.length > 0 && <ProjectsSection projects={projects} />}
             <ContactSection />
 
             <Footer />
