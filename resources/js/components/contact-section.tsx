@@ -8,12 +8,13 @@ export default function ContactSection() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         setIsSubmitting(true);
         setSubmitStatus('idle');
 
-        const formData = new FormData(e.currentTarget);
+        const form = event.currentTarget;
+        const formData = new FormData(form);
         const data = {
             name: formData.get('name') as string,
             email: formData.get('email') as string,
@@ -37,7 +38,7 @@ export default function ContactSection() {
 
             if (response.ok) {
                 setSubmitStatus('success');
-                e.currentTarget.reset();
+                form.reset();
             } else {
                 console.log('Response not okay - status:', response.status);
                 setSubmitStatus('error');
