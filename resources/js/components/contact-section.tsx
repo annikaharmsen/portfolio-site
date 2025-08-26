@@ -52,27 +52,27 @@ export default function ContactSection() {
     };
 
     return (
-        <section id="contact" className="bg-white py-16">
+        <section id="contact" className="py-16">
             <div className="mx-auto max-w-4xl px-6">
                 <h2 className="mb-12 text-center font-fascinate text-4xl">Let's Connect</h2>
                 <div className="grid gap-12 md:grid-cols-2">
                     <div>
                         <h3 className="mb-6 font-sans text-2xl font-semibold">Get In Touch</h3>
-                        <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
+                        <p className="mb-8 text-lg leading-relaxed">
                             I'm actively seeking <strong>backend and full-stack development opportunities</strong> and would love to discuss how my
                             skills and international perspective can contribute to your team.
                         </p>
                         <div className="space-y-4">
-                            <div className="flex items-center gap-3 text-terracotta">
-                                <Mail className="h-5 w-5" />
+                            <div className="flex items-center gap-3">
+                                <Mail className="h-5 w-6 text-accent" />
                                 <span>annikat.harmsen1000@gmail.com</span>
                             </div>
-                            <div className="flex items-center gap-3 text-terracotta">
-                                <MapPin className="h-5 w-5" />
+                            <div className="flex items-center gap-3">
+                                <MapPin className="h-8 w-8 text-accent" />
                                 <span>Available for in-person or hybrid roles in the United States of America</span>
                             </div>
                         </div>
-                        <div className="mt-8 rounded-lg bg-sage/10 p-4">
+                        <div className="mt-8 rounded-lg bg-accent/10 p-4">
                             <p className="text-sm text-muted-foreground italic">
                                 "I'm passionate about creating web solutions and always excited to take on new challenges. Let's build something
                                 amazing together!"
@@ -83,7 +83,7 @@ export default function ContactSection() {
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="bg-transparent transition-all duration-300 hover:border-terracotta hover:bg-terracotta hover:text-white"
+                                    className="border-foreground bg-transparent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
                                 >
                                     <Github className="mr-2 h-4 w-4" />
                                     GitHub
@@ -93,7 +93,7 @@ export default function ContactSection() {
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="bg-transparent transition-all duration-300 hover:border-terracotta hover:bg-terracotta hover:text-white"
+                                    className="border-foreground bg-transparent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
                                 >
                                     <Linkedin className="mr-2 h-4 w-4" />
                                     LinkedIn
@@ -101,18 +101,18 @@ export default function ContactSection() {
                             </a>
                         </div>
                     </div>
-                    <Card className="border-terracotta">
+                    <Card className="border-accent">
                         <CardHeader>
                             <CardTitle className="font-sans">Send a Message</CardTitle>
                         </CardHeader>
                         <CardContent>
                             {submitStatus === 'success' && (
-                                <div className="mb-4 rounded border border-green-400 bg-green-100 p-3 text-green-700">
+                                <div className="dark:emerald-green-400 mb-4 rounded border border-b-emerald-500 bg-emerald-50 p-3 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
                                     Message sent successfully! I'll get back to you soon.
                                 </div>
                             )}
                             {submitStatus === 'error' && (
-                                <div className="mb-4 rounded border border-red-400 bg-red-100 p-3 text-red-700">
+                                <div className="mb-4 rounded border border-destructive/80 bg-destructive/20 p-3 text-destructive">
                                     Failed to send message. Please try again or email me directly.
                                 </div>
                             )}
@@ -123,7 +123,7 @@ export default function ContactSection() {
                                         type="text"
                                         name="name"
                                         required
-                                        className="w-full rounded-md border border-terracotta bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
+                                        className="w-full rounded-md border border-accent bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
                                         placeholder="Your name"
                                     />
                                 </div>
@@ -133,7 +133,7 @@ export default function ContactSection() {
                                         type="email"
                                         name="email"
                                         required
-                                        className="w-full rounded-md border border-terracotta bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
+                                        className="w-full rounded-md border border-accent bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
                                         placeholder="your.email@example.com"
                                     />
                                 </div>
@@ -142,7 +142,7 @@ export default function ContactSection() {
                                     <input
                                         type="text"
                                         name="subject"
-                                        className="w-full rounded-md border border-terracotta bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
+                                        className="w-full rounded-md border border-accent bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
                                         placeholder="Subject"
                                     />
                                 </div>
@@ -152,14 +152,14 @@ export default function ContactSection() {
                                         rows={4}
                                         name="message"
                                         required
-                                        className="w-full rounded-md border border-terracotta bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
+                                        className="w-full rounded-md border border-accent bg-input px-3 py-2 focus:ring-2 focus:ring-ring focus:outline-none"
                                         placeholder="Your message..."
                                     />
                                 </div>
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full bg-terracotta transition-colors duration-300 hover:bg-rust"
+                                    className="w-full bg-accent transition-colors duration-300 hover:bg-foreground"
                                 >
                                     {isSubmitting ? 'Sending...' : 'Send Message'}
                                 </Button>

@@ -9,15 +9,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 export function Show({ project }: { project: Project }) {
     return (
         <a key={project.title} href={project.demo_link ?? project.repo_link ?? '#'} target="_blank" rel="noopener noreferrer">
-            <Card className="group border-sage bg-white transition-shadow hover:shadow-lg">
+            <Card className="group transition-shadow hover:shadow-lg">
                 <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
                             {/* lucide icon */}
-                            <div className="rounded-lg bg-terracotta/10 p-2">
+                            <div className="rounded-lg p-2">
                                 {(() => {
                                     const IconComponent = getIcon(project.icon_name);
-                                    return <IconComponent className="h-6 w-6 text-rust" />;
+                                    return <IconComponent className="h-6 w-6 text-secondary" />;
                                 })()}
                             </div>
 
@@ -35,12 +35,12 @@ export function Show({ project }: { project: Project }) {
                             </div>
                         </div>
 
-                        <ExternalLink className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-terracotta" />
+                        <ExternalLink className="h-5 w-5 text-secondary transition-colors group-hover:text-primary" />
                     </div>
                 </CardHeader>
                 <CardContent className="mx-6 space-y-4">
                     {/* description */}
-                    <p className="leading-relaxed text-muted-foreground">{project.description}</p>
+                    <p className="leading-relaxed">{project.description}</p>
 
                     {/* skill list */}
                     {project.skills && <SkillsIndex skills={project.skills} />}
@@ -52,9 +52,9 @@ export function Show({ project }: { project: Project }) {
                         {/* repo button */}
                         <a className={!project.repo_link ? 'hidden' : ''} href={project.repo_link ?? '#'} target="_blank" rel="noopener noreferrer">
                             <Button
-                                variant="outline"
                                 size="sm"
-                                className="bg-transparent transition-all duration-300 hover:border-sage hover:bg-sage hover:text-white"
+                                variant="outline"
+                                className="border-foreground bg-transparent transition-all duration-300 hover:border-secondary hover:bg-secondary hover:text-secondary-foreground"
                             >
                                 <Github className="mr-2 h-4 w-4" />
                                 View Code
@@ -66,7 +66,7 @@ export function Show({ project }: { project: Project }) {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="border-primary bg-transparent transition-all duration-300 hover:border-rust hover:bg-rust hover:text-white"
+                                className="border-foreground bg-transparent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
                             >
                                 <ExternalLink className="mr-2 h-4 w-4" />
                                 Live Demo

@@ -1,54 +1,52 @@
 import { cn } from '@/lib/utils';
 
 export default function Navigation({ mobile = false }: { mobile?: boolean }) {
-	const containerClasses = cn(
-		'left-0 top-0 items-center justify-center z-50 bg-white',
-		mobile
-			? 'absolute h-1/2 w-16 flex sm:hidden'
-			: 'fixed h-full w-20 hidden sm:flex'
-	);
+    const containerClasses = cn(
+        'top-0 left-0 z-50 items-center justify-center bg-background',
+        mobile ? 'absolute flex h-1/2 w-16 sm:hidden' : 'fixed hidden h-full w-20 sm:flex',
+    );
 
-	return (
-		<>
-			<div className={containerClasses}>
-				<nav className='transform -rotate-90 origin-center'>
-					<div className='flex space-x-8 sm:space-x-12 text-sm font-sans tracking-wider'>
-						<a
-							href='#contact'
-							className='text-muted-foreground hover:text-terracotta transition-colors duration-300 whitespace-nowrap'
-						>
-							CONTACT
-						</a>
-						<a
-							href='#projects'
-							className='text-muted-foreground hover:text-sage transition-colors duration-300 whitespace-nowrap'
-						>
-							PROJECTS
-						</a>
-						<a
-							href='#skills'
-							className='text-muted-foreground hover:text-terracotta transition-colors duration-300 whitespace-nowrap'
-						>
-							SKILLS
-						</a>
-						<a
-							href='#about'
-							className='text-muted-foreground hover:text-sage transition-colors duration-300 whitespace-nowrap'
-						>
-							ABOUT
-						</a>
-						<a
-							href='#intro'
-							className={cn(
-								mobile ? 'hidden' : '',
-								'text-muted-foreground hover:text-terracotta transition-colors duration-300 whitespace-nowrap'
-							)}
-						>
-							INTRO
-						</a>
-					</div>
-				</nav>
-			</div>
-		</>
-	);
+    return (
+        <>
+            <div className={containerClasses}>
+                <nav className="origin-center -rotate-90 transform">
+                    <div className="*: flex space-x-8 font-sans text-sm tracking-wider sm:space-x-12">
+                        <a
+                            href="#contact"
+                            className="hover:text-accent-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
+                        >
+                            CONTACT
+                        </a>
+                        <a
+                            href="#projects"
+                            className="hover:text-secondary-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
+                        >
+                            PROJECTS
+                        </a>
+                        <a
+                            href="#skills"
+                            className="hover:text-accent-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
+                        >
+                            SKILLS
+                        </a>
+                        <a
+                            href="#about"
+                            className="hover:text-secondary-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
+                        >
+                            ABOUT
+                        </a>
+                        <a
+                            href="#intro"
+                            className={cn(
+                                mobile ? 'hidden' : '',
+                                'hover:text-accent-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300',
+                            )}
+                        >
+                            INTRO
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </>
+    );
 }
