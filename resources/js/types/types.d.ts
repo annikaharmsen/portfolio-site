@@ -1,5 +1,6 @@
 export type Project = {
     //columns
+    id: number;
     icon_name: string;
     title: string;
     subtitle: string;
@@ -22,6 +23,7 @@ export type Projects = Project[];
 
 export type Skill = {
     //columns
+    id: number;
     icon_name: string;
     name: string;
     // relations
@@ -35,6 +37,7 @@ export type Skills = Skill[];
 
 export type Technology = {
     //columns
+    id: number;
     name: string;
     // relations
     projects?: Projects;
