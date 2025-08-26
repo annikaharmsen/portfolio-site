@@ -11,35 +11,23 @@ export default function Navigation({ mobile = false }: { mobile?: boolean }) {
             <div className={containerClasses}>
                 <nav className="origin-center -rotate-90 transform">
                     <div className="*: flex space-x-8 font-sans text-sm tracking-wider sm:space-x-12">
-                        <a
-                            href="#contact"
-                            className="hover:text-accent-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
-                        >
+                        <a href="#contact" className="whitespace-nowrap text-foreground transition-colors duration-300 hover:text-accent">
                             CONTACT
                         </a>
-                        <a
-                            href="#projects"
-                            className="hover:text-secondary-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
-                        >
+                        <a href="#projects" className="whitespace-nowrap text-foreground transition-colors duration-300 hover:text-secondary">
                             PROJECTS
                         </a>
-                        <a
-                            href="#skills"
-                            className="hover:text-accent-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
-                        >
+                        <a href="#skills" className="whitespace-nowrap text-foreground transition-colors duration-300 hover:text-accent">
                             SKILLS
                         </a>
-                        <a
-                            href="#about"
-                            className="hover:text-secondary-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300"
-                        >
+                        <a href="#about" className="whitespace-nowrap text-foreground transition-colors duration-300 hover:text-secondary">
                             ABOUT
                         </a>
                         <a
                             href="#intro"
                             className={cn(
                                 mobile ? 'hidden' : '',
-                                'hover:text-accent-contrast whitespace-nowrap text-secondary-foreground transition-colors duration-300',
+                                'whitespace-nowrap text-foreground transition-colors duration-300 hover:text-accent',
                             )}
                         >
                             INTRO

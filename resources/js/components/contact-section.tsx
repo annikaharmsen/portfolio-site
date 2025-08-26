@@ -107,12 +107,12 @@ export default function ContactSection() {
                         </CardHeader>
                         <CardContent>
                             {submitStatus === 'success' && (
-                                <div className="dark:emerald-green-400 mb-4 rounded border border-b-emerald-500 bg-emerald-50 p-3 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
+                                <div className="dark:emerald-green-400 mb-4 rounded border border-emerald-700 bg-emerald-50 p-3 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300">
                                     Message sent successfully! I'll get back to you soon.
                                 </div>
                             )}
                             {submitStatus === 'error' && (
-                                <div className="mb-4 rounded border border-destructive/80 bg-destructive/20 p-3 text-destructive">
+                                <div className="mb-4 rounded border border-red-700 bg-red-50 p-3 text-red-700 dark:bg-red-900/20 dark:text-red-300">
                                     Failed to send message. Please try again or email me directly.
                                 </div>
                             )}
@@ -159,7 +159,7 @@ export default function ContactSection() {
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full bg-accent transition-colors duration-300 hover:bg-foreground"
+                                    className="w-full bg-accent text-accent-foreground transition-colors duration-300 hover:bg-foreground"
                                 >
                                     {isSubmitting ? 'Sending...' : 'Send Message'}
                                 </Button>
