@@ -1,10 +1,10 @@
-import TechnologiesIndex from '@/components/technologies/index';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getIcon } from '@/lib/generated-icons';
 import { Project } from '@/types/types';
 import { ExternalLink, Github } from 'lucide-react';
 import SkillsIndex from '../skills/index';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import TechnologiesIndex from '../technologies/index';
 
 export function Show({ project }: { project: Project }) {
     return (

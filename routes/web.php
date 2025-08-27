@@ -13,5 +13,5 @@ Route::get('/', function () {
                              ->orderBy('date', 'desc')
                              ->get()
             ]);
-})->name('home');
+})->name('portfolio');
 

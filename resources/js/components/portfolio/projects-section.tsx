@@ -1,4 +1,4 @@
-import ProjectsIndex from '@/components/projects/index';
+import ProjectsIndex from '@/components/portfolio/projects/index';
 import { Projects } from '@/types/types';
 
 export default function ProjectsSection({ projects }: { projects: Projects }) {
