@@ -1,5 +1,5 @@
 import { getIcon } from '@/lib/generated-icons';
-import { Skill } from '@/types/types';
+import { Skill } from '@/types/models';
 
 export function Show({ skill }: { skill: Skill }) {
     const SkillIcon = getIcon(skill.icon_name);

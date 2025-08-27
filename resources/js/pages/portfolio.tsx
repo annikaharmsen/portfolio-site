@@ -6,7 +6,7 @@ import HeaderContent from '@/components/portfolio/header-content';
 import Navigation from '@/components/portfolio/navigation';
 import ProjectsSection from '@/components/portfolio/projects-section';
 import SkillsSection from '@/components/portfolio/skills-section';
-import { Projects } from '@/types/types';
+import { Projects } from '@/types/models';
 
 export default function Portfolio({ projects }: { projects: Projects }) {
     return (

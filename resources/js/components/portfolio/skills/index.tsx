@@ -1,4 +1,4 @@
-import { Skills } from '@/types/types';
+import { Skills } from '@/types/models';
 import { Show as Skill } from './show';
 
 export default function Index({ skills }: { skills: Skills }) {

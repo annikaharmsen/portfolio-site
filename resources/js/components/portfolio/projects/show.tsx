@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getIcon } from '@/lib/generated-icons';
-import { Project } from '@/types/types';
+import { Project } from '@/types/models';
 import { ExternalLink, Github } from 'lucide-react';
 import SkillsIndex from '../skills/index';
 import TechnologiesIndex from '../technologies/index';

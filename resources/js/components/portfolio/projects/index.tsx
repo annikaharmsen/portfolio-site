@@ -1,4 +1,4 @@
-import { Projects } from '@/types/types';
+import { Projects } from '@/types/models';
 import { Show as Project } from './show';
 
 export default function ProjectsIndex({ projects }: { projects: Projects }) {
