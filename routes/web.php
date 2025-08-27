@@ -20,7 +20,7 @@ Route::get('/', function () {
                              ->orderBy('date', 'desc')
                              ->get()
             ]);
-})->name('home');
+})->name('portfolio');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
