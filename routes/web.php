@@ -5,13 +5,6 @@ use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::domain('admin.' . env('APP_DOMAIN'))->middleware('auth')->group( function () {
-    Route::get('/', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-    Route::resource('project', ProjectController::class);
-}
-);
 
 Route::get('/', function () {
     return Inertia::render('portfolio', [
@@ -22,5 +15,3 @@ Route::get('/', function () {
             ]);
 })->name('home');
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
