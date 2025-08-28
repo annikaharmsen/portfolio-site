@@ -17,6 +17,10 @@ class Project extends Model
         'date'
     ];
 
+    public function scopeOrdered($query) {
+        return $query->orderBy('featured', 'desc')->orderBy('date', 'desc');
+    }
+
     public function skills() {
         return $this->belongsToMany(Skill::class, 'project_skills');
     }
