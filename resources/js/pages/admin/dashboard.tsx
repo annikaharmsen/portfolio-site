@@ -1,6 +1,6 @@
-import ProjectsIndex from '@/components/admin/projects';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
+import ProjectsIndex from '@/pages/admin/projects';
 import { type BreadcrumbItem } from '@/types';
 import { Projects } from '@/types/models';
 import { Head } from '@inertiajs/react';
