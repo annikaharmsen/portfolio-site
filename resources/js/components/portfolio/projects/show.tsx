@@ -6,34 +6,48 @@ import { ExternalLink, Github } from 'lucide-react';
 import SkillsIndex from '../skills/index';
 import TechnologiesIndex from '../technologies/index';
 
-export function Show({ project }: { project: Project }) {
+export function ShowProject({ project, asPreview }: { project: Project; asPreview?: boolean }) {
+    const DateEl = () => (
+        <>
+            {project.date && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                    {new Date(project.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                    })}
+                </p>
+            )}
+        </>
+    );
+
     return (
         <a key={project.title} href={project.demo_link ?? project.repo_link ?? '#'} target="_blank" rel="noopener noreferrer">
             <Card className="group transition-shadow hover:shadow-lg">
-                <CardHeader className="pb-4">
+                <CardHeader className={!asPreview ? 'pb-4' : ''}>
                     <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-3">
-                            {/* lucide icon */}
-                            <div className="rounded-lg p-2">
-                                {(() => {
-                                    const IconComponent = getIcon(project.icon_name);
-                                    return <IconComponent className="h-6 w-6 text-secondary" />;
-                                })()}
-                            </div>
+                        {!asPreview ? (
+                            <>
+                                <div className="flex items-center gap-3">
+                                    {/* lucide icon */}
+                                    <div className="rounded-lg p-2">
+                                        {(() => {
+                                            const IconComponent = getIcon(project.icon_name);
+                                            return <IconComponent className="h-6 w-6 text-secondary" />;
+                                        })()}
+                                    </div>
 
-                            {/* title and subtitle */}
-                            <div>
-                                <CardTitle className="mb-1 font-sans text-lg">{project.title}</CardTitle>
-                                {project.date && (
-                                    <p className="mt-1 text-xs text-muted-foreground">
-                                        {new Date(project.date).toLocaleDateString('en-US', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                        })}
-                                    </p>
-                                )}
+                                    {/* title and subtitle */}
+                                    <div>
+                                        <CardTitle className="mb-1 font-sans text-lg">{project.title}</CardTitle>
+                                        <Date />
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="ml-6">
+                                <DateEl />
                             </div>
-                        </div>
+                        )}
 
                         <ExternalLink className="h-5 w-5 text-secondary transition-colors group-hover:text-primary" />
                     </div>
