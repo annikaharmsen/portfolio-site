@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getIcon } from '@/lib/generated-icons';
 import { Project } from '@/types/models';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Star } from 'lucide-react';
 import SkillsIndex from '../skills/index';
 import TechnologiesIndex from '../technologies/index';
 
@@ -38,8 +38,11 @@ export function ShowProject({ project, asPreview }: { project: Project; asPrevie
 
                                     {/* title and subtitle */}
                                     <div>
-                                        <CardTitle className="mb-1 font-sans text-lg">{project.title}</CardTitle>
-                                        <Date />
+                                        <CardTitle className="mb-1 font-sans text-lg">
+                                            {project.title}
+                                            <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />
+                                        </CardTitle>
+                                        <DateEl />
                                     </div>
                                 </div>
                             </>
