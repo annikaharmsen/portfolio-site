@@ -3,92 +3,71 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BulkDeleteProjectsRequest;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Projects/Index', [
-            'projects' => Project::orderBy('featured', 'desc')
-                             ->orderBy('date', 'desc')
-                             ->get()
+        $projects = Project::ordered()->get();
+
+        return Inertia::render('admin/projects/index', [
+            'projects' => $projects
         ]);
     }
 
-    public function create()
-    {
-        return Inertia::render('admin.projects.create');
+    public function create() {
+        return Inertia::render('admin/projects/create');
     }
 
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        $validated = $request->validate([
-            'icon_name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'repo_link' => 'nullable|url',
-            'demo_link' => 'nullable|url',
-            'featured' => 'boolean',
-            'date' => 'nullable|date'
-        ]);
+        $project = Project::create($request->validated());
 
-        Project::create($validated);
-
-        return redirect()->route('dashboard')->with('success', 'Project created successfully.');
+        return redirect(route('projects.show', [
+            'project' => $project
+        ]));
     }
 
     public function show(Project $project)
     {
-        return Inertia::render('admin.projects.show', [
-            'project' => $project->load(['skills', 'technologies'])
+        return Inertia::render('admin/projects/show', [
+            'project' => $project
         ]);
     }
 
-    public function edit(Project $project)
-    {
-        return Inertia::render('admin.projects.edit', [
-            'project' => $project->load(['skills', 'technologies'])
+    public function edit(Project $project) {
+        return Inertia::render('admin/projects/edit', [
+            'project' => $project
         ]);
     }
 
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        $validated = $request->validate([
-            'icon_name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'repo_link' => 'nullable|url',
-            'demo_link' => 'nullable|url',
-            'featured' => 'boolean',
-            'date' => 'nullable|date'
-        ]);
+        $project->update($request->validated());
 
-        $project->update($validated);
-
-        return redirect()->route('dashboard')->with('success', 'Project updated successfully.');
+        return redirect(route('projects.show', [
+            'project' => $project
+        ]));
     }
 
     public function destroy(Project $project)
     {
         $project->delete();
 
-        return back()->with('success', 'Project deleted successfully.');
+        return;
     }
 
-    public function bulkDelete(Request $request)
+    public function bulkDelete(BulkDeleteProjectsRequest $request)
     {
-        $validated = $request->validate([
-            'ids' => 'required|array|min:1',
-            'ids.*' => 'integer|exists:projects,id'
-        ]);
+        $deletedCount = Project::destroy($request->getProjectIds());
 
-        $deletedCount = Project::destroy($validated['ids']);
-
-        return back()->with('success', "{$deletedCount} projects deleted successfully.");
+        return;
     }
 }
