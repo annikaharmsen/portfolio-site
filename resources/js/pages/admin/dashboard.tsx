@@ -1,33 +1,29 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import ProjectsIndex from '@/components/admin/projects/project-list';
+import { Card, CardContent } from '@/components/ui/card';
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
-import ProjectsIndex from '@/pages/admin/projects';
-import { type BreadcrumbItem } from '@/types';
 import { Projects } from '@/types/models';
 import { Head } from '@inertiajs/react';
+import { ReactNode } from 'react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-];
+interface DashboardProps {
+    projects: Projects;
+}
+export default function Dashboard({ projects }: DashboardProps) {
+    const cards = [<ProjectsIndex asCard projects={projects} />];
+    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('dashboard');
 
-export default function Dashboard({ projects }: { projects: Projects }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="grid gap-4 md:grid-flow-col">
-                    <ProjectsIndex projects={projects} />
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                    {cards &&
+                        cards.map((card: ReactNode) => (
+                            <Card>
+                                <CardContent>{card}</CardContent>
+                            </Card>
+                        ))}
                 </div>
             </div>
         </AppLayout>
