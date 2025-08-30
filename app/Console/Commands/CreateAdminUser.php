@@ -35,6 +35,11 @@ class CreateAdminUser extends Command
         $name = $this->option('name') ?? $this->ask('Name');
         $email = $this->option('email') ?? $this->ask('Email');
         $password = $this->option('password') ?? $this->secret('Password');
+        $passwordConfirmed = false;
+
+        // Get password confirmation
+        while (!$passwordConfirmed)
+            $passwordConfirmed = $this->secret('Confirm Password') === $password;
 
         // Validate input
         $validator = Validator::make([
