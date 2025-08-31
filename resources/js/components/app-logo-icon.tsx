@@ -18,7 +18,7 @@ export default function AppLogoIcon(props: SVGAttributes<SVGSVGElement>) {
                 y="50"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="4"
+                strokeWidth="currentStroke"
                 fontSize="125"
                 fontFamily="Fascinate, cursive"
                 textAnchor="middle"
