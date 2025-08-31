@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Models\Project;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BulkDeleteProjectsRequest extends FormRequest

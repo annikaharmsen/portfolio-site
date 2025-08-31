@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BulkDeleteProjectsRequest;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
-use App\Http\Resources\ProjectResource;
+use App\Http\Requests\Admin\BulkDeleteProjectsRequest;
+use App\Http\Requests\Admin\StoreProjectRequest;
+use App\Http\Requests\Admin\UpdateProjectRequest;
 use App\Models\Project;
-use Illuminate\Http\Response;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -52,9 +50,7 @@ class ProjectController extends Controller
     {
         $project->update($request->validated());
 
-        return redirect(route('projects.show', [
-            'project' => $project
-        ]));
+        return;
     }
 
     public function destroy(Project $project)
