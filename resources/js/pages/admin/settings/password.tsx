@@ -1,4 +1,4 @@
-import InputError from '@/components/admin/auth/input-error';
+import InputError from '@/components/admin/input-error';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { type BreadcrumbItem } from '@/types';

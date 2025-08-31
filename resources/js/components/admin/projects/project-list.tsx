@@ -54,6 +54,10 @@ export default function ProjectList({ projects, className, asCard = false }: Pro
         }
     };
 
+    const toggleFeatured = (project: Project) => {
+        router.put(`/projects/${project.id}`, { ...project, featured: !project.featured });
+    };
+
     // LOCAL VARIABLES
 
     const filteredProjects = projects.filter((project) => project.title.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -82,10 +86,10 @@ export default function ProjectList({ projects, className, asCard = false }: Pro
                             <th className="p-2 text-left">
                                 <Checkbox checked={allSelected ? true : someSelected ? 'indeterminate' : false} onCheckedChange={handleSelectAll} />
                             </th>
-                            <th className="p-2 text-left">Icon</th>
+                            <th className="p-2 text-center">Icon</th>
                             <th className="p-2 text-left">Title</th>
                             <th className="p-2 text-center">Featured</th>
-                            <th className="p-2 text-right">Date</th>
+                            <th className="p-2 pr-4 text-right">Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,11 +99,12 @@ export default function ProjectList({ projects, className, asCard = false }: Pro
                                 const isSelected = selectedIds.includes(project.id);
 
                                 return (
-                                    <tr key={project.id} onClick={() => handleShow(project)} className="border-b hover:bg-muted/50">
-                                        <td className="p-2" onClick={(e) => e.stopPropagation()}>
+                                    <tr key={project.id} className="border-b hover:bg-muted/50" onClick={() => handleShow(project)}>
+                                        <td className="p-2">
                                             <Checkbox
                                                 checked={isSelected}
                                                 onCheckedChange={(checked) => handleSelectProject(project.id, !!checked)}
+                                                onClick={(e) => e.stopPropagation()}
                                             />
                                         </td>
                                         <td className="p-2">
@@ -114,20 +119,29 @@ export default function ProjectList({ projects, className, asCard = false }: Pro
                                             </div>
                                         </td>
                                         <td className="p-2">
-                                            {project.featured ? <Star className="m-auto h-4 w-4 fill-yellow-500 text-yellow-500" /> : ''}
+                                            <Star
+                                                className={cn(
+                                                    'm-auto h-4 w-4 cursor-pointer text-yellow-500',
+                                                    project.featured ? 'fill-yellow-500' : '',
+                                                )}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    toggleFeatured(project);
+                                                }}
+                                            />
                                         </td>
-                                        <td className="p-2">
-                                            {project.date ? (
-                                                <div className="text-right text-sm text-muted-foreground">
-                                                    {new Date(project.date).toLocaleDateString('en-US', {
+                                        <td className="p-2" onClick={() => handleShow(project)}>
+                                            <div className="mr-4 text-right text-sm text-muted-foreground">
+                                                {project.date ? (
+                                                    new Date(project.date).toLocaleDateString('en-US', {
                                                         year: 'numeric',
                                                         month: 'short',
                                                         day: 'numeric',
-                                                    })}
-                                                </div>
-                                            ) : (
-                                                <span className="text-muted-foreground">—</span>
-                                            )}
+                                                    })
+                                                ) : (
+                                                    <span className="text-muted-foreground">—</span>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 );

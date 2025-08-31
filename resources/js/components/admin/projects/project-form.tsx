@@ -1,3 +1,5 @@
+import DeleteButton from '@/components/admin/delete-button';
+import InputError from '@/components/admin/input-error';
 import { H1 } from '@/components/headings';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,15 +9,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Project } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
-import DeleteButton from '../delete-button';
 
 interface ProjectFormProps {
     project?: Project;
-    onSubmit?: () => void;
 }
 
-export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
-    const { data, setData, processing, errors } = useForm({
+export default function ProjectForm({ project }: ProjectFormProps) {
+    const { data, setData, processing, errors, post, put } = useForm({
         icon_name: project?.icon_name || '',
         title: project?.title || '',
         subtitle: project?.subtitle || '',
@@ -29,10 +29,11 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (project) router.put(`/projects/${project.id}`, data);
-        else router.post('/projects', data);
-
-        if (onSubmit) onSubmit();
+        if (project) {
+            put(`/projects/${project.id}`);
+        } else {
+            post('/projects');
+        }
     };
 
     const handleCancel = () => {
@@ -64,13 +65,13 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
                                     onChange={(e) => setData('icon_name', e.target.value)}
                                     placeholder="e.g. lucide-react"
                                 />
-                                {errors.icon_name && <p className="text-sm text-destructive">{errors.icon_name}</p>}
+                                {errors.icon_name && <InputError message={errors.icon_name} />}
                             </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="title">Title</Label>
                                 <Input id="title" value={data.title} onChange={(e) => setData('title', e.target.value)} placeholder="Project title" />
-                                {errors.title && <p className="text-sm text-destructive">{errors.title}</p>}
+                                {errors.title && <InputError message={errors.title} />}
                             </div>
                         </div>
 
@@ -82,7 +83,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
                                 onChange={(e) => setData('subtitle', e.target.value)}
                                 placeholder="Brief description"
                             />
-                            {errors.subtitle && <p className="text-sm text-destructive">{errors.subtitle}</p>}
+                            {errors.subtitle && <InputError message={errors.subtitle} />}
                         </div>
 
                         <div className="space-y-2">
@@ -94,7 +95,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
                                 placeholder="Detailed project description"
                                 className="min-h-[120px]"
                             />
-                            {errors.description && <p className="text-sm text-destructive">{errors.description}</p>}
+                            {errors.description && <InputError message={errors.description} />}
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -106,7 +107,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
                                     onChange={(e) => setData('repo_link', e.target.value ? `https://github.com/${e.target.value}` : '')}
                                     placeholder="username/project"
                                 />
-                                {errors.repo_link && <p className="text-sm text-destructive">{errors.repo_link}</p>}
+                                {errors.repo_link && <InputError message={errors.repo_link} />}
                             </div>
 
                             <div className="space-y-2">
@@ -118,7 +119,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
                                     onChange={(e) => setData('demo_link', e.target.value)}
                                     placeholder="https://demo.example.com"
                                 />
-                                {errors.demo_link && <p className="text-sm text-destructive">{errors.demo_link}</p>}
+                                {errors.demo_link && <InputError message={errors.demo_link} />}
                             </div>
                         </div>
 
@@ -126,7 +127,7 @@ export default function ProjectForm({ project, onSubmit }: ProjectFormProps) {
                             <Label htmlFor="date">Date</Label>
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <Input id="date" type="date" value={data.date} onChange={(e) => setData('date', e.target.value)} />
-                                {errors.date && <p className="text-sm text-destructive">{errors.date}</p>}
+                                {errors.date && <InputError message={errors.date} />}
 
                                 <div className="flex items-center space-x-2">
                                     <Checkbox id="featured" checked={data.featured} onCheckedChange={(checked) => setData('featured', !!checked)} />

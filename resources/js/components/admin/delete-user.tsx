@@ -1,4 +1,4 @@
-import InputError from '@/components/admin/auth/input-error';
+import InputError from '@/components/admin/input-error';
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';

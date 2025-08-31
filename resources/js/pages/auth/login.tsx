@@ -1,5 +1,5 @@
-import InputError from '@/components/admin/auth/input-error';
-import TextLink from '@/components/admin/auth/text-link';
+import InputError from '@/components/admin/input-error';
+import TextLink from '@/components/admin/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -68,7 +68,6 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 Log in
                             </Button>
                         </div>
-
                     </>
                 )}
             </Form>
