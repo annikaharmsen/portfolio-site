@@ -31,6 +31,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
 
         if (project) {
             put(`/projects/${project.id}`);
+            router.get(`/projects/${project.id}`);
         } else {
             post('/projects');
         }
