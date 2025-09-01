@@ -4,6 +4,7 @@
 /public/build
 /public/hot
 /public/storage
+/resources/js/lib/generated-icons.ts
 /storage/*.key
 /storage/pail
 /vendor
