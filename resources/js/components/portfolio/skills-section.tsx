@@ -13,10 +13,10 @@ export default function SkillsSection() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex min-w-0 flex-wrap gap-2">
-                                <Badge className="bg-accent/60 text-foreground">PHP & Laravel (Advanced)</Badge>
-                                <Badge className="bg-accent/60 text-foreground">Java & Spring Boot (Developing)</Badge>
-                                <Badge className="bg-accent/60 text-foreground">MySQL & Database Design</Badge>
-                                <Badge className="bg-accent/60 text-foreground">RESTful API Development</Badge>
+                                <Badge variant="accent">PHP & Laravel (Advanced)</Badge>
+                                <Badge variant="accent">Java & Spring Boot (Developing)</Badge>
+                                <Badge variant="accent">MySQL & Database Design</Badge>
+                                <Badge variant="accent">RESTful API Development</Badge>
                             </div>
                         </CardContent>
                     </Card>
@@ -26,10 +26,10 @@ export default function SkillsSection() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex min-w-0 flex-wrap gap-2">
-                                <Badge className="bg-accent/60 text-foreground">JavaScript, HTML5, CSS3</Badge>
-                                <Badge className="bg-accent/60 text-foreground">React.js</Badge>
-                                <Badge className="bg-accent/60 text-foreground">Node.js</Badge>
-                                <Badge className="bg-accent/60 text-foreground">Responsive Design</Badge>
+                                <Badge variant="accent">JavaScript, HTML5, CSS3</Badge>
+                                <Badge variant="accent">React.js</Badge>
+                                <Badge variant="accent">Node.js</Badge>
+                                <Badge variant="accent">Responsive Design</Badge>
                             </div>
                         </CardContent>
                     </Card>
@@ -39,9 +39,9 @@ export default function SkillsSection() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex min-w-0 flex-wrap gap-2">
-                                <Badge className="bg-accent/60 text-foreground">Postman</Badge>
-                                <Badge className="bg-accent/60 text-foreground">Git</Badge>
-                                <Badge className="bg-accent/60 text-foreground">Agile Development</Badge>
+                                <Badge variant="accent">Postman</Badge>
+                                <Badge variant="accent">Git</Badge>
+                                <Badge variant="accent">Agile Development</Badge>
                             </div>
                         </CardContent>
                     </Card>

@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getIcon } from '@/lib/generated-icons';
 import { Project } from '@/types/models';
 import { ExternalLink, Github, Star } from 'lucide-react';
-import SkillsIndex from '../skills/index';
-import TechnologiesIndex from '../technologies/index';
+import { Badge } from '../ui/badge';
+import IconList from './icon-list';
 
-export function ShowProject({ project, asPreview }: { project: Project; asPreview?: boolean }) {
+export default function ProjectCard({ project, asPreview }: { project: Project; asPreview?: boolean }) {
     const DateEl = () => (
         <>
             {project.date && (
@@ -60,10 +60,18 @@ export function ShowProject({ project, asPreview }: { project: Project; asPrevie
                     <p className="leading-relaxed">{project.description}</p>
 
                     {/* skill list */}
-                    {project.skills && <SkillsIndex skills={project.skills} />}
+                    <div className="grid grid-cols-2 gap-4">
+                        <IconList items={project.skills} />
+                    </div>
 
                     {/* tech stack badges */}
-                    {project.technologies && <TechnologiesIndex technologies={project.technologies} />}
+                    {project.technologies && (
+                        <div className="flex flex-wrap gap-2">
+                            {project.technologies.map((technology) => (
+                                <Badge variant="secondary">{technology.name}</Badge>
+                            ))}
+                        </div>
+                    )}
 
                     <div className="flex flex-col gap-2 pt-2 sm:flex-row">
                         {/* repo button */}
