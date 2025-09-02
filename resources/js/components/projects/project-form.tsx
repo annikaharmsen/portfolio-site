@@ -1,6 +1,6 @@
-import DeleteButton from '@/components/admin/delete-button';
-import InputError from '@/components/admin/input-error';
+import DeleteButton from '@/components/delete-button';
 import { H1 } from '@/components/headings';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';

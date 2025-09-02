@@ -1,4 +1,4 @@
-import ProjectsIndex from '@/components/admin/projects/project-list';
+import ProjectsIndex from '@/components/projects/project-list';
 import { Card, CardContent } from '@/components/ui/card';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';

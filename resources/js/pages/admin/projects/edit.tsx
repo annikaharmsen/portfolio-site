@@ -1,4 +1,4 @@
-import ProjectForm from '@/components/admin/projects/project-form';
+import ProjectForm from '@/components/projects/project-form';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Project } from '@/types/models';

@@ -1,4 +1,4 @@
-import ProjectDisplay from '@/components/admin/projects/project-display';
+import ProjectDisplay from '@/components/projects/project-display';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Project } from '@/types/models';

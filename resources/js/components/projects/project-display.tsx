@@ -1,9 +1,9 @@
 import { router } from '@inertiajs/react';
 import { Edit, Star } from 'lucide-react';
 
-import DeleteButton from '@/components/admin/delete-button';
+import DeleteButton from '@/components/delete-button';
 import { H1 } from '@/components/headings';
-import { ShowProject } from '@/components/portfolio/projects/show';
+import ProjectCard from '@/components/portfolio/project-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getIcon } from '@/lib/generated-icons';
@@ -52,7 +52,7 @@ export default function ProjectDisplay({ project }: { project: Project }) {
             </div>
 
             {/* Content */}
-            <ShowProject project={project} asPreview />
+            <ProjectCard project={project} asPreview />
         </div>
     );
 }

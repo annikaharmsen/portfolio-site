@@ -1,11 +1,11 @@
 import AboutSection from '@/components/portfolio/about-section';
-import AboveTheFold from '@/components/portfolio/above-the-fold';
 import ContactSection from '@/components/portfolio/contact-section';
 import Footer from '@/components/portfolio/footer';
 import HeaderContent from '@/components/portfolio/header-content';
 import Navigation from '@/components/portfolio/navigation';
 import ProjectsSection from '@/components/portfolio/projects-section';
 import SkillsSection from '@/components/portfolio/skills-section';
+import AboveTheFold from '@/layouts/above-the-fold';
 import { Projects } from '@/types/models';
 
 export default function Portfolio({ projects }: { projects: Projects }) {

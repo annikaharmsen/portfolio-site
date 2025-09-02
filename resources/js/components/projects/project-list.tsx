@@ -2,7 +2,7 @@ import { Link, router } from '@inertiajs/react';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
 
-import DeleteButton from '@/components/admin/delete-button';
+import DeleteButton from '@/components/delete-button';
 import { H1, H2 } from '@/components/headings';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
