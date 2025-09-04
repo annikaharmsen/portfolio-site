@@ -7,24 +7,40 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Project } from '@/types/models';
+import { cn } from '@/lib/utils';
+import { Project, Skills } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
+import React, { ReactElement, useReducer } from 'react';
+import { Badge } from '../ui/badge';
 
 interface ProjectFormProps {
     project?: Project;
+    skills: Skills;
 }
 
-export default function ProjectForm({ project }: ProjectFormProps) {
+export default function ProjectForm({ project, skills }: ProjectFormProps) {
     const { data, setData, processing, errors, post, put } = useForm({
         icon_name: project?.icon_name || '',
         title: project?.title || '',
         subtitle: project?.subtitle || '',
-        description: project?.description || '',
         repo_link: project?.repo_link || '',
         demo_link: project?.demo_link || '',
-        featured: project?.featured || false,
         date: project?.date || '',
+        featured: project?.featured || false,
+        skills: project?.skills?.map((skill) => skill.id) || [],
+        description: project?.description || '',
     });
+
+    const [selectedSkills, toggleSkill] = useReducer((prevSkills: number[], toggledSkill: number) => {
+        let updatedSkills;
+
+        if (prevSkills.includes(toggledSkill)) updatedSkills = prevSkills.filter((skill) => skill != toggledSkill);
+        else updatedSkills = [...prevSkills, toggledSkill];
+
+        setData({ ...data, skills: updatedSkills });
+
+        return updatedSkills;
+    }, data.skills);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -57,8 +73,8 @@ export default function ProjectForm({ project }: ProjectFormProps) {
             <Card>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <div className="space-y-2">
+                        <FormGrid>
+                            <>
                                 <Label htmlFor="icon_name">Icon Name</Label>
                                 <Input
                                     id="icon_name"
@@ -67,40 +83,26 @@ export default function ProjectForm({ project }: ProjectFormProps) {
                                     placeholder="e.g. lucide-react"
                                 />
                                 {errors.icon_name && <InputError message={errors.icon_name} />}
-                            </div>
+                            </>
 
-                            <div className="space-y-2">
+                            <>
                                 <Label htmlFor="title">Title</Label>
                                 <Input id="title" value={data.title} onChange={(e) => setData('title', e.target.value)} placeholder="Project title" />
                                 {errors.title && <InputError message={errors.title} />}
-                            </div>
-                        </div>
+                            </>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="subtitle">Subtitle</Label>
-                            <Input
-                                id="subtitle"
-                                value={data.subtitle}
-                                onChange={(e) => setData('subtitle', e.target.value)}
-                                placeholder="Brief description"
-                            />
-                            {errors.subtitle && <InputError message={errors.subtitle} />}
-                        </div>
+                            <>
+                                <Label htmlFor="subtitle">Subtitle</Label>
+                                <Input
+                                    id="subtitle"
+                                    value={data.subtitle}
+                                    onChange={(e) => setData('subtitle', e.target.value)}
+                                    placeholder="Brief description"
+                                />
+                                {errors.subtitle && <InputError message={errors.subtitle} />}
+                            </>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="description">Description</Label>
-                            <Textarea
-                                id="description"
-                                value={data.description}
-                                onChange={(e) => setData('description', e.target.value)}
-                                placeholder="Detailed project description"
-                                className="min-h-[120px]"
-                            />
-                            {errors.description && <InputError message={errors.description} />}
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <div className="space-y-2">
+                            <>
                                 <Label htmlFor="repo_link">Github Repository</Label>
                                 <Input
                                     id="repo_link"
@@ -109,9 +111,9 @@ export default function ProjectForm({ project }: ProjectFormProps) {
                                     placeholder="username/project"
                                 />
                                 {errors.repo_link && <InputError message={errors.repo_link} />}
-                            </div>
+                            </>
 
-                            <div className="space-y-2">
+                            <>
                                 <Label htmlFor="demo_link">Demo Link</Label>
                                 <Input
                                     id="demo_link"
@@ -121,21 +123,52 @@ export default function ProjectForm({ project }: ProjectFormProps) {
                                     placeholder="https://demo.example.com"
                                 />
                                 {errors.demo_link && <InputError message={errors.demo_link} />}
-                            </div>
-                        </div>
+                            </>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="date">Date</Label>
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="col-span-1/2">
+                                <Label htmlFor="date">Date</Label>
                                 <Input id="date" type="date" value={data.date} onChange={(e) => setData('date', e.target.value)} />
                                 {errors.date && <InputError message={errors.date} />}
-
-                                <div className="flex items-center space-x-2">
-                                    <Checkbox id="featured" checked={data.featured} onCheckedChange={(checked) => setData('featured', !!checked)} />
-                                    <Label htmlFor="featured">Featured Project</Label>
-                                </div>
                             </div>
-                        </div>
+
+                            <div className="col-span-1/2 mt-4 flex items-center space-x-2">
+                                <Checkbox id="featured" checked={data.featured} onCheckedChange={(checked) => setData('featured', !!checked)} />
+                                <Label htmlFor="featured">Featured Project</Label>
+                            </div>
+
+                            <div className="md:col-span-full">
+                                <Label htmlFor="description">Description</Label>
+                                <Textarea
+                                    id="description"
+                                    value={data.description}
+                                    onChange={(e) => setData('description', e.target.value)}
+                                    placeholder="Detailed project description"
+                                    className="min-h-[120px]"
+                                />
+                                {errors.description && <InputError message={errors.description} />}
+                            </div>
+
+                            <>
+                                <Label htmlFor="skills" className="w-full">
+                                    Skills
+                                </Label>
+                                {skills &&
+                                    skills.map((skill) => {
+                                        const isSelected = selectedSkills.includes(skill.id);
+
+                                        return (
+                                            <Badge
+                                                onClick={() => toggleSkill(skill.id)}
+                                                key={skill.id}
+                                                variant="secondary"
+                                                className={cn('m-1', !isSelected && 'opacity-70')}
+                                            >
+                                                {skill.name}
+                                            </Badge>
+                                        );
+                                    })}
+                            </>
+                        </FormGrid>
 
                         <div className="flex justify-end space-x-2">
                             <Button type="button" variant="outline" onClick={handleCancel}>
@@ -151,3 +184,18 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         </>
     );
 }
+
+const FormGrid = ({ children }: { children: ReactElement[] }) => {
+    return (
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {children.map((child, index) => {
+                const props = child.props as { className?: string };
+                return (
+                    <div key={index} className={cn('col-span-2 space-y-2', props?.className)}>
+                        {child}
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
