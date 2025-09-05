@@ -49,7 +49,7 @@ class ProjectController extends Controller
 
     public function edit(Project $project) {
         return Inertia::render('admin/projects/edit', [
-            'project' => $project,
+            'project' => $project->load('skills'),
             'skills' => Skill::all()
         ]);
     }
