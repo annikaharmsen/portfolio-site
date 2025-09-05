@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreSkillRequest;
+use App\Http\Requests\Admin\UpdateSkillRequest;
 use App\Models\Skill;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SkillController extends Controller
 {
@@ -12,7 +14,11 @@ class SkillController extends Controller
      */
     public function index()
     {
-        //
+        $skills = Skill::ordered()->get();
+
+        return Inertia::render('admin/skills/index', [
+            'skills' => $skills
+        ]);
     }
 
     /**
@@ -20,15 +26,17 @@ class SkillController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/skills/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSkillRequest $request)
     {
-        //
+        $skill = Skill::create($request->validated());
+
+        return;
     }
 
     /**
@@ -36,7 +44,9 @@ class SkillController extends Controller
      */
     public function show(Skill $skill)
     {
-        //
+        return Inertia::render('admin/skills/show', [
+            'skill' => $skill
+        ]);
     }
 
     /**
@@ -44,15 +54,19 @@ class SkillController extends Controller
      */
     public function edit(Skill $skill)
     {
-        //
+        return Inertia::render('admin/skills/edit', [
+            'skill' => $skill
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Skill $skill)
+    public function update(UpdateSkillRequest $request, Skill $skill)
     {
-        //
+        $skill->update($request->validated());
+
+        return;
     }
 
     /**
@@ -60,6 +74,8 @@ class SkillController extends Controller
      */
     public function destroy(Skill $skill)
     {
-        //
+        $skill->delete();
+
+        return;
     }
 }

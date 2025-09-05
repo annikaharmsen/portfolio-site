@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProjectRequest extends FormRequest
+class StoreSkillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,7 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'icon_name' => 'required|string|min:1|max:255',
-            'title' => 'required|string|min:1|max:255',
-            'subtitle' => 'required|string|max:255',
-            'description' => 'required|string',
-            'repo_link' => 'nullable|url',
-            'demo_link' => 'nullable|url',
-            'featured' => 'boolean',
-            'date' => 'nullable|date',
-            'skills' => 'required|array|distinct|exists:skills,id'
+            'name' => 'required|string|min:1|max:255'
         ];
     }
 
@@ -39,11 +32,8 @@ class StoreProjectRequest extends FormRequest
         return [
             'icon_name.required' => 'Icon name is required.',
             'icon_name.min' => 'Icon name cannot be empty.',
-            'title.required' => 'Project title is required.',
-            'title.min' => 'Project title cannot be empty.',
-            'repo_link.url' => 'Please enter a valid repository.',
-            'demo_link.url' => 'Please enter a valid demo URL.',
-            'skills' => 'Invalid skills selection.'
+            'name.required' => 'Skill name is required.',
+            'name.min' => 'Skill name cannot be empty.'
         ];
     }
 }
