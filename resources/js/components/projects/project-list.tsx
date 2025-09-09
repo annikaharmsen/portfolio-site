@@ -2,7 +2,7 @@ import { Link, router } from '@inertiajs/react';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
 
-import DeleteButton from '@/components/delete-button';
+import { DeleteButton } from '@/components/app-buttons';
 import { H1, H2 } from '@/components/headings';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -74,7 +74,11 @@ export default function ProjectList({ projects, className, asCard = false }: Pro
                 ) : (
                     <H1>Projects</H1>
                 )}
-                {!!selectedIds.length && <DeleteButton onClick={handleBulkDelete} quantity={selectedIds.length} />}
+                {!!selectedIds.length && (
+                    <DeleteButton onClick={handleBulkDelete} showIcon>
+                        Delete {selectedIds.length}
+                    </DeleteButton>
+                )}
             </div>
 
             <Input placeholder="Search projects..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full min-w-min" />

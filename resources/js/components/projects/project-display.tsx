@@ -1,7 +1,7 @@
 import { router } from '@inertiajs/react';
 import { Edit, Star } from 'lucide-react';
 
-import DeleteButton from '@/components/delete-button';
+import { DeleteButton } from '@/components/app-buttons';
 import { H1 } from '@/components/headings';
 import ProjectCard from '@/components/portfolio/project-card';
 import { Badge } from '@/components/ui/badge';
@@ -39,15 +39,15 @@ export default function ProjectDisplay({ project }: { project: Project }) {
                 <div className="flex items-center space-x-2">
                     {!!project.featured && (
                         <Badge variant="secondary" className="flex items-center gap-1">
-                            <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
+                            <Star className="size-3 fill-yellow-500 text-yellow-500" />
                             Featured
                         </Badge>
                     )}
                     <Button variant="outline" onClick={handleEdit}>
-                        <Edit className="mr-2 h-4 w-4" />
+                        <Edit className="mr-2 size-4" />
                         Edit
                     </Button>
-                    <DeleteButton onClick={handleDelete} />
+                    <DeleteButton onClick={handleDelete} showIcon />
                 </div>
             </div>
 

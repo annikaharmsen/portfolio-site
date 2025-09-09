@@ -1,16 +1,16 @@
-import DeleteButton from '@/components/delete-button';
 import { H1 } from '@/components/headings';
 import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import FormGridLayout from '@/layouts/form-grid-layout';
 import { cn } from '@/lib/utils';
 import { Project, Skills } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
-import React, { ReactElement, useReducer } from 'react';
+import React, { useReducer } from 'react';
+import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import { Badge } from '../ui/badge';
 
 interface ProjectFormProps {
@@ -72,8 +72,8 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
             </div>
             <Card>
                 <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <FormGrid>
+                    <form onSubmit={handleSubmit}>
+                        <FormGridLayout>
                             <>
                                 <Label htmlFor="icon_name">Icon Name</Label>
                                 <Input
@@ -168,15 +168,13 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
                                         );
                                     })}
                             </>
-                        </FormGrid>
+                        </FormGridLayout>
 
                         <div className="flex justify-end space-x-2">
-                            <Button type="button" variant="outline" onClick={handleCancel}>
-                                Cancel
-                            </Button>
-                            <Button type="submit" disabled={processing}>
+                            <CancelButton onClick={handleCancel} />
+                            <SaveButton disabled={processing} onClick={handleDelete}>
                                 {processing ? 'Saving...' : project ? 'Update Project' : 'Create Project'}
-                            </Button>
+                            </SaveButton>
                         </div>
                     </form>
                 </CardContent>
@@ -184,18 +182,3 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
         </>
     );
 }
-
-const FormGrid = ({ children }: { children: ReactElement[] }) => {
-    return (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {children.map((child, index) => {
-                const props = child.props as { className?: string };
-                return (
-                    <div key={index} className={cn('col-span-2 space-y-2', props?.className)}>
-                        {child}
-                    </div>
-                );
-            })}
-        </div>
-    );
-};
