@@ -1,4 +1,4 @@
-import { Project } from '@/types/models';
+import { Project, Skill } from '@/types/models';
 
 interface BreadcrumbTreeItem {
     title: string;
@@ -12,7 +12,7 @@ export const useBreadcrumbs = () => {
             title: 'Dashboard',
             href: '/',
         }),
-        projects_index: () => ({
+        project_index: () => ({
             title: 'Projects',
             href: '/projects',
             parent: breadcrumbTree.dashboard(),
@@ -20,17 +20,37 @@ export const useBreadcrumbs = () => {
         create_project: () => ({
             title: 'Add Project',
             href: '/projects/create',
-            parent: breadcrumbTree.projects_index(),
+            parent: breadcrumbTree.project_index(),
         }),
         show_project: (project: Project) => ({
             title: project.title,
             href: `/projects/${project.id}`,
-            parent: breadcrumbTree.projects_index(),
+            parent: breadcrumbTree.project_index(),
         }),
         edit_project: (project: Project) => ({
             title: `Edit ${project.title}`,
             href: `/projects/${project.id}/edit`,
             parent: breadcrumbTree.show_project(project),
+        }),
+        skill_index: () => ({
+            title: 'Skills',
+            href: '/skills',
+            parent: breadcrumbTree.dashboard(),
+        }),
+        create_skill: () => ({
+            title: 'Add Skill',
+            href: '/skill/create',
+            parent: breadcrumbTree.skill_index(),
+        }),
+        show_skill: (skill: Skill) => ({
+            title: skill.name,
+            href: `/skills/${skill.id}`,
+            parent: breadcrumbTree.skill_index(),
+        }),
+        edit_skill: (skill: Skill) => ({
+            title: `Edit ${skill.name}`,
+            href: `/projects/${skill.id}/edit`,
+            parent: breadcrumbTree.show_skill(skill),
         }),
     };
 

@@ -4,12 +4,12 @@ import AppLayout from '@/layouts/app-layout';
 import { Projects } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
-interface ProjectsIndexProps {
+interface ProjectIndexProps {
     projects: Projects;
 }
 
-export default function ProjectsIndex({ projects }: ProjectsIndexProps) {
-    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('projects_index');
+export default function ProjectIndex({ projects }: ProjectIndexProps) {
+    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('project_index');
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

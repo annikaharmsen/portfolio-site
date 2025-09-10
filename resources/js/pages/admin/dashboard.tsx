@@ -1,4 +1,4 @@
-import ProjectsIndex from '@/components/projects/project-list';
+import ProjectList from '@/components/projects/project-list';
 import { Card, CardContent } from '@/components/ui/card';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
@@ -10,7 +10,7 @@ interface DashboardProps {
     projects: Projects;
 }
 export default function Dashboard({ projects }: DashboardProps) {
-    const cards = [<ProjectsIndex asCard projects={projects} />];
+    const cards = [<ProjectList asCard projects={projects} />];
     const breadcrumbs = useBreadcrumbs().getBreadcrumbs('dashboard');
 
     return (
