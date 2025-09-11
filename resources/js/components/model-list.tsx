@@ -1,7 +1,7 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import useController from '@/hooks/use-controller';
 import { cn } from '@/lib/utils';
-import { router } from '@inertiajs/react';
 import { ReactNode, useState } from 'react';
 import { DeleteButton } from './app-buttons';
 
@@ -50,30 +50,16 @@ export default function ModelList<T extends { id: number }>({
         }
     };
 
-    // CONTROLLER
+    // HANDLERS
+    const modelController = useController(baseURI);
     const handle = {
         select_all: (checked: boolean) => handleSelectAll(checked),
         select: (model: T, isSelected: boolean) => handleSelect(model, isSelected),
         // CONTROLLER ABSTRACTION
-        show: (model: T) => {
-            router.get(`/${baseURI}/${model.id}`);
-        },
-        create: () => {
-            router.get(`/${baseURI}/create`);
-        },
-        edit: (model: T) => {
-            router.get(`/${baseURI}/${model.id}/edit`);
-        },
+        ...modelController,
         bulk_delete: () => {
-            const quantity = selectedIds.length;
-            if (quantity > 0 && confirm(`Are you sure you want to delete ${quantity} entr${quantity === 1 ? 'y' : 'ies'}?`)) {
-                router.delete(`/${baseURI}/bulk-delete`, {
-                    data: { ids: selectedIds },
-                    onSuccess: () => {
-                        setSelectedIds([]);
-                    },
-                });
-            }
+            modelController.bulk_delete(selectedIds);
+            setSelectedIds([]);
         },
     };
 
