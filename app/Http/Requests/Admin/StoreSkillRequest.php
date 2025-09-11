@@ -23,7 +23,8 @@ class StoreSkillRequest extends FormRequest
     {
         return [
             'icon_name' => 'required|string|min:1|max:255',
-            'name' => 'required|string|min:1|max:255'
+            'name' => 'required|string|min:1|max:255',
+            'projects' => 'required|array|distinct|exists:projects,id'
         ];
     }
 
@@ -33,7 +34,8 @@ class StoreSkillRequest extends FormRequest
             'icon_name.required' => 'Icon name is required.',
             'icon_name.min' => 'Icon name cannot be empty.',
             'name.required' => 'Skill name is required.',
-            'name.min' => 'Skill name cannot be empty.'
+            'name.min' => 'Skill name cannot be empty.',
+            'projects' => 'Invalid projects selection.'
         ];
     }
 }

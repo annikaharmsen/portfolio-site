@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\StoreSkillRequest;
 use App\Http\Requests\Admin\UpdateSkillRequest;
+use App\Models\Project;
 use App\Models\Skill;
 use Inertia\Inertia;
 
@@ -14,7 +15,7 @@ class SkillController extends Controller
      */
     public function index()
     {
-        $skills = Skill::ordered()->get();
+        $skills = Skill::orderBy('name')->get();
 
         return Inertia::render('admin/skills/index', [
             'skills' => $skills
@@ -26,7 +27,9 @@ class SkillController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/skills/create');
+        return Inertia::render('admin/skills/create', [
+            'projects' => Project::all()
+        ]);
     }
 
     /**
@@ -34,7 +37,11 @@ class SkillController extends Controller
      */
     public function store(StoreSkillRequest $request)
     {
+        $validated = $request->validated();
+
         $skill = Skill::create($request->validated());
+
+        $skill->projects()->sync($validated['projects']);
 
         return;
     }
@@ -55,7 +62,8 @@ class SkillController extends Controller
     public function edit(Skill $skill)
     {
         return Inertia::render('admin/skills/edit', [
-            'skill' => $skill
+            'skill' => $skill,
+            'projects' => Project::all()
         ]);
     }
 

@@ -12,6 +12,6 @@ class Skill extends Model
     ];
 
     public function projects() {
-        return $this->hasManyThrough(Project::class, ProjectSkill::class);
+        return $this->belongsToMany(Project::class, 'project_skills');
     }
 }
