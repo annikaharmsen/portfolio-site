@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Edit, Trash2 } from 'lucide-react';
 import { ComponentProps } from 'react';
 
@@ -15,7 +16,7 @@ export const SaveButton = ({ ...props }: ComponentProps<typeof Button>) => (
 );
 
 export const DeleteButton = ({ showIcon, ...props }: ComponentProps<typeof Button> & { showIcon?: boolean }) => (
-    <Button variant="destructive" size="sm" className="gap-2" {...props}>
+    <Button variant="destructive" size="sm" className={cn(props.disabled ? 'opacity-60' : '', 'gap-2')} {...props}>
         {showIcon && <Trash2 className="size-4" />}
         {props.children || 'Delete'}
     </Button>
