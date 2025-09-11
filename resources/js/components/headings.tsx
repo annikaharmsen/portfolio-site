@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { HTMLAttributes } from 'react';
 
 // h1-h6
-const classes = 'm-2 font-semibold text-foreground';
+const classes = 'my-2 font-semibold text-foreground';
 
 export const H1 = ({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
     <h1 className={cn('text-2xl sm:text-4xl', classes, className)} {...props}></h1>
