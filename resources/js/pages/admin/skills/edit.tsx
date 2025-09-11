@@ -12,7 +12,7 @@ interface EditSkillProps {
 }
 
 export default function EditSkill({ skill, projects }: EditSkillProps) {
-    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('edit_skill');
+    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('edit_skill', skill);
 
     const handleDelete = () => {
         if (skill && confirm('Are you sure you want to delete this skill?')) {
