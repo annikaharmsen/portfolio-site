@@ -20,86 +20,92 @@ export default function ProjectCard({ project, asPreview }: { project: Project; 
         </>
     );
 
+    const openLink = (link: string, e?: React.MouseEvent) => {
+        e?.stopPropagation();
+
+        window.open(link);
+    };
+
     return (
-        <a key={project.title} href={project.demo_link ?? project.repo_link ?? '#'} target="_blank" rel="noopener noreferrer">
-            <Card className="group transition-shadow hover:shadow-lg">
-                <CardHeader className={!asPreview ? 'pb-4' : ''}>
-                    <div className="flex items-start justify-between">
-                        {!asPreview ? (
-                            <>
-                                <div className="flex items-center gap-3">
-                                    {/* lucide icon */}
-                                    <div className="rounded-lg p-2">
-                                        {(() => {
-                                            const IconComponent = getIcon(project.icon_name);
-                                            return <IconComponent className="h-6 w-6 text-secondary" />;
-                                        })()}
-                                    </div>
-
-                                    {/* title and subtitle */}
-                                    <div>
-                                        <CardTitle className="mb-1 font-sans text-lg">
-                                            {project.title}
-                                            <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />
-                                        </CardTitle>
-                                        <DateEl />
-                                    </div>
+        <Card className="group cursor-pointer transition-all hover:scale-101 hover:shadow-lg">
+            <CardHeader className={!asPreview ? 'pb-4' : ''}>
+                <div className="flex items-start justify-between">
+                    {!asPreview ? (
+                        <>
+                            <div className="flex items-center gap-3">
+                                {/* lucide icon */}
+                                <div className="rounded-lg p-2">
+                                    {(() => {
+                                        const IconComponent = getIcon(project.icon_name);
+                                        return <IconComponent className="h-6 w-6 text-primary" />;
+                                    })()}
                                 </div>
-                            </>
-                        ) : (
-                            <div className="ml-6">
-                                <DateEl />
+
+                                {/* title and subtitle */}
+                                <div>
+                                    <CardTitle className="mb-1 font-sans text-lg">
+                                        {project.title}
+                                        <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />
+                                    </CardTitle>
+                                    <DateEl />
+                                </div>
                             </div>
-                        )}
-
-                        <ExternalLink className="h-5 w-5 text-secondary transition-colors group-hover:text-primary" />
-                    </div>
-                </CardHeader>
-                <CardContent className="mx-6 space-y-4">
-                    {/* description */}
-                    <p className="leading-relaxed">{project.description}</p>
-
-                    {/* skill list */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <IconList items={project.skills} />
-                    </div>
-
-                    {/* tech stack badges */}
-                    {project.technologies && (
-                        <div className="flex flex-wrap gap-2">
-                            {project.technologies.map((technology) => (
-                                <Badge variant="secondary">{technology.name}</Badge>
-                            ))}
+                        </>
+                    ) : (
+                        <div className="ml-6">
+                            <DateEl />
                         </div>
                     )}
 
-                    <div className="flex flex-col gap-2 pt-2 sm:flex-row">
-                        {/* repo button */}
-                        <a className={!project.repo_link ? 'hidden' : ''} href={project.repo_link ?? '#'} target="_blank" rel="noopener noreferrer">
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                className="border-foreground bg-transparent transition-all duration-300 hover:border-secondary hover:bg-secondary hover:text-secondary-foreground"
-                            >
-                                <Github className="mr-2 h-4 w-4" />
-                                View Code
-                            </Button>
-                        </a>
+                    <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />
+                </div>
+            </CardHeader>
+            <CardContent className="mx-6 space-y-4">
+                {/* description */}
+                <p className="leading-relaxed">{project.description}</p>
 
-                        {/* demo button */}
-                        <a className={!project.demo_link ? 'hidden' : ''} href={project.demo_link ?? '#'} target="_blank" rel="noopener noreferrer">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="border-foreground bg-transparent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
-                            >
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                Live Demo
-                            </Button>
-                        </a>
+                {/* skill list */}
+                <div className="grid grid-cols-2 gap-4">
+                    <IconList items={project.skills} />
+                </div>
+
+                {/* tech stack badges */}
+                {project.technologies && (
+                    <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((technology) => (
+                            <Badge variant="secondary">{technology.name}</Badge>
+                        ))}
                     </div>
-                </CardContent>
-            </Card>
-        </a>
+                )}
+
+                <div className="flex flex-col gap-2 pt-2 sm:flex-row">
+                    {/* repo button */}
+                    {project.repo_link && (
+                        <Button
+                            onClick={(e) => openLink(project.repo_link || '#', e)}
+                            size="sm"
+                            variant="outline"
+                            className="cursor-pointer border-foreground bg-transparent transition-all duration-300 hover:border-secondary hover:bg-secondary hover:text-secondary-foreground"
+                        >
+                            <Github className="mr-2 h-4 w-4" />
+                            View Code
+                        </Button>
+                    )}
+
+                    {/* demo button */}
+                    {project.demo_link && (
+                        <Button
+                            onClick={(e) => openLink(project.demo_link || '#', e)}
+                            variant="outline"
+                            size="sm"
+                            className="cursor-pointer border-foreground bg-transparent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
+                        >
+                            <ExternalLink className="mr-2 h-4 w-4" />
+                            Live Demo
+                        </Button>
+                    )}
+                </div>
+            </CardContent>
+        </Card>
     );
 }
