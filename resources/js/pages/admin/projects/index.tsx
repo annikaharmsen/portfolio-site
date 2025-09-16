@@ -1,4 +1,5 @@
-import ProjectList from '@/components/projects/project-list';
+import ModelList from '@/components/model-list';
+import { ProjectTableColumns } from '@/components/project-table-columns';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects } from '@/types/models';
@@ -14,7 +15,7 @@ export default function ProjectIndex({ projects }: ProjectIndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Projects" />
-            <ProjectList projects={projects} />
+            <ModelList models={projects} columns={ProjectTableColumns} baseURI="projects" searchBy="title" />
         </AppLayout>
     );
 }
