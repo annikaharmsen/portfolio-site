@@ -3,15 +3,15 @@
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillController;
 use App\Models\Project;
+use App\Models\Skill;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return Inertia::render('admin/dashboard', [
-            'projects' => Project::orderBy('featured', 'desc')
-                             ->orderBy('date', 'desc')
-                             ->get()
+            'projects' => Project::ordered()->get(),
+            'skills' => Skill::get(),
         ]);
     })->name('home');
 
