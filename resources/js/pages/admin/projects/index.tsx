@@ -15,7 +15,7 @@ export default function ProjectIndex({ projects }: ProjectIndexProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Projects" />
-            <ModelList models={projects} columns={ProjectTableColumns} baseURI="projects" searchBy="title" />
+            <ModelList models={projects} columns={ProjectTableColumns} resource="projects" searchBy="title" />
         </AppLayout>
     );
 }

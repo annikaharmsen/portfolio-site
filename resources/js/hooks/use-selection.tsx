@@ -11,9 +11,9 @@ export default function useSelection<T>(initial: T[]) {
     // selection handlers
     const select = (target: T) => {
         if (isSelected(target)) {
-            setSelected((prev) => [...prev, target]);
-        } else {
             setSelected((prev) => prev.filter((id) => id !== target));
+        } else {
+            setSelected((prev) => [...prev, target]);
         }
     };
     const selectAll = (targets: T[]) => {

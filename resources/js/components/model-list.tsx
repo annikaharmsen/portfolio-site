@@ -9,7 +9,7 @@ import { DeleteButton } from './app-buttons';
 interface ModelListProps<T extends { id: number }> {
     models: T[];
     columns: { name: string; headingComponent?: ReactNode; dataComponent: (model: T) => ReactNode }[];
-    baseURI: string;
+    resource: string;
     searchBy: keyof T;
     className?: string;
     rowClickBehavior?: 'select' | 'show' | 'edit';
@@ -18,7 +18,7 @@ interface ModelListProps<T extends { id: number }> {
 export default function ModelList<T extends { id: number }>({
     models,
     columns,
-    baseURI,
+    resource,
     searchBy,
     className,
     rowClickBehavior = 'show',
@@ -38,7 +38,7 @@ export default function ModelList<T extends { id: number }>({
     const filteredModelIDs = filteredModels.map((m: T) => m.id);
 
     // HANDLERS
-    const modelController = useController(baseURI);
+    const modelController = useController(resource);
     const handle = {
         select_all: () => modelSelection.selectAll(filteredModelIDs),
         select: (model: T) => modelSelection.select(model.id),
@@ -51,11 +51,11 @@ export default function ModelList<T extends { id: number }>({
     };
 
     return (
-        <div className={cn('min-w-140 space-y-4', className)}>
+        <div className={cn('min-w-120 space-y-4', className)}>
             {/* search and delete  */}
             <div className="flex justify-between gap-2">
                 <Input
-                    placeholder="Search models..."
+                    placeholder={'Search ' + resource + '...'}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="h-9 w-full min-w-min"
@@ -96,12 +96,8 @@ export default function ModelList<T extends { id: number }>({
 
                                 return (
                                     <tr key={model.id} className="border-b hover:bg-muted/50" onClick={() => handle[rowClickBehavior]?.(model)}>
-                                        <td className="p-2">
-                                            <Checkbox
-                                                checked={isSelected}
-                                                onCheckedChange={() => handle.select(model)}
-                                                onClick={(e) => e.stopPropagation()}
-                                            />
+                                        <td className="p-2" onClick={(e) => e.stopPropagation()}>
+                                            <Checkbox checked={isSelected} onCheckedChange={() => handle.select(model)} />
                                         </td>
                                         {columns.map((column) => {
                                             return column.dataComponent(model);
@@ -122,7 +118,7 @@ export default function ModelList<T extends { id: number }>({
             </div>
 
             <p className="text-sm text-muted-foreground">
-                {modelSelection.selected.length} of {filteredModels.length} model(s) selected.
+                {modelSelection.selected.length} of {filteredModels.length} selected.
             </p>
         </div>
     );
