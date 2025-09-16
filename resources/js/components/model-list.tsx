@@ -1,13 +1,14 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import useController from '@/hooks/use-controller';
+import useSelection from '@/hooks/use-selection';
 import { cn } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
 import { DeleteButton } from './app-buttons';
 
 interface ModelListProps<T extends { id: number }> {
     models: T[];
-    modelData: (model: T) => Record<string, ReactNode>;
+    columns: { name: string; headingComponent?: ReactNode; dataComponent: (model: T) => ReactNode }[];
     baseURI: string;
     searchBy: keyof T;
     className?: string;
@@ -16,7 +17,7 @@ interface ModelListProps<T extends { id: number }> {
 
 export default function ModelList<T extends { id: number }>({
     models,
-    modelData,
+    columns,
     baseURI,
     searchBy,
     className,
@@ -33,33 +34,19 @@ export default function ModelList<T extends { id: number }>({
     });
 
     // SELECTION
-    // state var
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
-    // bools
-    const allSelected = filteredModels.length > 0 && selectedIds.length === filteredModels.length;
-    const someSelected = selectedIds.length > 0 && selectedIds.length < filteredModels.length;
-    // selection handlers
-    const handleSelectAll = (checked: boolean) => {
-        setSelectedIds(checked ? filteredModels.map((m: T) => m.id) : []);
-    };
-    const handleSelect = (model: T, isSelected: boolean) => {
-        if (isSelected) {
-            setSelectedIds((prev) => [...prev, model.id]);
-        } else {
-            setSelectedIds((prev) => prev.filter((id) => id !== model.id));
-        }
-    };
+    const modelSelection = useSelection<number>([]);
+    const filteredModelIDs = filteredModels.map((m: T) => m.id);
 
     // HANDLERS
     const modelController = useController(baseURI);
     const handle = {
-        select_all: (checked: boolean) => handleSelectAll(checked),
-        select: (model: T, isSelected: boolean) => handleSelect(model, isSelected),
+        select_all: () => modelSelection.selectAll(filteredModelIDs),
+        select: (model: T) => modelSelection.select(model.id),
         // CONTROLLER ABSTRACTION
         ...modelController,
         bulk_delete: () => {
-            modelController.bulk_delete(selectedIds);
-            setSelectedIds([]);
+            modelController.bulk_delete(modelSelection.selected);
+            modelSelection.clear();
         },
     };
 
@@ -73,50 +60,52 @@ export default function ModelList<T extends { id: number }>({
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="h-9 w-full min-w-min"
                 />
-                <DeleteButton className="h-9" disabled={!selectedIds.length} onClick={handle.bulk_delete} showIcon>
-                    Delete {selectedIds.length}
+                <DeleteButton className="h-9" disabled={modelSelection.selected.length == 0} onClick={handle.bulk_delete} showIcon>
+                    Delete {modelSelection.selected.length}
                 </DeleteButton>
             </div>
 
+            {/* table */}
             <div className="rounded-md border">
-                <table className="w-full">
+                <table className="w-full table-fixed">
                     <thead>
                         <tr className="border-b">
                             <th className="p-2 text-left">
-                                <Checkbox checked={allSelected ? true : someSelected ? 'indeterminate' : false} onCheckedChange={handle.select_all} />
+                                <Checkbox
+                                    checked={
+                                        modelSelection.allSelected(filteredModelIDs)
+                                            ? true
+                                            : modelSelection.someSelected(filteredModelIDs)
+                                              ? 'indeterminate'
+                                              : false
+                                    }
+                                    onCheckedChange={handle.select_all}
+                                />
                             </th>
-                            {/* modelData keys used as table headings */}
+                            {/* table headings */}
                             {models.length > 0 &&
-                                Object.keys(modelData(models[0])).map((key) => (
-                                    <th className="p-2 text-left" key={key}>
-                                        {key}
-                                    </th>
-                                ))}
+                                columns.map((column) => {
+                                    return column.headingComponent ?? <th key={column.name}>{column.name}</th>;
+                                })}
                         </tr>
                     </thead>
                     <tbody>
                         {filteredModels.length > 0 ? (
                             filteredModels.map((model) => {
-                                const isSelected = selectedIds.includes(model.id);
+                                const isSelected = modelSelection.selected.includes(model.id);
 
                                 return (
-                                    <tr
-                                        key={model.id}
-                                        className="border-b hover:bg-muted/50"
-                                        onClick={() => handle[rowClickBehavior]?.(model, isSelected)}
-                                    >
+                                    <tr key={model.id} className="border-b hover:bg-muted/50" onClick={() => handle[rowClickBehavior]?.(model)}>
                                         <td className="p-2">
                                             <Checkbox
                                                 checked={isSelected}
-                                                onCheckedChange={(isSelected) => handle.select(model, !!isSelected)}
+                                                onCheckedChange={() => handle.select(model)}
                                                 onClick={(e) => e.stopPropagation()}
                                             />
                                         </td>
-                                        {Object.entries(modelData(model)).map(([key, data]) => (
-                                            <td className="mx-auto p-2" key={key}>
-                                                {data}
-                                            </td>
-                                        ))}
+                                        {columns.map((column) => {
+                                            return column.dataComponent(model);
+                                        })}
                                     </tr>
                                 );
                             })
@@ -133,7 +122,7 @@ export default function ModelList<T extends { id: number }>({
             </div>
 
             <p className="text-sm text-muted-foreground">
-                {selectedIds.length} of {filteredModels.length} model(s) selected.
+                {modelSelection.selected.length} of {filteredModels.length} model(s) selected.
             </p>
         </div>
     );
