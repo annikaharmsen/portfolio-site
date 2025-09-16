@@ -5,7 +5,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BadgeCheck, BadgePlus, FolderClosed, FolderPlus, LayoutGrid } from 'lucide-react';
+import { BadgeCheck, FolderClosed, LayoutGrid } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
@@ -19,19 +19,9 @@ const mainNavItems: NavItem[] = [
         icon: FolderClosed,
     },
     {
-        title: 'New Project',
-        href: '/projects/create',
-        icon: FolderPlus,
-    },
-    {
         title: 'Skills',
         href: '/skills',
         icon: BadgeCheck,
-    },
-    {
-        title: 'New Skill',
-        href: '/skills/create',
-        icon: BadgePlus,
     },
 ];
 
