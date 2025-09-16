@@ -1,4 +1,4 @@
-import { Project, Skill } from '@/types/models';
+import { Project, Skill, Technology } from '@/types/models';
 
 interface BreadcrumbTreeItem {
     title: string;
@@ -63,7 +63,7 @@ export const useBreadcrumbs = () => {
         return [...parentTree, breadcrumbItem];
     };
 
-    const getBreadcrumbs = (page: string, data?: Project) => {
+    const getBreadcrumbs = (page: string, data?: Project | Skill | Technology) => {
         const breadcrumbFunction = breadcrumbTree[page as keyof typeof breadcrumbTree];
 
         if (!breadcrumbFunction) {
