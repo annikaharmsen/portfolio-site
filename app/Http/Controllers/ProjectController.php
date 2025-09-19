@@ -69,7 +69,7 @@ class ProjectController extends Controller
     {
         $project->delete();
 
-        return;
+        return redirect(route('projects.index'));;
     }
 
     public function bulkDelete(BulkDeleteProjectsRequest $request)
