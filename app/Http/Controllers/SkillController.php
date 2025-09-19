@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\BulkDeleteSkillsRequest;
 use App\Http\Requests\Admin\StoreSkillRequest;
 use App\Http\Requests\Admin\UpdateSkillRequest;
 use App\Models\Project;
@@ -43,7 +44,7 @@ class SkillController extends Controller
 
         $skill->projects()->sync($validated['projects']);
 
-        return;
+        return redirect(route('skills.index'));
     }
 
     /**
@@ -62,7 +63,7 @@ class SkillController extends Controller
     public function edit(Skill $skill)
     {
         return Inertia::render('admin/skills/edit', [
-            'skill' => $skill,
+            'skill' => $skill->load('projects'),
             'projects' => Project::all()
         ]);
     }
@@ -72,9 +73,13 @@ class SkillController extends Controller
      */
     public function update(UpdateSkillRequest $request, Skill $skill)
     {
-        $skill->update($request->validated());
+        $validated = $request->validated();
 
-        return;
+        $skill->update($validated);
+
+        if (isset($validated['projects'])) $skill->projects()->sync($validated['projects']);
+
+        return redirect(route('skills.index'));
     }
 
     /**
@@ -83,6 +88,13 @@ class SkillController extends Controller
     public function destroy(Skill $skill)
     {
         $skill->delete();
+
+        return redirect(route('skills.index'));;
+    }
+
+    public function bulkDelete(BulkDeleteSkillsRequest $request)
+    {
+        $deletedCount = Skill::destroy($request->getSkillIds());
 
         return;
     }

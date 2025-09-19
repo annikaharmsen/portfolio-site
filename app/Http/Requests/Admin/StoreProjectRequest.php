@@ -30,7 +30,7 @@ class StoreProjectRequest extends FormRequest
             'demo_link' => 'nullable|url',
             'featured' => 'boolean',
             'date' => 'nullable|date',
-            'skills' => 'required|array|distinct|exists:skills,id'
+            'skills' => 'array|distinct|exists:skills,id'
         ];
     }
 

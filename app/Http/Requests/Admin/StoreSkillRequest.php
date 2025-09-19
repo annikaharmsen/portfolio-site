@@ -24,7 +24,7 @@ class StoreSkillRequest extends FormRequest
         return [
             'icon_name' => 'required|string|min:1|max:255',
             'name' => 'required|string|min:1|max:255',
-            'projects' => 'required|array|distinct|exists:projects,id'
+            'projects' => 'array|distinct|exists:projects,id'
         ];
     }
 
