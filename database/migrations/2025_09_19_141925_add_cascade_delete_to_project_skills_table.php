@@ -12,12 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('project_skills', function (Blueprint $table) {
-
             // Drop existing foreign key constraints
-            if (Schema::hasColumn('project_skills', 'project_id')) {
-                $table->dropForeign(['project_id']);
-                $table->dropForeign(['skill_id']);
-            }
+            $table->dropColumn(['project_id', 'skill_id']);
 
             // Add new foreign key constraints with cascade delete
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
