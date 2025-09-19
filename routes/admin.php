@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])->name('projects.bulk-delete');
     Route::resource('projects', ProjectController::class);
 
+    Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])->name('skills.bulk-delete');
     Route::resource('skills', SkillController::class);
 });
 
