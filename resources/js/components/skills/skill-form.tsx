@@ -26,7 +26,6 @@ export default function SkillForm({ skill, projects, className }: SkillFormProps
 
         if (skill) {
             put(`/skills/${skill.id}`);
-            router.get(`/skills/${skill.id}`);
         } else {
             post('/skills');
         }
@@ -36,6 +35,13 @@ export default function SkillForm({ skill, projects, className }: SkillFormProps
         if (skill) router.get(`/skills/${skill.id}`);
         else router.get('/skills');
     };
+
+    const handleProjectsChange = useCallback(
+        (updatedValue: number[]) => {
+            setData('projects', updatedValue);
+        },
+        [setData],
+    );
 
     return (
         <form onSubmit={handleSubmit} className={className}>
@@ -59,18 +65,14 @@ export default function SkillForm({ skill, projects, className }: SkillFormProps
                     <Label htmlFor="projects" className="block">
                         Projects
                     </Label>
-                    <BadgeSelectInput
-                        id="projects"
-                        value={data.projects}
-                        onChange={useCallback(
-                            (updatedValue: number[]) => {
-                                setData('projects', updatedValue);
-                            },
-                            [setData],
-                        )}
-                        options={projects}
-                    />
-                    <InputError>{errors.projects}</InputError>
+                    {projects.length ? (
+                        <>
+                            <BadgeSelectInput id="projects" value={data.projects} onChange={handleProjectsChange} options={projects} />
+                            <InputError>{errors.projects}</InputError>
+                        </>
+                    ) : (
+                        <p className="pl-1 text-sm text-muted-foreground">no projects found</p>
+                    )}
                 </div>
             </FormGridLayout>
 

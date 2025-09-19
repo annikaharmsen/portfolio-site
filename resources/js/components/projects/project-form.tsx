@@ -6,12 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import FormGridLayout from '@/layouts/form-grid-layout';
-import { cn } from '@/lib/utils';
 import { Project, Skills } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
-import React, { useReducer } from 'react';
+import React, { useCallback } from 'react';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
-import { Badge } from '../ui/badge';
+import BadgeSelectInput from '../badge-select-input';
 
 interface ProjectFormProps {
     project?: Project;
@@ -30,17 +29,6 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
         skills: project?.skills?.map((skill) => skill.id) || [],
         description: project?.description || '',
     });
-
-    const [selectedSkills, toggleSkill] = useReducer((prevSkills: number[], toggledSkill: number) => {
-        let updatedSkills;
-
-        if (prevSkills.includes(toggledSkill)) updatedSkills = prevSkills.filter((skill) => skill != toggledSkill);
-        else updatedSkills = [...prevSkills, toggledSkill];
-
-        setData({ ...data, skills: updatedSkills });
-
-        return updatedSkills;
-    }, data.skills);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,6 +51,13 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
             router.delete(`/projects/${project.id}`);
         }
     };
+
+    const handleProjectsChange = useCallback(
+        (updatedValue: number[]) => {
+            setData('skills', updatedValue);
+        },
+        [setData],
+    );
 
     return (
         <>
@@ -152,27 +147,27 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
                                 <Label htmlFor="skills" className="w-full">
                                     Skills
                                 </Label>
-                                {skills &&
-                                    skills.map((skill) => {
-                                        const isSelected = selectedSkills.includes(skill.id);
+                                {skills.length ? (
+                                    <>
+                                        <BadgeSelectInput
+                                            id="projects"
+                                            value={data.skills}
+                                            onChange={handleProjectsChange}
+                                            options={skills}
+                                            textResource="name"
+                                        />
 
-                                        return (
-                                            <Badge
-                                                onClick={() => toggleSkill(skill.id)}
-                                                key={skill.id}
-                                                variant="secondary"
-                                                className={cn('m-1', !isSelected && 'opacity-70')}
-                                            >
-                                                {skill.name}
-                                            </Badge>
-                                        );
-                                    })}
+                                        <InputError>{errors.skills}</InputError>
+                                    </>
+                                ) : (
+                                    <p className="pl-1 text-sm text-muted-foreground">no skills found</p>
+                                )}
                             </>
                         </FormGridLayout>
 
                         <div className="flex justify-end space-x-2">
                             <CancelButton onClick={handleCancel} />
-                            <SaveButton disabled={processing} onClick={handleDelete}>
+                            <SaveButton disabled={processing} onClick={handleSubmit}>
                                 {processing ? 'Saving...' : project ? 'Update Project' : 'Create Project'}
                             </SaveButton>
                         </div>
