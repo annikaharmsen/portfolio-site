@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::table('project_technologies', function (Blueprint $table) {
             // Drop existing foreign key constraints
-            $table->dropForeign(['project_id']);
-            $table->dropForeign(['technology_id']);
+            if (Schema::hasColumn('technology_id', 'project_id')) {
+                $table->dropForeign(['project_id']);
+                $table->dropForeign(['technology_id']);
+            }
 
             // Add new foreign key constraints with cascade delete
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
