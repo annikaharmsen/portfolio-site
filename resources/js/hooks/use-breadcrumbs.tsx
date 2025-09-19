@@ -50,7 +50,7 @@ export const useBreadcrumbs = () => {
         edit_skill: (skill: Skill) => ({
             title: `Edit ${skill.name}`,
             href: `/projects/${skill.id}/edit`,
-            parent: breadcrumbTree.show_skill(skill),
+            parent: breadcrumbTree.skill_index(),
         }),
     };
 
