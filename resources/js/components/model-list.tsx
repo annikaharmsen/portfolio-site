@@ -67,7 +67,7 @@ export default function ModelList<T extends { id: number }>({
 
             {/* table */}
             <div className="rounded-md border">
-                <table className="w-full table-fixed">
+                <table className="w-full">
                     <thead>
                         <tr className="border-b">
                             <th className="p-2 text-left">
@@ -92,12 +92,16 @@ export default function ModelList<T extends { id: number }>({
                     <tbody>
                         {filteredModels.length > 0 ? (
                             filteredModels.map((model) => {
-                                const isSelected = modelSelection.selected.includes(model.id);
+                                const isSelected = modelSelection.isSelected(model.id);
 
                                 return (
                                     <tr key={model.id} className="border-b hover:bg-muted/50" onClick={() => handle[rowClickBehavior]?.(model)}>
-                                        <td className="p-2" onClick={(e) => e.stopPropagation()}>
-                                            <Checkbox checked={isSelected} onCheckedChange={() => handle.select(model)} />
+                                        <td className="p-2">
+                                            <Checkbox
+                                                checked={isSelected}
+                                                onClick={(e) => e.stopPropagation()}
+                                                onCheckedChange={() => handle.select(model)}
+                                            />
                                         </td>
                                         {columns.map((column) => {
                                             return column.dataComponent(model);
