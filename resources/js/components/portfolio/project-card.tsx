@@ -45,7 +45,7 @@ export default function ProjectCard({ project, asPreview }: { project: Project; 
                                 <div>
                                     <CardTitle className="mb-1 font-sans text-lg">
                                         {project.title}
-                                        <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />
+                                        {project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
                                     </CardTitle>
                                     <DateEl />
                                 </div>
