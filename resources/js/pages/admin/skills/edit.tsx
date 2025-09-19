@@ -23,9 +23,9 @@ export default function EditSkill({ skill, projects }: EditSkillProps) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Project" />
+            <Head title="Edit Skill" />
             <div className="m-12 *:mb-12 md:min-w-160">
-                <H1>Edit Project</H1>
+                <H1>Edit Skill</H1>
                 <SkillForm skill={skill} projects={projects} />
                 <DeleteButton onClick={handleDelete} />
             </div>

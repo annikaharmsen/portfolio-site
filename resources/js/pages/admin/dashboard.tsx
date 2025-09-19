@@ -22,11 +22,11 @@ export default function Dashboard({ projects, skills }: DashboardProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-row flex-wrap gap-4 rounded-xl p-4">
+            <div className="grid h-full w-full gap-4 rounded-xl p-4 min-[1500px]:grid-cols-2">
                 {cards &&
                     cards.map((card: ReactNode) => (
-                        <Card className="w-min">
-                            <CardContent className="w-fit">{card}</CardContent>
+                        <Card className="min-w-fit">
+                            <CardContent>{card}</CardContent>
                         </Card>
                     ))}
             </div>
