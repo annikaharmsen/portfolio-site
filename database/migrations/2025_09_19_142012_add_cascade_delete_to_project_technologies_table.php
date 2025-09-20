@@ -17,17 +17,17 @@ return new class extends Migration
             // Check if columns exist before modifying constraints
             if (Schema::hasColumn('project_technologies', 'project_id')) {
                 // Drop existing foreign key constraints
-                $table->dropForeign('project_technologies_project_id_foreign');
+                $table->dropForeign(['project_technologies_project_id_foreign']);
                 // Add new foreign key constraints with cascade delete
                 $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             } else {
                 // Create column with foreign key constraint
-                $table->foreignIdFor(Project::class)->constrained()->onDelete('cascade');
+                $table->foreignIdFor(Project::class)->constrained()->onDelete(action: 'cascade');
             }
 
             if (Schema::hasColumn('project_technologies', 'technology_id')) {
                 // Drop existing foreign key constraints
-                $table->dropForeign('project_technologies_technology_id_foreign');
+                $table->dropForeign(['project_technologies_technology_id_foreign']);
                 // Add new foreign key constraints with cascade delete
                 $table->foreign('technology_id')->references('id')->on('technologies')->onDelete('cascade');
             } else {

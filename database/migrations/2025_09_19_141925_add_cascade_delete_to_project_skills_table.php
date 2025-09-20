@@ -17,7 +17,7 @@ return new class extends Migration
             // Check if columns exist before modifying constraints
             if (Schema::hasColumn('project_skills', 'project_id')) {
                 // Drop existing foreign key constraints
-                $table->dropForeign('project_skills_project_id_foreign');
+                $table->dropForeign(['project_skills_project_id_foreign']);
                 // Add new foreign key constraints with cascade delete
                 $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             } else {
@@ -27,7 +27,7 @@ return new class extends Migration
 
             if (Schema::hasColumn('project_skills', 'skill_id')) {
                 // Drop existing foreign key constraints
-                $table->dropForeign('project_skills_skill_id_foreign');
+                $table->dropForeign(['project_skills_skill_id_foreign']);
                 // Add new foreign key constraints with cascade delete
                 $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
             } else {
