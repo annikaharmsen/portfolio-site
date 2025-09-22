@@ -35,15 +35,14 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
 
         if (project) {
             put(`/projects/${project.id}`);
-            router.get(`/projects/${project.id}`);
+            router.get(`/projects`);
         } else {
             post('/projects');
         }
     };
 
     const handleCancel = () => {
-        if (project) router.get(`/projects/${project.id}`);
-        else router.get('/projects');
+        router.get('/projects');
     };
 
     const handleDelete = () => {

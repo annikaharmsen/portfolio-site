@@ -32,8 +32,7 @@ export default function SkillForm({ skill, projects, className }: SkillFormProps
     };
 
     const handleCancel = () => {
-        if (skill) router.get(`/skills/${skill.id}`);
-        else router.get('/skills');
+        router.get('/skills');
     };
 
     const handleProjectsChange = useCallback(
