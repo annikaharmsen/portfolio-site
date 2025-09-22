@@ -53,7 +53,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             </CardHeader>
             <CardContent className="mx-6 space-y-4">
                 {/* description */}
-                <p className="leading-relaxed">{project.description}</p>
+                <p className="leading-relaxed whitespace-pre-wrap">{project.description}</p>
 
                 {/* skill list */}
                 <div className="grid grid-cols-2 gap-4">
