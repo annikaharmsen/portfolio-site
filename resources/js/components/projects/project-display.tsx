@@ -6,12 +6,9 @@ import { H1 } from '@/components/headings';
 import ProjectCard from '@/components/portfolio/project-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { getIcon } from '@/lib/generated-icons';
 import type { Project } from '@/types/models';
 
 export default function ProjectDisplay({ project }: { project: Project }) {
-    const IconComponent = getIcon(project.icon_name);
-
     const handleEdit = () => {
         router.get(`/projects/${project.id}/edit`);
     };
@@ -28,10 +25,10 @@ export default function ProjectDisplay({ project }: { project: Project }) {
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4 pl-4">
                     <div className="flex items-center space-x-3">
-                        <IconComponent className="h-8 w-8" />
                         <div>
-                            <H1 className="text-3xl font-bold">{project.title}</H1>
-                            {project.subtitle && <p className="text-lg text-muted-foreground">{project.subtitle}</p>}
+                            <H1>
+                                {project.title} <span className="font-normal text-gray-400">- preview</span>
+                            </H1>
                         </div>
                     </div>
                 </div>
@@ -52,7 +49,7 @@ export default function ProjectDisplay({ project }: { project: Project }) {
             </div>
 
             {/* Content */}
-            <ProjectCard project={project} asPreview />
+            <ProjectCard project={project} />
         </div>
     );
 }

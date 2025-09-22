@@ -6,7 +6,7 @@ import { ExternalLink, Github, Star } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import IconList from './icon-list';
 
-export default function ProjectCard({ project, asPreview }: { project: Project; asPreview?: boolean }) {
+export default function ProjectCard({ project }: { project: Project }) {
     const DateEl = () => (
         <>
             {project.date && (
@@ -28,35 +28,26 @@ export default function ProjectCard({ project, asPreview }: { project: Project; 
 
     return (
         <Card className="group cursor-pointer transition-all hover:scale-101 hover:shadow-lg">
-            <CardHeader className={!asPreview ? 'pb-4' : ''}>
+            <CardHeader>
                 <div className="flex items-start justify-between">
-                    {!asPreview ? (
-                        <>
-                            <div className="flex items-center gap-3">
-                                {/* lucide icon */}
-                                <div className="rounded-lg p-2">
-                                    {(() => {
-                                        const IconComponent = getIcon(project.icon_name);
-                                        return <IconComponent className="h-6 w-6 text-primary" />;
-                                    })()}
-                                </div>
+                    <div className="flex items-center gap-3">
+                        {/* lucide icon */}
+                        <div className="rounded-lg p-2">
+                            {(() => {
+                                const IconComponent = getIcon(project.icon_name);
+                                return <IconComponent className="h-6 w-6 text-primary" />;
+                            })()}
+                        </div>
 
-                                {/* title and subtitle */}
-                                <div>
-                                    <CardTitle className="mb-1 font-sans text-lg">
-                                        {project.title}
-                                        {!!project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
-                                    </CardTitle>
-                                    <DateEl />
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="ml-6">
+                        {/* title and subtitle */}
+                        <div>
+                            <CardTitle className="mb-1 font-sans text-lg">
+                                {project.title}
+                                {!!project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
+                            </CardTitle>
                             <DateEl />
                         </div>
-                    )}
-
+                    </div>
                     <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />
                 </div>
             </CardHeader>
