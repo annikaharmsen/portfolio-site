@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreTechnologyRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return auth()->check();
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'icon_name' => 'required|string|min:1|max:255',
+            'name' => 'required|string|min:1|max:255',
+            'projects' => 'array|distinct|exists:projects,id'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'icon_name.required' => 'Icon name is required.',
+            'icon_name.min' => 'Icon name cannot be empty.',
+            'name.required' => 'Technology name is required.',
+            'name.min' => 'Technology name cannot be empty.',
+            'projects' => 'Invalid projects selection.'
+        ];
+    }
+}
