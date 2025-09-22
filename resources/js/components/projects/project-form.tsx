@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import useIndentation from '@/hooks/use-indentation';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Skills } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
@@ -133,11 +134,12 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
                             <div className="md:col-span-full">
                                 <Label htmlFor="description">Description</Label>
                                 <Textarea
+                                    onKeyDown={useIndentation}
                                     id="description"
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
                                     placeholder="Detailed project description"
-                                    className="min-h-[120px]"
+                                    className="min-h-[120px] whitespace-pre-wrap"
                                 />
                                 {errors.description && <InputError message={errors.description} />}
                             </div>
