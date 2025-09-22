@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TechnologyController;
 use App\Models\Project;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,9 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])->name('skills.bulk-delete');
     Route::resource('skills', SkillController::class);
+
+    Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('technologies.bulk-delete');
+    Route::resource('technologies', TechnologyController::class);
 });
 
 require __DIR__.'/settings.php';
