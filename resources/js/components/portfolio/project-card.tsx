@@ -56,12 +56,14 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <p className="leading-relaxed whitespace-pre-wrap">{project.description}</p>
 
                 {/* skill list */}
-                <div className="grid grid-cols-2 gap-4">
-                    <IconList items={project.skills} />
-                </div>
+                {!!project.skills?.length && (
+                    <div className="grid grid-cols-2 gap-4">
+                        <IconList items={project.skills} />
+                    </div>
+                )}
 
                 {/* tech stack badges */}
-                {project.technologies && (
+                {!!project.technologies?.length && (
                     <div className="flex flex-wrap gap-2">
                         {project.technologies.map((technology) => (
                             <Badge variant="secondary">{technology.name}</Badge>
