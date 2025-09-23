@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import useIndentation from '@/hooks/use-indentation';
 import FormGridLayout from '@/layouts/form-grid-layout';
-import { Project, Skills } from '@/types/models';
+import { Project, Skills, Technologies } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
 import React, { useCallback } from 'react';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
@@ -16,9 +16,11 @@ import BadgeSelectInput from '../badge-select-input';
 interface ProjectFormProps {
     project?: Project;
     skills: Skills;
+    technologies: Technologies;
 }
 
-export default function ProjectForm({ project, skills }: ProjectFormProps) {
+export default function ProjectForm({ project, skills, technologies }: ProjectFormProps) {
+    console.log('technologies:', technologies, 'skills:', skills);
     const { data, setData, processing, errors, post, put } = useForm({
         icon_name: project?.icon_name || '',
         title: project?.title || '',
@@ -28,6 +30,7 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
         date: project?.date || '',
         featured: project?.featured || false,
         skills: project?.skills?.map((skill) => skill.id) || [],
+        technologies: project?.technologies?.map((technology) => technology.id) || [],
         description: project?.description || '',
     });
 
@@ -52,9 +55,16 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
         }
     };
 
-    const handleProjectsChange = useCallback(
+    const handleSkillsChange = useCallback(
         (updatedValue: number[]) => {
             setData('skills', updatedValue);
+        },
+        [setData],
+    );
+
+    const handleTechnologiesChange = useCallback(
+        (updatedValue: number[]) => {
+            setData('technologies', updatedValue);
         },
         [setData],
     );
@@ -151,9 +161,9 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
                                 {skills.length ? (
                                     <>
                                         <BadgeSelectInput
-                                            id="projects"
+                                            id="skills"
                                             value={data.skills}
-                                            onChange={handleProjectsChange}
+                                            onChange={handleSkillsChange}
                                             options={skills}
                                             textResource="name"
                                         />
@@ -162,6 +172,27 @@ export default function ProjectForm({ project, skills }: ProjectFormProps) {
                                     </>
                                 ) : (
                                     <p className="pl-1 text-sm text-muted-foreground">no skills found</p>
+                                )}
+                            </>
+
+                            <>
+                                <Label htmlFor="technologies" className="w-full">
+                                    Technologies
+                                </Label>
+                                {technologies.length ? (
+                                    <>
+                                        <BadgeSelectInput
+                                            id="technologies"
+                                            value={data.technologies}
+                                            onChange={handleTechnologiesChange}
+                                            options={technologies}
+                                            textResource="name"
+                                        />
+
+                                        <InputError>{errors.technologies}</InputError>
+                                    </>
+                                ) : (
+                                    <p className="pl-1 text-sm text-muted-foreground">no technologies found</p>
                                 )}
                             </>
                         </FormGridLayout>
