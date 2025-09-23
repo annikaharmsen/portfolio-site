@@ -1,6 +1,6 @@
 import { DeleteButton } from '@/components/app-buttons';
 import { H1 } from '@/components/headings';
-import SkillForm from '@/components/tags/form';
+import TagForm from '@/components/tags/form';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects, Skill } from '@/types/models';
@@ -26,7 +26,7 @@ export default function EditSkill({ skill, projects }: EditSkillProps) {
             <Head title="Edit Skill" />
             <div className="m-12 *:mb-12 md:min-w-160">
                 <H1>Edit Skill</H1>
-                <SkillForm skill={skill} projects={projects} />
+                <TagForm tag={skill} baseURI="skills" projects={projects} />
                 <DeleteButton onClick={handleDelete} />
             </div>
         </AppLayout>

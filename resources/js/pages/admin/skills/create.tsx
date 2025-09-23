@@ -1,5 +1,5 @@
 import { H1 } from '@/components/headings';
-import SkillForm from '@/components/tags/form';
+import TagForm from '@/components/tags/form';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects } from '@/types/models';
@@ -17,7 +17,7 @@ export default function CreateSkill({ projects }: CreateSkillProps) {
             <Head title="New Project" />
             <div className="m-12 *:mb-12 md:min-w-160">
                 <H1 className="w-full">Create Skill</H1>
-                <SkillForm projects={projects} />
+                <TagForm baseURI="skills" projects={projects} />
             </div>
         </AppLayout>
     );
