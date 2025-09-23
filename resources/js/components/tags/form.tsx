@@ -1,5 +1,5 @@
 import FormGridLayout from '@/layouts/form-grid-layout';
-import { Projects, Skill } from '@/types/models';
+import { Projects, ProjectTag } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
 import { useCallback } from 'react';
 import { CancelButton, SaveButton } from '../app-buttons';
@@ -8,26 +8,27 @@ import InputError from '../input-error';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
-interface SkillFormProps {
-    skill?: Skill;
+interface TagFormProps {
+    tag?: ProjectTag;
+    baseURI: string;
     projects: Projects;
     className?: string;
 }
 
-export default function SkillForm({ skill, projects, className }: SkillFormProps) {
+export default function TagForm({ tag, baseURI, projects, className }: TagFormProps) {
     const { data, setData, processing, errors, post, put } = useForm({
-        icon_name: skill?.icon_name || '',
-        name: skill?.name || '',
-        projects: skill?.projects?.map((project) => project.id) || [],
+        icon_name: tag?.icon_name || '',
+        name: tag?.name || '',
+        projects: tag?.projects?.map((project) => project.id) || [],
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (skill) {
-            put(`/skills/${skill.id}`);
+        if (tag) {
+            put(`/${baseURI}/${tag.id}`);
         } else {
-            post('/skills');
+            post(`/${baseURI}`);
         }
     };
 
@@ -40,7 +41,7 @@ export default function SkillForm({ skill, projects, className }: SkillFormProps
             setData('projects', updatedValue);
         },
         [setData],
-    );
+    ); //TODO
 
     return (
         <form onSubmit={handleSubmit} className={className}>
@@ -78,7 +79,7 @@ export default function SkillForm({ skill, projects, className }: SkillFormProps
             <div className="flex justify-end space-x-2">
                 <CancelButton onClick={handleCancel} />
                 <SaveButton disabled={processing} onClick={handleSubmit}>
-                    {processing ? 'Saving...' : skill ? 'Update Skill' : 'Create Skill'}
+                    {processing ? 'Saving...' : tag ? 'Update Skill' : 'Create Skill'}
                 </SaveButton>
             </div>
         </form>
