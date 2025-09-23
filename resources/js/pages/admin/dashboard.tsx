@@ -1,6 +1,6 @@
 import ModelList from '@/components/model-list';
-import { ProjectTableColumns } from '@/components/project-table-columns';
-import { SkillTableColumns } from '@/components/skill-table-columns';
+import { ProjectTableColumns } from '@/components/projects/project-table-columns';
+import { SkillTableColumns } from '@/components/skills/skill-table-columns';
 import { Card, CardContent } from '@/components/ui/card';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';

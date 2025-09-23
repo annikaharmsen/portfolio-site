@@ -5,6 +5,7 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TechnologyController;
 use App\Models\Project;
 use App\Models\Skill;
+use App\Models\Technology;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,6 +14,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('admin/dashboard', [
             'projects' => Project::ordered()->get(),
             'skills' => Skill::get(),
+            'technologies' => Technology::get(),
         ]);
     })->name('home');
 

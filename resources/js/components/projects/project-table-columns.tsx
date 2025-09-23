@@ -3,7 +3,7 @@ import { Project } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { Star } from 'lucide-react';
 import { ClassNameValue } from 'tailwind-merge';
-import IconComponent from './icon-component';
+import IconComponent from '../icon-component';
 
 export const FeaturedStar = ({ project, className }: { project: Project; className?: ClassNameValue }) => {
     const toggleFeatured = (project: Project) => {

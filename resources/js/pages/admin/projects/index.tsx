@@ -1,5 +1,5 @@
 import ModelList from '@/components/model-list';
-import { ProjectTableColumns } from '@/components/project-table-columns';
+import { ProjectTableColumns } from '@/components/projects/project-table-columns';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects } from '@/types/models';

@@ -1,6 +1,6 @@
 import { H1 } from '@/components/headings';
 import ModelList from '@/components/model-list';
-import { SkillTableColumns } from '@/components/skill-table-columns';
+import { SkillTableColumns } from '@/components/skills/skill-table-columns';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Skill, Skills } from '@/types/models';
