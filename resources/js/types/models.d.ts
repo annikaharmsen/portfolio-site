@@ -21,7 +21,7 @@ export type Project = {
 };
 export type Projects = Project[];
 
-export type Skill = {
+export type ProjectTag = {
     //columns
     id: number;
     icon_name: string;
@@ -33,19 +33,12 @@ export type Skill = {
     // exists
     projects_exists: boolean;
 };
+export type ProjectTags = ProjectTag[];
+
+export type Skill = ProjectTag;
 export type Skills = Skill[];
 
-export type Technology = {
-    //columns
-    id: number;
-    name: string;
-    // relations
-    projects?: Projects;
-    // counts
-    projects_count: number;
-    // exists
-    projects_exists: boolean;
-};
+export type Technology = ProjectTag;
 export type Technologies = Technology[];
 
 export type User = {
