@@ -1,6 +1,6 @@
 import { H1 } from '@/components/headings';
 import ModelList from '@/components/model-list';
-import { SkillTableColumns } from '@/components/skills/skill-table-columns';
+import { TagTableColumns } from '@/components/tag-table-columns';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Skill, Skills } from '@/types/models';
@@ -17,7 +17,7 @@ export default function SkillIndex({ skills }: SkillIndexProps) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Edit Project" />
             <H1 className="mb-6">Skills</H1>
-            <ModelList<Skill> models={skills} resource="skills" searchBy="name" columns={SkillTableColumns} rowClickBehavior="edit" />
+            <ModelList<Skill> models={skills} resource="skills" searchBy="name" columns={TagTableColumns} rowClickBehavior="edit" />
         </AppLayout>
     );
 }
