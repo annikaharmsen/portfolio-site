@@ -1,4 +1,5 @@
-import ProjectDisplay from '@/components/projects/project-display';
+import ProjectCard from '@/components/portfolio/project-card';
+import ProjectShowHeader from '@/components/projects/show-header';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Project } from '@/types/models';
@@ -14,7 +15,8 @@ export default function ShowProject({ project }: ShowProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={project.title} />
-            <ProjectDisplay project={project} />
+            <ProjectShowHeader project={project} />
+            <ProjectCard project={project} />
         </AppLayout>
     );
 }
