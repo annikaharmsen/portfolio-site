@@ -42,15 +42,35 @@ export const useBreadcrumbs = () => {
             href: '/skill/create',
             parent: breadcrumbTree.skill_index(),
         }),
-        show_skill: (skill: Skill) => ({
-            title: skill.name,
-            href: `/skills/${skill.id}`,
-            parent: breadcrumbTree.skill_index(),
-        }),
+        // show_skill: (skill: Skill) => ({
+        //     title: skill.name,
+        //     href: `/skills/${skill.id}`,
+        //     parent: breadcrumbTree.skill_index(),
+        // }),
         edit_skill: (skill: Skill) => ({
             title: `Edit ${skill.name}`,
             href: `/projects/${skill.id}/edit`,
             parent: breadcrumbTree.skill_index(),
+        }),
+        technology_index: () => ({
+            title: 'Technologies',
+            href: '/technologies',
+            parent: breadcrumbTree.dashboard(),
+        }),
+        create_technology: () => ({
+            title: 'Add Technology',
+            href: '/technology/create',
+            parent: breadcrumbTree.technology_index(),
+        }),
+        // show_technology: (technology: Technology) => ({
+        //     title: technology.name,
+        //     href: `/technologies/${technology.id}`,
+        //     parent: breadcrumbTree.technology_index(),
+        // }),
+        edit_technology: (technology: Technology) => ({
+            title: `Edit ${technology.name}`,
+            href: `/projects/${technology.id}/edit`,
+            parent: breadcrumbTree.technology_index(),
         }),
     };
 
