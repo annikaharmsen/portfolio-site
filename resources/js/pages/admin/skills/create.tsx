@@ -1,5 +1,5 @@
 import { H1 } from '@/components/headings';
-import SkillForm from '@/components/skills/skill-form';
+import SkillForm from '@/components/tags/form';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects } from '@/types/models';

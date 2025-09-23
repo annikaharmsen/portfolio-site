@@ -1,6 +1,6 @@
 import ModelList from '@/components/model-list';
-import { ProjectTableColumns } from '@/components/projects/project-table-columns';
-import { TagTableColumns } from '@/components/tag-table-columns';
+import { ProjectTableColumns } from '@/components/projects/table-columns';
+import { TagTableColumns } from '@/components/tags/table-columns';
 import { Card, CardContent } from '@/components/ui/card';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';

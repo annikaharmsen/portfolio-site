@@ -2,7 +2,7 @@ import { DeleteButton, EditButton } from '@/components/app-buttons';
 import { H1 } from '@/components/headings';
 import useController from '@/hooks/use-controller';
 import type { Project } from '@/types/models';
-import { FeaturedStar } from './project-table-columns';
+import { FeaturedStar } from './table-columns';
 
 export default function ProjectShowHeader({ project }: { project: Project }) {
     const controller = useController<Project>('projects');
