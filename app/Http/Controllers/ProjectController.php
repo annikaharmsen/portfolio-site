@@ -47,7 +47,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return Inertia::render('admin/projects/show', [
-            'project' => $project
+            'project' => $project->load('skills', 'technologies')
         ]);
     }
 
