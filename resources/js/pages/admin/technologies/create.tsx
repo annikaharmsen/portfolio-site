@@ -5,19 +5,19 @@ import AppLayout from '@/layouts/app-layout';
 import { Projects } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
-interface CreateSkillProps {
+interface CreateTechnologyProps {
     projects: Projects;
 }
 
-export default function CreateSkill({ projects }: CreateSkillProps) {
-    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('create_skill');
+export default function CreateTechnology({ projects }: CreateTechnologyProps) {
+    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('create_technology');
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="New Skill" />
+            <Head title="New Technology" />
             <div className="m-12 *:mb-12 md:min-w-160">
-                <H1 className="w-full">Create Skill</H1>
-                <TagForm baseURI="skills" projects={projects} />
+                <H1 className="w-full">Create Technology</H1>
+                <TagForm baseURI="technologies" projects={projects} />
             </div>
         </AppLayout>
     );

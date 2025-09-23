@@ -33,7 +33,7 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
     };
 
     const handleCancel = () => {
-        router.get('/skills');
+        router.get(`/${baseURI}`);
     };
 
     const handleProjectsChange = useCallback(
@@ -58,7 +58,7 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
                 </>
                 <>
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Skill Name" />
+                    <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="name" />
                     <InputError>{errors.name}</InputError>
                 </>
                 <div className="col-span-full">
@@ -79,7 +79,7 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
             <div className="flex justify-end space-x-2">
                 <CancelButton onClick={handleCancel} />
                 <SaveButton disabled={processing} onClick={handleSubmit}>
-                    {processing ? 'Saving...' : tag ? 'Update Skill' : 'Create Skill'}
+                    {processing ? 'Saving...' : tag ? 'Update' : 'Create'}
                 </SaveButton>
             </div>
         </form>

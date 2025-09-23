@@ -15,7 +15,7 @@ export default function SkillIndex({ skills }: SkillIndexProps) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Project" />
+            <Head title="Edit Skill" />
             <H1 className="mb-6">Skills</H1>
             <ModelList<Skill> models={skills} resource="skills" searchBy="name" columns={TagTableColumns} rowClickBehavior="edit" />
         </AppLayout>
