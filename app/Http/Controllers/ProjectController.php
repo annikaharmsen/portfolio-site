@@ -8,6 +8,8 @@ use App\Http\Requests\Admin\StoreProjectRequest;
 use App\Http\Requests\Admin\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\Skill;
+use App\Models\Technology;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -23,7 +25,8 @@ class ProjectController extends Controller
 
     public function create() {
         return Inertia::render('admin/projects/create', [
-            'skills' => Skill::all()
+            'skills' => Skill::all(),
+            'technologies' => Technology::all(),
         ]);
     }
 
@@ -34,6 +37,7 @@ class ProjectController extends Controller
         $project = Project::create($validated);
 
         $project->skills()->sync($validated['skills']);
+        $project->technologies()->sync($validated['technologies']);
 
         return redirect(route('projects.show', [
             'project' => $project
@@ -49,8 +53,9 @@ class ProjectController extends Controller
 
     public function edit(Project $project) {
         return Inertia::render('admin/projects/edit', [
-            'project' => $project->load('skills'),
-            'skills' => Skill::all()
+            'project' => $project->load('skills', 'technologies'),
+            'skills' => Skill::all(),
+            'technologies' => Technology::all(),
         ]);
     }
 
@@ -61,6 +66,7 @@ class ProjectController extends Controller
         $project->update($validated);
 
         if (isset($validated['skills'])) $project->skills()->sync($validated['skills']);
+        if (isset($validated['technologies'])) $project->technologies()->sync($validated['technologies']);
 
         return;
     }
