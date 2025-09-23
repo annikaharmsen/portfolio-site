@@ -1,5 +1,5 @@
 import { ProjectTag } from '@/types/models';
-import IconComponent from './icon-component';
+import IconComponent from '../icon-component';
 
 export const TagTableColumns = [
     {
