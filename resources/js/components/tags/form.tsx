@@ -2,9 +2,12 @@ import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, ProjectTag } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
 import { useCallback } from 'react';
+import { Provider } from 'react-redux';
 import { CancelButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput from '../badge-select-input';
+import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
+import { store } from '../store';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
@@ -47,13 +50,15 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
         <form onSubmit={handleSubmit} className={className}>
             <FormGridLayout>
                 <>
-                    <Label htmlFor="icon_name">Lucid Icon</Label>
-                    <Input
-                        id="icon_name"
-                        value={data.icon_name}
-                        onChange={(e) => setData('icon_name', e.target.value)}
-                        placeholder="e.g. lucide-react"
-                    />
+                    <Label htmlFor="icon">Lucid Icon</Label>
+                    <Provider store={store}>
+                        <IconSelectorDropdownClient
+                            id="icon"
+                            value={data.icon_name as IconName}
+                            onChange={(selectedIcon) => setData('icon_name', selectedIcon)}
+                            className="w-full"
+                        />
+                    </Provider>
                     <InputError>{errors.icon_name}</InputError>
                 </>
                 <>

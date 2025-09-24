@@ -24,7 +24,7 @@ interface ProjectFormProps {
 
 export default function ProjectForm({ project, skills, technologies }: ProjectFormProps) {
     const { data, setData, processing, errors, post, put } = useForm({
-        icon_name: project?.icon_name || '',
+        icon_name: (project?.icon_name as IconName) || '',
         title: project?.title || '',
         subtitle: project?.subtitle || '',
         repo_link: project?.repo_link || '',
@@ -41,7 +41,6 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
 
         if (project) {
             put(`/projects/${project.id}`);
-            router.get(`/projects`);
         } else {
             post('/projects');
         }
@@ -82,12 +81,12 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
                     <form onSubmit={handleSubmit}>
                         <FormGridLayout>
                             <>
-                                <Label htmlFor="icon_name">Icon</Label>
+                                <Label htmlFor="icon">Icon</Label>
                                 <Provider store={store}>
                                     <IconSelectorDropdownClient
-                                        id="icon_name"
-                                        value={data.icon_name as IconName}
-                                        onChange={(selectedIcon) => setData('icon_name', selectedIcon || '')}
+                                        id="icon"
+                                        value={data.icon_name}
+                                        onChange={(selectedIcon) => setData('icon_name', selectedIcon)}
                                         className="w-full"
                                     />
                                 </Provider>

@@ -5,7 +5,11 @@ export const TagTableColumns = [
     {
         name: 'Icon',
         headingComponent: <th>Icon</th>,
-        dataComponent: (item: ProjectTag) => <td>{IconComponent(item)}</td>,
+        dataComponent: (item: ProjectTag) => (
+            <td>
+                <IconComponent icon_name={item.icon_name} />
+            </td>
+        ),
     },
     {
         name: 'Name',

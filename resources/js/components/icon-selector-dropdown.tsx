@@ -18,7 +18,7 @@ const ITEM_HEIGHT = 36;
 interface IconSelectorProps {
     id?: string;
     value?: IconName;
-    onChange?: (selectedIcon: IconName | null) => void;
+    onChange?: (selectedIcon: IconName) => void;
     className: ClassNameValue;
 }
 
@@ -28,7 +28,7 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value, on
         (state: {
             iconSelector: {
                 searchTerm: string;
-                selectedIcon: IconName | null;
+                selectedIcon: IconName;
                 iconList: IconName[];
                 isOpen: boolean;
             };

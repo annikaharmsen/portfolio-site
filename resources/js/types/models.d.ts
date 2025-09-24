@@ -1,9 +1,9 @@
-import { LucideIcon } from 'lucide-react';
+import { IconName } from '@/components/icon-selector-dropdown';
 
 export type Project = {
     //columns
     id: number;
-    icon: LucideIcon;
+    icon_name: IconName;
     title: string;
     subtitle: string;
     description: string;
@@ -26,7 +26,7 @@ export type Projects = Project[];
 export type ProjectTag = {
     //columns
     id: number;
-    icon: LucideIcon;
+    icon_name: IconName;
     name: string;
     // relations
     projects?: Projects;
