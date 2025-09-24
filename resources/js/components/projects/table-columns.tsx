@@ -7,7 +7,7 @@ export const ProjectTableColumns = [
         name: 'Icon',
         dataComponent: (project: Project) => (
             <td>
-                <IconComponent icon_name={project.icon_name} />
+                <IconComponent icon_name={project.icon_name} className="mx-auto" />
             </td>
         ),
     },

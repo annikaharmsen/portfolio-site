@@ -7,7 +7,7 @@ export const TagTableColumns = [
         headingComponent: <th>Icon</th>,
         dataComponent: (item: ProjectTag) => (
             <td>
-                <IconComponent icon_name={item.icon_name} />
+                <IconComponent icon_name={item.icon_name} className="mx-auto" />
             </td>
         ),
     },
