@@ -18,12 +18,6 @@ class Project extends Model
         'date'
     ];
 
-    protected static function booted() {
-        static::saved(function ($project) {
-            Artisan::call('icons:generate');
-        });
-    }
-
     public function scopeOrdered($query) {
         return $query->orderBy('featured', 'desc')->orderBy('date', 'desc');
     }
