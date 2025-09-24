@@ -34,9 +34,6 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
         }) => state.iconSelector,
     );
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const valueRef = useRef<IconName | null>(value);
-
-    console.log('Renderring with (value, valueRef):', value, valueRef.current);
 
     useEffect(() => {
         dispatch(setIconList(Object.keys(icons) as IconName[]));
@@ -76,18 +73,17 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
                     style={style}
                     className="flex cursor-pointer items-center p-2 hover:bg-gray-100"
                     onClick={() => {
-                        valueRef.current = iconName;
                         onChange?.(iconName);
                         dispatch(setIsOpen(false));
                     }}
                 >
                     <IconComponent className="mr-2 h-4 w-4" />
                     <span className="flex-grow">{iconName}</span>
-                    {valueRef.current === iconName && <IconComponent className="ml-auto h-4 w-4 text-primary" />}
+                    {value === iconName && <IconComponent className="ml-auto h-4 w-4 text-primary" />}
                 </div>
             );
         },
-        [filteredIcons, onChange, dispatch],
+        [filteredIcons, value, onChange, dispatch],
     );
 
     return (
@@ -95,9 +91,9 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
             <DropdownMenu.Root open={isOpen} onOpenChange={handleOpenChange}>
                 <DropdownMenu.Trigger asChild>
                     <button className="flex h-9 w-full min-w-0 items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50">
-                        <span className="flex-grow text-left text-foreground">{valueRef.current ? valueRef.current : 'Select an icon'}</span>
-                        {valueRef.current &&
-                            React.createElement(icons[valueRef.current as IconName], {
+                        <span className="flex-grow text-left text-foreground">{value ? value : 'Select an icon'}</span>
+                        {value &&
+                            React.createElement(icons[value as IconName], {
                                 className: 'mx-2 h-4 w-4',
                             })}
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
@@ -120,11 +116,10 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
                     </DropdownMenu.Content>
                 </DropdownMenu.Portal>
             </DropdownMenu.Root>
-            {valueRef.current && (
+            {value && (
                 <button
                     onClick={() => {
-                        valueRef.current = null;
-                        onChange?.(valueRef.current);
+                        onChange?.(null);
                     }}
                     className="absolute top-0 right-0 p-2"
                 >
