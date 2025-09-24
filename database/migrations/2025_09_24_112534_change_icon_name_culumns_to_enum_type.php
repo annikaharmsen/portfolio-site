@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->enum('icon_name', array_column(LucideIcon::cases(), 'value'))->nullable()->change();
             });
 
-            Schema::table('technologgies', function (Blueprint $table) {
+            Schema::table('technologies', function (Blueprint $table) {
                 $table->enum('icon_name', array_column(LucideIcon::cases(), 'value'))->nullable()->change();
             });
         }
