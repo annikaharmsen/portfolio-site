@@ -25,7 +25,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Technologies',
-        href: '/skills',
+        href: '/technologies',
         icon: Wrench,
     },
 ];
