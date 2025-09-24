@@ -1,6 +1,6 @@
 'use client';
 
-import { setIconList, setIsOpen, setSearchTerm, setSelectedIcon } from '@/components/store';
+import { setIconList, setIsOpen, setSearchTerm } from '@/components/store';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
@@ -17,39 +17,26 @@ const ITEM_HEIGHT = 36;
 
 interface IconSelectorProps {
     id?: string;
-    value?: IconName;
-    onChange?: (selectedIcon: IconName) => void;
+    value?: IconName | null;
+    onChange?: (selectedIcon: IconName | null) => void;
     className: ClassNameValue;
 }
 
-const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value, onChange, className }: IconSelectorProps) => {
+const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = null, onChange, className }: IconSelectorProps) => {
     const dispatch = useDispatch();
-    const { searchTerm, selectedIcon, iconList, isOpen } = useSelector(
+    const { searchTerm, iconList, isOpen } = useSelector(
         (state: {
             iconSelector: {
                 searchTerm: string;
-                selectedIcon: IconName;
                 iconList: IconName[];
                 isOpen: boolean;
             };
         }) => state.iconSelector,
     );
     const searchInputRef = useRef<HTMLInputElement>(null);
-    const selectedIconRef = useRef<IconName | null>(null);
+    const valueRef = useRef<IconName | null>(value);
 
-    useEffect(() => {
-        if (value && value !== selectedIcon) {
-            console.log('Dispatching setSelectedIcon with:', value);
-            setSelectedIcon(value);
-        }
-    }, [value, selectedIcon, dispatch]);
-
-    useEffect(() => {
-        if (selectedIcon !== selectedIconRef.current) {
-            selectedIconRef.current = selectedIcon;
-            onChange?.(selectedIcon);
-        }
-    }, [selectedIcon, onChange]);
+    console.log('Renderring with (value, valueRef):', value, valueRef.current);
 
     useEffect(() => {
         dispatch(setIconList(Object.keys(icons) as IconName[]));
@@ -88,15 +75,19 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value, on
                 <div
                     style={style}
                     className="flex cursor-pointer items-center p-2 hover:bg-gray-100"
-                    onClick={() => dispatch(setSelectedIcon(iconName))}
+                    onClick={() => {
+                        valueRef.current = iconName;
+                        onChange?.(iconName);
+                        dispatch(setIsOpen(false));
+                    }}
                 >
                     <IconComponent className="mr-2 h-4 w-4" />
                     <span className="flex-grow">{iconName}</span>
-                    {selectedIcon === iconName && <IconComponent className="ml-auto h-4 w-4 text-blue-500" />}
+                    {valueRef.current === iconName && <IconComponent className="ml-auto h-4 w-4 text-primary" />}
                 </div>
             );
         },
-        [filteredIcons, selectedIcon, dispatch],
+        [filteredIcons, onChange, dispatch],
     );
 
     return (
@@ -104,9 +95,9 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value, on
             <DropdownMenu.Root open={isOpen} onOpenChange={handleOpenChange}>
                 <DropdownMenu.Trigger asChild>
                     <button className="flex h-9 w-full min-w-0 items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50">
-                        <span className="flex-grow text-left text-foreground">{selectedIcon ? selectedIcon : 'Select an icon'}</span>
-                        {selectedIcon &&
-                            React.createElement(icons[selectedIcon as IconName], {
+                        <span className="flex-grow text-left text-foreground">{valueRef.current ? valueRef.current : 'Select an icon'}</span>
+                        {valueRef.current &&
+                            React.createElement(icons[valueRef.current as IconName], {
                                 className: 'mx-2 h-4 w-4',
                             })}
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
@@ -129,8 +120,14 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value, on
                     </DropdownMenu.Content>
                 </DropdownMenu.Portal>
             </DropdownMenu.Root>
-            {selectedIcon && (
-                <button onClick={() => dispatch(setSelectedIcon(null))} className="absolute top-0 right-0 p-2">
+            {valueRef.current && (
+                <button
+                    onClick={() => {
+                        valueRef.current = null;
+                        onChange?.(valueRef.current);
+                    }}
+                    className="absolute top-0 right-0 p-2"
+                >
                     <X className="h-4 w-4" />
                 </button>
             )}
