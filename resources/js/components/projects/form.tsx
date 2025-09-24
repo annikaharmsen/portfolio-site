@@ -5,10 +5,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Skills, Technologies } from '@/types/models';
-import { router, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import React, { useCallback } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
@@ -36,23 +37,29 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
         description: project?.description || '',
     });
 
+    const controller = useController('projects');
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (project) {
-            put(`/projects/${project.id}`);
+            put(`/projects/${project.id}`, {
+                onSuccess: () => controller.show(project),
+            });
         } else {
-            post('/projects');
+            post('/projects', {
+                onSuccess: () => controller.index(),
+            });
         }
     };
 
     const handleCancel = () => {
-        router.get('/projects');
+        controller.index();
     };
 
     const handleDelete = () => {
         if (project && confirm('Are you sure you want to delete this project?')) {
-            router.delete(`/projects/${project.id}`);
+            controller.delete(project);
         }
     };
 

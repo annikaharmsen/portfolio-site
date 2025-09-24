@@ -1,6 +1,7 @@
+import useController from '@/hooks/use-controller';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, ProjectTag } from '@/types/models';
-import { router, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { useCallback } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, SaveButton } from '../app-buttons';
@@ -25,18 +26,22 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
         projects: tag?.projects?.map((project) => project.id) || [],
     });
 
+    const controller = useController(baseURI);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (tag) {
-            put(`/${baseURI}/${tag.id}`);
+            put(`/${baseURI}/${tag.id}`, {
+                onSuccess: () => controller.show(tag),
+            });
         } else {
             post(`/${baseURI}`);
         }
     };
 
     const handleCancel = () => {
-        router.get(`/${baseURI}`);
+        controller.index();
     };
 
     const handleProjectsChange = useCallback(
