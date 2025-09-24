@@ -2,6 +2,9 @@ import { router } from '@inertiajs/react';
 
 export default function useController<T extends { id: number }>(baseURI: string) {
     return {
+        index: () => {
+            router.get(`/${baseURI}`);
+        },
         show: (model: T) => {
             router.get(`/${baseURI}/${model.id}`);
         },
