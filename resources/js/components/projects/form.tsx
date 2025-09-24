@@ -10,8 +10,11 @@ import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Skills, Technologies } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
 import React, { useCallback } from 'react';
+import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput from '../badge-select-input';
+import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
+import { store } from '../store';
 
 interface ProjectFormProps {
     project?: Project;
@@ -20,7 +23,6 @@ interface ProjectFormProps {
 }
 
 export default function ProjectForm({ project, skills, technologies }: ProjectFormProps) {
-    console.log('technologies:', technologies, 'skills:', skills);
     const { data, setData, processing, errors, post, put } = useForm({
         icon_name: project?.icon_name || '',
         title: project?.title || '',
@@ -80,13 +82,15 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
                     <form onSubmit={handleSubmit}>
                         <FormGridLayout>
                             <>
-                                <Label htmlFor="icon_name">Icon Name</Label>
-                                <Input
-                                    id="icon_name"
-                                    value={data.icon_name}
-                                    onChange={(e) => setData('icon_name', e.target.value)}
-                                    placeholder="e.g. lucide-react"
-                                />
+                                <Label htmlFor="icon_name">Icon</Label>
+                                <Provider store={store}>
+                                    <IconSelectorDropdownClient
+                                        id="icon_name"
+                                        value={data.icon_name as IconName}
+                                        onChange={(selectedIcon) => setData('icon_name', selectedIcon || '')}
+                                        className="w-full"
+                                    />
+                                </Provider>
                                 {errors.icon_name && <InputError message={errors.icon_name} />}
                             </>
 
