@@ -1,7 +1,27 @@
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function HeaderContent() {
+    const [resumeExists, setResumeExists] = useState(false);
+
+    useEffect(() => {
+        const checkResumeExists = async () => {
+            const resumePath = import.meta.env.VITE_RESUME_PATH;
+            if (!resumePath) return;
+
+            try {
+                const response = await fetch(resumePath, { method: 'HEAD' });
+                const contentType = response.headers.get('content-type') || '';
+                const isDocument = response.ok && contentType.includes('application/pdf');
+                setResumeExists(isDocument);
+            } catch {
+                setResumeExists(false);
+            }
+        };
+
+        checkResumeExists();
+    }, []);
     return (
         <div className="absolute right-4 bottom-8 max-w-xs px-2 text-right sm:right-16 sm:bottom-16 sm:max-w-2xl lg:max-w-4xl">
             <div>
@@ -54,16 +74,18 @@ export default function HeaderContent() {
                         View My Work
                     </Button>
                 </a>
-                <a href={import.meta.env.VITE_RESUME_PATH} download={import.meta.env.VITE_RESUME_FILENAME}>
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        className="border-primary bg-transparent transition-all duration-300 hover:border-secondary hover:bg-secondary hover:text-secondary-foreground"
-                    >
-                        <Download className="mr-2 h-4 w-4" />
-                        Download Resume
-                    </Button>
-                </a>
+                {resumeExists && (
+                    <a href={import.meta.env.VITE_RESUME_PATH} download={import.meta.env.VITE_RESUME_FILENAME}>
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            className="border-primary bg-transparent transition-all duration-300 hover:border-secondary hover:bg-secondary hover:text-secondary-foreground"
+                        >
+                            <Download className="mr-2 h-4 w-4" />
+                            Download Resume
+                        </Button>
+                    </a>
+                )}
             </div>
         </div>
     );
