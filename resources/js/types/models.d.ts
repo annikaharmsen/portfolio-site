@@ -1,7 +1,9 @@
+import { LucideIcon } from 'lucide-react';
+
 export type Project = {
     //columns
     id: number;
-    icon_name: string;
+    icon: LucideIcon;
     title: string;
     subtitle: string;
     description: string;
@@ -24,7 +26,7 @@ export type Projects = Project[];
 export type ProjectTag = {
     //columns
     id: number;
-    icon_name: string;
+    icon: LucideIcon;
     name: string;
     // relations
     projects?: Projects;

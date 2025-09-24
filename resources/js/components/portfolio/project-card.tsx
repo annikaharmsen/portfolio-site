@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getIcon } from '@/lib/generated-icons';
 import { Project } from '@/types/models';
 import { ExternalLink, Github, Star } from 'lucide-react';
 import { Badge } from '../ui/badge';
@@ -33,10 +32,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                     <div className="flex items-center gap-3">
                         {/* lucide icon */}
                         <div className="rounded-lg p-2">
-                            {(() => {
-                                const IconComponent = getIcon(project.icon_name);
-                                return <IconComponent className="h-6 w-6 text-primary" />;
-                            })()}
+                            <project.icon className="h-6 w-6 text-primary" />
                         </div>
 
                         {/* title and subtitle */}

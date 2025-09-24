@@ -1,6 +1,5 @@
-import { getIcon } from '@/lib/generated-icons';
+import { LucideIcon } from 'lucide-react';
 
-export default function IconComponent({ icon_name }: { icon_name: string }) {
-    const IconComponent = getIcon(icon_name);
-    return <IconComponent className="m-auto h-5 w-5" />;
+export default function IconComponent({ icon: Icon }: { icon: LucideIcon }) {
+    return <Icon className="m-auto h-5 w-5" />;
 }
