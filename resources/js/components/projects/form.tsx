@@ -25,7 +25,7 @@ interface ProjectFormProps {
 
 export default function ProjectForm({ project, skills, technologies }: ProjectFormProps) {
     const { data, setData, processing, errors, post, put } = useForm({
-        icon_name: (project?.icon_name as IconName) || '',
+        icon_name: (project?.icon_name as IconName | null) || null,
         title: project?.title || '',
         subtitle: project?.subtitle || '',
         repo_link: project?.repo_link || '',

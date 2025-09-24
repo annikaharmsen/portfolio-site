@@ -21,7 +21,7 @@ interface TagFormProps {
 
 export default function TagForm({ tag, baseURI, projects, className }: TagFormProps) {
     const { data, setData, processing, errors, post, put } = useForm({
-        icon_name: tag?.icon_name || '',
+        icon_name: (tag?.icon_name as IconName | null) || null,
         name: tag?.name || '',
         projects: tag?.projects?.map((project) => project.id) || [],
     });
@@ -32,9 +32,7 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
         e.preventDefault();
 
         if (tag) {
-            put(`/${baseURI}/${tag.id}`, {
-                onSuccess: () => controller.show(tag),
-            });
+            put(`/${baseURI}/${tag.id}`);
         } else {
             post(`/${baseURI}`);
         }
@@ -60,7 +58,7 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
                         <IconSelectorDropdownClient
                             id="icon"
                             value={data.icon_name as IconName}
-                            onChange={(selectedIcon) => setData('icon_name', selectedIcon)}
+                            onChange={(selectedIcon: IconName | null) => setData('icon_name', selectedIcon)}
                             className="w-full"
                         />
                     </Provider>
