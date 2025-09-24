@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\LucideIcon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSkillRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class UpdateSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'icon_name' => 'nullable|string|min:1|max:255',
+            'icon_name' => ['nullable', Rule::enum(LucideIcon::class)],
             'name' => 'nullable|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id'
         ];
@@ -31,8 +33,7 @@ class UpdateSkillRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'icon_name.required' => 'Icon name is required.',
-            'icon_name.min' => 'Icon name cannot be empty.',
+            'icon_name.Illuminate\Validation\Rules\Enum' => 'Invalid icon selection.',
             'name.required' => 'Skill name is required.',
             'name.min' => 'Skill name cannot be empty.',
             'projects' => 'Invalid project selection.'

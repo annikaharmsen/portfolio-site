@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\LucideIcon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTechnologyRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class StoreTechnologyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'icon_name' => 'required|string|min:1|max:255',
+            'icon_name' => ['required', Rule::enum(LucideIcon::class)],
             'name' => 'required|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id'
         ];
@@ -31,8 +33,8 @@ class StoreTechnologyRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'icon_name.required' => 'Icon name is required.',
-            'icon_name.min' => 'Icon name cannot be empty.',
+            'icon_name.required' => 'Icon is required.',
+            'icon_name.Illuminate\Validation\Rules\Enum' => 'Invalid icon selection.',
             'name.required' => 'Technology name is required.',
             'name.min' => 'Technology name cannot be empty.',
             'projects' => 'Invalid projects selection.'
