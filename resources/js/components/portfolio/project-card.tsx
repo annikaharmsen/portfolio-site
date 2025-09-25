@@ -45,25 +45,26 @@ export default function ProjectCard({ project }: { project: Project }) {
                             <DateEl />
                         </div>
                     </div>
-                    <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />
+                    {project.demo_link ||
+                        (project.repo_link && <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />)}
                 </div>
             </CardHeader>
             <CardContent className="mx-6 space-y-4">
                 {/* description */}
                 <p className="leading-relaxed whitespace-pre-wrap">{project.description}</p>
 
-                {/* skill list */}
-                {!!project.skills?.length && (
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <IconList items={project.skills} />
+                {/* tech list */}
+                {!!project.technologies?.length && (
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <IconList items={project.technologies} />
                     </div>
                 )}
 
-                {/* tech stack badges */}
-                {!!project.technologies?.length && (
+                {/* skill badges */}
+                {!!project.skills?.length && (
                     <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((technology) => (
-                            <Badge variant="secondary">{technology.name}</Badge>
+                        {project.skills.map((skill) => (
+                            <Badge variant="secondary">{skill.name}</Badge>
                         ))}
                     </div>
                 )}
