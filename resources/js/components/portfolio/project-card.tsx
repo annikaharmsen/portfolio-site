@@ -7,7 +7,9 @@ import { Badge } from '../ui/badge';
 import IconList from './icon-list';
 
 export default function ProjectCard({ project }: { project: Project }) {
-    const mainLink = project.demo_link || project.demo_link || null;
+    const mainLink = project.demo_link || project.repo_link || null;
+
+    console.log(mainLink);
 
     const DateEl = () => (
         <>
