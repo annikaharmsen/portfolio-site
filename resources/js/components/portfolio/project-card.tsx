@@ -7,6 +7,8 @@ import { Badge } from '../ui/badge';
 import IconList from './icon-list';
 
 export default function ProjectCard({ project }: { project: Project }) {
+    const mainLink = project.demo_link || project.demo_link || null;
+
     const DateEl = () => (
         <>
             {project.date && (
@@ -27,7 +29,16 @@ export default function ProjectCard({ project }: { project: Project }) {
     };
 
     return (
-        <Card className="group cursor-pointer transition-all hover:scale-101 hover:shadow-lg">
+        <Card
+            onClick={
+                mainLink
+                    ? (e) => {
+                          openLink(mainLink, e);
+                      }
+                    : undefined
+            }
+            className="group cursor-pointer transition-all hover:scale-101 hover:shadow-lg"
+        >
             <CardHeader>
                 <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
