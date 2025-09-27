@@ -42,6 +42,17 @@ return [
             'synchronous' => null,
         ],
 
+        'demo' => [
+            'driver' => 'sqlite',
+            'url' => env('DEMO_DB_URL'),
+            'database' => env('DEMO_DB_DATABASE', database_path('demo.sqlite')),
+            'prefix' => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'busy_timeout' => null,
+            'journal_mode' => null,
+            'synchronous' => null,
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),

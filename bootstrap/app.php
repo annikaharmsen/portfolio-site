@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/admin.php'));
 
             if (config('demo.enabled')) Route::domain('admin-demo.' . env('APP_DOMAIN'))
-                ->middleware(['web'])
+                ->middleware(['web', SetDemoDatabase::class])
                 ->group(base_path('routes/admin-demo.php'));
 
             Route::middleware('web')
