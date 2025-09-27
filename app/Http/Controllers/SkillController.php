@@ -44,7 +44,7 @@ class SkillController extends Controller
 
         $skill->projects()->sync($validated['projects']);
 
-        return redirect(route('skills.index'));
+        return redirect('/skills');
     }
 
     /**
@@ -79,7 +79,7 @@ class SkillController extends Controller
 
         if (isset($validated['projects'])) $skill->projects()->sync($validated['projects']);
 
-        return redirect(route('skills.index'));
+        return redirect('/skills');
     }
 
     /**
@@ -89,7 +89,7 @@ class SkillController extends Controller
     {
         $skill->delete();
 
-        return redirect(route('skills.index'));;
+        return redirect('/skills');;
     }
 
     public function bulkDelete(BulkDeleteSkillsRequest $request)

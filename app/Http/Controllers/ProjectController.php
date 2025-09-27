@@ -39,9 +39,7 @@ class ProjectController extends Controller
         $project->skills()->sync($validated['skills']);
         $project->technologies()->sync($validated['technologies']);
 
-        return redirect(route('projects.show', [
-            'project' => $project
-        ]));
+        return redirect("/projects/{$project->id}");
     }
 
     public function show(Project $project)
@@ -75,7 +73,7 @@ class ProjectController extends Controller
     {
         $project->delete();
 
-        return redirect(route('projects.index'));;
+        return redirect('/projects');
     }
 
     public function bulkDelete(BulkDeleteProjectsRequest $request)

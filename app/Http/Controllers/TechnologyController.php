@@ -45,7 +45,7 @@ class TechnologyController extends Controller
 
         $technology->projects()->sync($validated['projects']);
 
-        return redirect(route('technologies.index'));
+        return redirect('/technologies');
     }
 
     /**
@@ -80,7 +80,7 @@ class TechnologyController extends Controller
 
         if (isset($validated['projects'])) $technology->projects()->sync($validated['projects']);
 
-        return redirect(route('technologies.index'));
+        return redirect('/technologies');
     }
 
     /**
@@ -90,7 +90,7 @@ class TechnologyController extends Controller
     {
         $technology->delete();
 
-        return redirect(route('technologies.index'));;
+        return redirect('/technologies');;
     }
 
     public function bulkDelete(BulkDeleteTechnologiesRequest $request)
