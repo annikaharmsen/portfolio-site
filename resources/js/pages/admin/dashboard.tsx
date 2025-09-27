@@ -24,7 +24,7 @@ export default function Dashboard({ projects, skills, technologies }: DashboardP
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="grid h-full w-full gap-4 rounded-xl p-4 min-[1500px]:grid-cols-2">
+            <div className="grid h-full w-full gap-4 rounded-xl min-[1500px]:grid-cols-2">
                 {cards &&
                     cards.map((card: ReactNode) => (
                         <Card className="min-w-fit">

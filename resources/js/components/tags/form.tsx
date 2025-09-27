@@ -47,7 +47,7 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
             setData('projects', updatedValue);
         },
         [setData],
-    ); //TODO
+    );
 
     return (
         <form onSubmit={handleSubmit} className={className}>

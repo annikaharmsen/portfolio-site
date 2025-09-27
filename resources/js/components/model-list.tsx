@@ -93,7 +93,6 @@ export default function ModelList<T extends { id: number }>({
                         {filteredModels.length > 0 ? (
                             filteredModels.map((model) => {
                                 const isSelected = modelSelection.isSelected(model.id);
-                                console.log(model);
                                 return (
                                     <tr key={model.id} className="border-b hover:bg-muted/50" onClick={() => handle[rowClickBehavior]?.(model)}>
                                         <td className="p-2">
