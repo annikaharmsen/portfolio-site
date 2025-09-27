@@ -13,7 +13,8 @@ class StoreProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        // Allow access if using demo database or if authenticated
+        return config('database.default') === 'demo' || auth()->check();
     }
 
     /**

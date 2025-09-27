@@ -13,7 +13,7 @@ class UpdateProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return config('database.default') === 'demo' || auth()->check();
     }
 
     /**
