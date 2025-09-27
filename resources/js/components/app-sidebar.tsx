@@ -4,7 +4,8 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { DemoConfig } from '@/types/demo';
+import { Link, usePage } from '@inertiajs/react';
 import { BadgeCheck, FolderClosed, LayoutGrid, Wrench } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
@@ -33,6 +34,10 @@ const mainNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
+    const demo_config = usePage().props.demo_config as DemoConfig;
+
+    console.log(demo_config);
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -53,7 +58,7 @@ export function AppSidebar() {
 
             <SidebarFooter>
                 <NavFooter items={footerNavItems} className="mt-auto" />
-                <NavUser />
+                {!demo_config?.enabled && <NavUser />}
             </SidebarFooter>
         </Sidebar>
     );
