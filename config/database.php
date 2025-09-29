@@ -42,16 +42,14 @@ return [
             'synchronous' => null,
         ],
 
-        'demo' => [
-            'driver' => 'sqlite',
-            'url' => env('DEMO_DB_URL'),
-            'database' => env('DEMO_DB_DATABASE', database_path('demo.sqlite')),
-            'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
-            'busy_timeout' => null,
-            'journal_mode' => null,
-            'synchronous' => null,
-        ],
+        'demo' => array_merge(config('database.connections.' . env('DB_CONNECTION')), [
+            'database' => match(env('DB_CONNECTION')) {
+                'sqlite' => env('DEMO_DB_DATABASE', database_path('demo.sqlite')),
+                'mysql' => env('DEMO_DB_DATABASE', env('DB_DATABASE', 'laravel') . '_demo'),
+                'pgsql' => env('DEMO_DB_DATABASE', env('DB_DATABASE', 'laravel') . '_demo'),
+                default => env('DEMO_DB_DATABASE', database_path('demo.sqlite')),
+            },
+        ]),
 
         'mysql' => [
             'driver' => 'mysql',
