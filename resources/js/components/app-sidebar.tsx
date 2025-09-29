@@ -34,9 +34,7 @@ const mainNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
-    const demo_config = usePage().props.demo_config as DemoConfig;
-
-    console.log(demo_config);
+    const demoConfig = usePage().props.demo_config as DemoConfig;
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -58,7 +56,7 @@ export function AppSidebar() {
 
             <SidebarFooter>
                 <NavFooter items={footerNavItems} className="mt-auto" />
-                {!demo_config?.enabled && <NavUser />}
+                {!demoConfig?.enabled && <NavUser />}
             </SidebarFooter>
         </Sidebar>
     );

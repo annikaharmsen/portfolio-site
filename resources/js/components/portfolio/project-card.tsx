@@ -9,8 +9,6 @@ import IconList from './icon-list';
 export default function ProjectCard({ project }: { project: Project }) {
     const mainLink = project.demo_link || project.repo_link || null;
 
-    console.log(mainLink);
-
     const DateEl = () => (
         <>
             {project.date && (
