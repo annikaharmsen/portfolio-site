@@ -74,8 +74,6 @@ class FreshDemoMiddleware
         $lastResetTime = Carbon::parse(Cache::get(config('demo.reset_time_cache_key')));
         $todayMidnight = Carbon::now()->startOfDay();
 
-        Log::info('Demo: checking for daily reset.', ['last_reset_at' => $lastResetTime, 'last_midnight' => $todayMidnight, 'last_reset_before_last_midnight' => $lastResetTime->lt($todayMidnight)]);
-
         if ($lastResetTime->lt($todayMidnight)) {
             try {
                 Log::info('Demo: Detected new day.', [
