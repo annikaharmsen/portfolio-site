@@ -7,11 +7,14 @@ use App\Http\Controllers\TechnologyController;
 use App\Models\Project;
 use App\Models\Skill;
 use App\Models\Technology;
+use App\Services\DemoService;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 if (config('demo.allow_manual_reset')){
-    Route::post('/reset', [DemoController::class, 'reset'])->name('demo.reset');
+    Route::post('/reset', function(DemoService $demoService) {
+        $demoService->reset();
+    })->name('demo.reset');
 }
 Route::get('/status', [DemoController::class, 'status'])->name('demo.status');
 

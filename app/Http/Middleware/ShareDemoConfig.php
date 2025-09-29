@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Cache;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,7 +14,8 @@ class ShareDemoConfig
         Inertia::share('demo_config', [
             'enabled' => config('demo.enabled'),
             'show_banner' => config('demo.show_banner'),
-            'reset_at' => session()->get('demo_reset_at'),
+            'allow_manual_reset' => config('demo.allow_manual_reset'),
+            'reset_at' => Cache::get(config('demo.reset_time_cache_key')),
         ]);
 
         return $next($request);

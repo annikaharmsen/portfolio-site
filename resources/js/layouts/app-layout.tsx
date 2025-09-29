@@ -17,7 +17,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
             <div className="mx-12 my-8">
-                {demoConfig?.enabled && demoConfig?.show_banner && <DemoBanner demoConfig={demoConfig} resetAt={demoConfig.reset_at} />}
+                {demoConfig?.enabled && demoConfig?.show_banner && <DemoBanner demoConfig={demoConfig} />}
                 {children}
             </div>
         </AppLayoutTemplate>

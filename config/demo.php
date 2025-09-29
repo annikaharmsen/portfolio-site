@@ -13,13 +13,8 @@ return [
 
     'enabled' => env('DEMO_MODE', false),
 
-    'demo_user' => [
-        'name' => env('DEMO_USER_NAME', 'Demo User'),
-        'email' => env('DEMO_USER_EMAIL', 'demo@annikaharmsen.com'),
-        'password' => env('DEMO_USER_PASSWORD', 'demo123'),
-    ],
-
-    'reset_on_new_session' => env('DEMO_RESET_ON_SESSION', true),
+    'allow_manual_reset' => env('DEMO_ALLOW_MANUAL_RESET', false),
+    'reset_on_new_session' => env('DEMO_RESET_ON_SESSION', false),
     'reset_daily' => env('DEMO_RESET_DAILY', false),
 
     'show_banner' => env('DEMO_SHOW_BANNER', true),
