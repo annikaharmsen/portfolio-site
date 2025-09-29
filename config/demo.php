@@ -20,9 +20,11 @@ return [
     ],
 
     'reset_on_new_session' => env('DEMO_RESET_ON_SESSION', true),
+    'reset_daily' => env('DEMO_RESET_DAILY', false),
 
     'show_banner' => env('DEMO_SHOW_BANNER', true),
 
     // Cache key for tracking last reset session
-    'cache_key' => 'demo_last_reset_session',
+    'reset_session_cache_key' => 'demo_last_reset_session',
+    'reset_time_cache_key' => 'demo_last_reset_time',
 ];
