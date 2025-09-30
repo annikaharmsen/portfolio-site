@@ -15,10 +15,6 @@ return new class extends Migration
     {
         if (DB::getDriverName() !== 'sqlite') {
             // Use enum for MySQL/PostgreSQL
-            // Skip if tables don't exist (fresh migration)
-            if (!Schema::hasTable('projects') || !Schema::hasColumn('projects', 'icon_name')) {
-                return;
-            }
 
             Schema::table('projects', function (Blueprint $table) {
                 $table->enum('icon_name', array_column(LucideIcon::cases(), 'value'))->nullable()->change();
