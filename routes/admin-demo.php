@@ -24,14 +24,14 @@ Route::get('/', function () {
         'skills' => Skill::get(),
         'technologies' => Technology::get(),
     ]);
-})->name('demo-home');
+})->name('demo.home');
 
-Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])->name('projects.bulk-delete');
-Route::resource('projects', ProjectController::class);
+Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])->name('demo.projects.bulk-delete');
+Route::resource('demo.projects', ProjectController::class);
 
-Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])->name('skills.bulk-delete');
-Route::resource('skills', SkillController::class);
+Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])->name('demo.skills.bulk-delete');
+Route::resource('demo.skills', SkillController::class);
 
-Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('technologies.bulk-delete');
-Route::resource('technologies', TechnologyController::class);
+Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('demo.technologies.bulk-delete');
+Route::resource('demo.technologies', TechnologyController::class);
 
