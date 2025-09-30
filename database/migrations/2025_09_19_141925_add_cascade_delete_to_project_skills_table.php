@@ -16,9 +16,6 @@ return new class extends Migration
         Schema::table('project_skills', function (Blueprint $table) {
             // Check if columns exist before modifying constraints
             if (Schema::hasColumn('project_skills', 'project_id')) {
-                try {
-                    $table->dropForeign(['project_id']);
-                } catch (Exception $e) {}
 
                 // Add new foreign key constraints with cascade delete
                 $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
@@ -28,9 +25,6 @@ return new class extends Migration
             }
 
             if (Schema::hasColumn('project_skills', 'skill_id')) {
-                try {
-                    $table->dropForeign(['skill_id']);
-                } catch (Exception $e) {}
 
                 // Add new foreign key constraints with cascade delete
                 $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
