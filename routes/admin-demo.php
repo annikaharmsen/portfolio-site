@@ -24,7 +24,7 @@ Route::get('/', function () {
         'skills' => Skill::get(),
         'technologies' => Technology::get(),
     ]);
-})->name('home');
+})->name('demo-home');
 
 Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])->name('projects.bulk-delete');
 Route::resource('projects', ProjectController::class);
