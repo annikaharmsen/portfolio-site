@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-const connections = [
+$connections = [
 
     'sqlite' => [
         'driver' => 'sqlite',
@@ -86,7 +86,7 @@ const connections = [
     ],
 ];
 
-connections['demo'] = array_merge(config('database.connections.' . env('DB_CONNECTION', 'sqlite'), []), [
+$connections['demo'] = array_merge(config('database.connections.' . env('DB_CONNECTION', 'sqlite'), []), [
     'database' => match(env('DB_CONNECTION')) {
         'sqlite' => env('DEMO_DB_DATABASE', database_path('demo.sqlite')),
         'mysql' => env('DEMO_DB_DATABASE', env('DB_DATABASE', 'laravel') . '_demo'),
@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'connections' => connections,
+    'connections' => $connections,
 
     /*
     |--------------------------------------------------------------------------
