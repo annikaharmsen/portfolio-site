@@ -48,8 +48,10 @@ return new class extends Migration
     {
         Schema::table('project_skills', function (Blueprint $table) {
             // Drop cascade foreign key constraints
-            $table->dropForeign(['project_id']);
-            $table->dropForeign(['skill_id']);
+            try {
+                $table->dropForeign(['project_id']);
+                $table->dropForeign(['skill_id']);
+            } catch (Exception $e) {}
 
             // Restore original foreign key constraints without cascade
             $table->foreignIdFor(Project::class);
