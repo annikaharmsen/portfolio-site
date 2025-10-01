@@ -32,16 +32,10 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
         e.preventDefault();
 
         if (tag) {
-            put(`/${baseURI}/${tag.id}`, {
-                onSuccess: () => controller.index(),
-            });
+            put(`/${baseURI}/${tag.id}`);
         } else {
-            post(`/${baseURI}`, {
-                onSuccess: () => controller.index(),
-            });
+            post(`/${baseURI}`);
         }
-
-        controller.index();
     };
 
     const handleCancel = () => {

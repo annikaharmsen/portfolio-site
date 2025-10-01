@@ -42,7 +42,6 @@ export default function ModelList<T extends { id: number }>({
     const handle = {
         select_all: () => modelSelection.selectAll(filteredModelIDs),
         select: (model: T) => modelSelection.select(model.id),
-        // CONTROLLER ABSTRACTION
         ...modelController,
         bulk_delete: () => {
             modelController.bulk_delete(modelSelection.selected);

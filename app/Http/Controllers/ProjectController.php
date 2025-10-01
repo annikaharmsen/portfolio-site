@@ -39,7 +39,7 @@ class ProjectController extends Controller
         $project->skills()->sync($validated['skills']);
         $project->technologies()->sync($validated['technologies']);
 
-        return;
+        return back();
     }
 
     public function show(Project $project)
@@ -66,20 +66,20 @@ class ProjectController extends Controller
         if (isset($validated['skills'])) $project->skills()->sync($validated['skills']);
         if (isset($validated['technologies'])) $project->technologies()->sync($validated['technologies']);
 
-        return;
+        return back();
     }
 
     public function destroy(Project $project)
     {
         $project->delete();
 
-        return;
+        return back();
     }
 
     public function bulkDelete(BulkDeleteProjectsRequest $request)
     {
         $deletedCount = Project::destroy($request->getProjectIds());
 
-        return;
+        return back();
     }
 }
