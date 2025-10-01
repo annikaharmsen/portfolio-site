@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
+import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Skills, Technologies } from '@/types/models';
 import { useForm } from '@inertiajs/react';
@@ -24,7 +25,7 @@ interface ProjectFormProps {
 }
 
 export default function ProjectForm({ project, skills, technologies }: ProjectFormProps) {
-    const { data, setData, processing, errors, post, put } = useForm({
+    const { data, setData, processing, errors, post, put, isDirty } = useForm({
         icon_name: (project?.icon_name as IconName | null) || null,
         title: project?.title || '',
         subtitle: project?.subtitle || '',
@@ -38,6 +39,9 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
     });
 
     const controller = useController('projects');
+
+    // Warn user about unsaved changes
+    useUnsavedWarning(isDirty && !processing);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

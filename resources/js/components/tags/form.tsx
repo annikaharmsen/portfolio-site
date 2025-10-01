@@ -1,4 +1,5 @@
 import useController from '@/hooks/use-controller';
+import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, ProjectTag } from '@/types/models';
 import { useForm } from '@inertiajs/react';
@@ -20,13 +21,15 @@ interface TagFormProps {
 }
 
 export default function TagForm({ tag, baseURI, projects, className }: TagFormProps) {
-    const { data, setData, processing, errors, post, put } = useForm({
+    const { data, setData, processing, errors, post, put, isDirty } = useForm({
         icon_name: (tag?.icon_name as IconName | null) || null,
         name: tag?.name || '',
         projects: tag?.projects?.map((project) => project.id) || [],
     });
 
     const controller = useController(baseURI);
+
+    useUnsavedWarning(isDirty && !processing);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
