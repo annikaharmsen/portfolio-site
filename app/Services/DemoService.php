@@ -24,6 +24,11 @@ class DemoService
                 '--force' => true
             ]);
 
+            Artisan::call('db:seed', [
+                '--database' => 'demo',
+                '--force' => true
+            ]);
+
             Log::info('Demo: Database reset completed successfully');
 
             return true;
