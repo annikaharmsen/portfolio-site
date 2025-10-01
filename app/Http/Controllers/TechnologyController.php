@@ -90,13 +90,13 @@ class TechnologyController extends Controller
     {
         $technology->delete();
 
-        return back();
+        return redirect('/technologies');
     }
 
     public function bulkDelete(BulkDeleteTechnologiesRequest $request)
     {
         $deletedCount = Technology::destroy($request->getTechnologyIds());
 
-        return back();
+        return redirect('/technologies');
     }
 }

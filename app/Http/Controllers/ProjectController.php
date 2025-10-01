@@ -73,13 +73,13 @@ class ProjectController extends Controller
     {
         $project->delete();
 
-        return back();
+        return redirect('/projects');
     }
 
     public function bulkDelete(BulkDeleteProjectsRequest $request)
     {
         $deletedCount = Project::destroy($request->getProjectIds());
 
-        return back();
+        return redirect('/projects');
     }
 }

@@ -89,13 +89,13 @@ class SkillController extends Controller
     {
         $skill->delete();
 
-        return back();
+        return redirect('/skills');
     }
 
     public function bulkDelete(BulkDeleteSkillsRequest $request)
     {
         $deletedCount = Skill::destroy($request->getSkillIds());
 
-        return back();
+        return redirect('/skills');
     }
 }
