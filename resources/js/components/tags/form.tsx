@@ -36,6 +36,8 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
         } else {
             post(`/${baseURI}`);
         }
+
+        controller.index();
     };
 
     const handleCancel = () => {
