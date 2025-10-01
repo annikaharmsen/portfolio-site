@@ -56,8 +56,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                             <DateEl />
                         </div>
                     </div>
-                    {project.demo_link ||
-                        (project.repo_link && <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />)}
+                    {!!mainLink && <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />}
                 </div>
             </CardHeader>
             <CardContent className="mx-6 space-y-4">
