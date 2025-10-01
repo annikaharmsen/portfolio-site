@@ -16,7 +16,6 @@ if (config('demo.allow_manual_reset')){
         $demoService->reset();
     })->name('demo.reset');
 }
-Route::get('/status', [DemoController::class, 'status'])->name('demo.status');
 
 Route::get('/', function () {
     return Inertia::render('admin/dashboard', [
