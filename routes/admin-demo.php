@@ -26,11 +26,11 @@ Route::get('/', function () {
 })->name('demo.home');
 
 Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])->name('demo.projects.bulk-delete');
-Route::resource('demo.projects', ProjectController::class);
+Route::resource('projects', ProjectController::class)->names('demo.projects');
 
 Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])->name('demo.skills.bulk-delete');
-Route::resource('demo.skills', SkillController::class);
+Route::resource('skills', SkillController::class)->names('demo.skills');
 
 Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('demo.technologies.bulk-delete');
-Route::resource('demo.technologies', TechnologyController::class);
+Route::resource('technologies', TechnologyController::class)->names('demo.technologis');
 
