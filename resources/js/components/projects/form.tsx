@@ -43,12 +43,14 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
         e.preventDefault();
 
         if (project) {
-            put(`/projects/${project.id}`);
+            put(`/projects/${project.id}`, {
+                onSuccess: () => controller.index(),
+            });
         } else {
-            post('/projects');
+            post('/projects', {
+                onSuccess: () => controller.index(),
+            });
         }
-
-        controller.index();
     };
 
     const handleCancel = () => {
