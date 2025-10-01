@@ -32,9 +32,13 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
         e.preventDefault();
 
         if (tag) {
-            put(`/${baseURI}/${tag.id}`);
+            put(`/${baseURI}/${tag.id}`, {
+                onSuccess: () => controller.index(),
+            });
         } else {
-            post(`/${baseURI}`);
+            post(`/${baseURI}`, {
+                onSuccess: () => controller.index(),
+            });
         }
     };
 
