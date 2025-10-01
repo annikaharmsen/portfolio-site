@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class SetDemoDatabase
 {
@@ -17,6 +18,9 @@ class SetDemoDatabase
         // Set the default database connection to 'demo'
         Config::set('database.default', 'demo');
         DB::purge('demo');
+
+        Log::info('Current DB connection: ' . config('database.default'));
+        Log::info('Demo DB connection config: ' . json_encode(config('database.connections.demo')));
 
         return $next($request);
     }
