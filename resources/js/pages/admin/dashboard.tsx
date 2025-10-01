@@ -16,8 +16,8 @@ interface DashboardProps {
 export default function Dashboard({ projects, skills, technologies }: DashboardProps) {
     const cards = [
         <ModelList models={projects} columns={ProjectTableColumns} resource="projects" searchBy="title" />,
-        <ModelList models={skills} columns={TagTableColumns} resource="skills" searchBy="name" />,
-        <ModelList models={technologies} columns={TagTableColumns} resource="technologies" searchBy="name" />,
+        <ModelList models={skills} columns={TagTableColumns} resource="skills" searchBy="name" rowClickBehavior="edit" />,
+        <ModelList models={technologies} columns={TagTableColumns} resource="technologies" searchBy="name" rowClickBehavior="edit" />,
     ];
     const breadcrumbs = useBreadcrumbs().getBreadcrumbs('dashboard');
 
