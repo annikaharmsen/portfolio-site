@@ -6,6 +6,9 @@ import { FeaturedStar } from './featured-star';
 
 export default function ProjectShowHeader({ project }: { project: Project }) {
     const controller = useController<Project>('projects');
+    const handleDelete = () => {
+        if (project && confirm('Are you sure you want to delete this project?')) controller.delete(project);
+    };
 
     return (
         <div className="flex items-center justify-between pb-8">
@@ -16,7 +19,7 @@ export default function ProjectShowHeader({ project }: { project: Project }) {
             <div className="flex items-center space-x-2">
                 <FeaturedStar project={project} className="mx-4 size-5" />
                 <EditButton variant="outline" onClick={() => controller.edit(project)} />
-                <DeleteButton onClick={() => controller.delete(project)} showIcon />
+                <DeleteButton onClick={handleDelete} showIcon />
             </div>
         </div>
     );

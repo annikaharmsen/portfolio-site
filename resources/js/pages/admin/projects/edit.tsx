@@ -1,3 +1,4 @@
+import { H1 } from '@/components/headings';
 import ProjectForm from '@/components/projects/form';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
@@ -16,7 +17,12 @@ export default function EditProject({ project, skills, technologies }: EditProje
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={project.title} />
-            <ProjectForm project={project} skills={skills} technologies={technologies} />
+            <div className="m-12 *:mb-12 md:min-w-160">
+                <div className="flex items-center justify-between *:my-0">
+                    <H1>Edit Project</H1>
+                </div>
+                <ProjectForm project={project} skills={skills} technologies={technologies} />
+            </div>
         </AppLayout>
     );
 }

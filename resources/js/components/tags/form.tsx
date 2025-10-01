@@ -3,9 +3,9 @@ import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, ProjectTag } from '@/types/models';
 import { useForm } from '@inertiajs/react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
-import { CancelButton, SaveButton } from '../app-buttons';
+import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
@@ -27,9 +27,11 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
         projects: tag?.projects?.map((project) => project.id) || [],
     });
 
+    const [deleting, setDeleting] = useState(false);
+
     const controller = useController(baseURI);
 
-    useUnsavedWarning(isDirty && !processing);
+    useUnsavedWarning(isDirty && !processing && !deleting);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,6 +49,13 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
 
     const handleCancel = () => {
         controller.index();
+    };
+
+    const handleDelete = () => {
+        if (tag && confirm('Are you sure you want to delete?')) {
+            setDeleting(true);
+            controller.delete(tag);
+        }
     };
 
     const handleProjectsChange = useCallback(
@@ -91,11 +100,14 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
                 </div>
             </FormGridLayout>
 
-            <div className="flex justify-end space-x-2">
-                <CancelButton onClick={handleCancel} />
-                <SaveButton disabled={processing} onClick={handleSubmit}>
-                    {processing ? 'Saving...' : tag ? 'Update' : 'Create'}
-                </SaveButton>
+            <div className="mt-8 flex justify-between">
+                {tag && <DeleteButton onClick={handleDelete} disabled={deleting} />}
+                <div className="flex w-full justify-end space-x-2">
+                    <CancelButton onClick={handleCancel} />
+                    <SaveButton disabled={processing} onClick={handleSubmit}>
+                        {processing ? 'Saving...' : tag ? 'Update' : 'Create'}
+                    </SaveButton>
+                </div>
             </div>
         </form>
     );
