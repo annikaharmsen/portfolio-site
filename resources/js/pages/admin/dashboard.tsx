@@ -27,7 +27,7 @@ export default function Dashboard({ projects, skills, technologies }: DashboardP
             <div className="grid h-full w-full gap-4 rounded-xl min-[1500px]:grid-cols-2">
                 {cards &&
                     cards.map((card: ReactNode) => (
-                        <Card className="min-w-fit">
+                        <Card className="max-w-full overflow-x-auto">
                             <CardContent>{card}</CardContent>
                         </Card>
                     ))}

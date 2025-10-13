@@ -6,27 +6,27 @@ export const ProjectTableColumns = [
     {
         name: 'Icon',
         dataComponent: (project: Project) => (
-            <td>
+            <td className="p-2">
                 <IconComponent icon_name={project.icon_name} className="mx-auto" />
             </td>
         ),
     },
     {
         name: 'Title',
-        headingComponent: <th className="text-left">Name</th>,
-        dataComponent: (project: Project) => <td>{project.title}</td>,
+        headingComponent: <th className="p-2 text-left whitespace-nowrap">Name</th>,
+        dataComponent: (project: Project) => <td className="p-2">{project.title}</td>,
     },
     {
         name: 'Featured',
         dataComponent: (project: Project) => (
-            <td>
+            <td className="p-2">
                 <FeaturedStar project={project} />
             </td>
         ),
     },
     {
         name: 'Date',
-        headingComponent: <th className="pr-4 text-right">Date</th>,
-        dataComponent: (project: Project) => <td className="pr-4 text-right">{project.date}</td>,
+        headingComponent: <th className="p-2 text-right whitespace-nowrap">Date</th>,
+        dataComponent: (project: Project) => <td className="p-2 text-right">{project.date}</td>,
     },
 ];

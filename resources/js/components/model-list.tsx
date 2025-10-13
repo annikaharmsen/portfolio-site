@@ -50,7 +50,7 @@ export default function ModelList<T extends { id: number }>({
     };
 
     return (
-        <div className={cn('min-w-120 space-y-4', className)}>
+        <div className={cn('relative w-full space-y-4', className)}>
             {/* search and delete  */}
             <div className="flex justify-between gap-2">
                 <Input
@@ -65,8 +65,8 @@ export default function ModelList<T extends { id: number }>({
             </div>
 
             {/* table */}
-            <div className="rounded-md border">
-                <table className="w-full">
+            <div className="overflow-x-auto rounded-md border">
+                <table className="w-max min-w-full">
                     <thead>
                         <tr className="border-b">
                             <th className="p-2 text-left">
@@ -84,7 +84,13 @@ export default function ModelList<T extends { id: number }>({
                             {/* table headings */}
                             {models.length > 0 &&
                                 columns.map((column) => {
-                                    return column.headingComponent ?? <th key={column.name}>{column.name}</th>;
+                                    return (
+                                        column.headingComponent ?? (
+                                            <th key={column.name} className="p-2 whitespace-nowrap">
+                                                {column.name}
+                                            </th>
+                                        )
+                                    );
                                 })}
                         </tr>
                     </thead>
@@ -109,11 +115,13 @@ export default function ModelList<T extends { id: number }>({
                             })
                         ) : (
                             <tr className="h-24 border-b text-center text-muted-foreground">
-                                <td colSpan={5}>No models found.</td>
+                                <td colSpan={columns.length + 1}>No models found.</td>
                             </tr>
                         )}
-                        <tr onClick={() => handle.create()} className="h-12 text-center hover:bg-accent/50">
-                            <td colSpan={5}>+ Add Model</td>
+                        <tr onClick={() => handle.create()} className="h-12 w-full text-center hover:bg-accent/50">
+                            <td colSpan={columns.length + 1}>
+                                <span className="absolute bottom-12 left-1/2 -translate-x-1/2">+ Add Model</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

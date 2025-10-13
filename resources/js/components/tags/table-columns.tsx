@@ -4,16 +4,16 @@ import IconComponent from '../icon-component';
 export const TagTableColumns = [
     {
         name: 'Icon',
-        headingComponent: <th>Icon</th>,
+        headingComponent: <th className="p-2 whitespace-nowrap">Icon</th>,
         dataComponent: (item: ProjectTag) => (
-            <td>
+            <td className="p-2">
                 <IconComponent icon_name={item.icon_name} className="mx-auto" />
             </td>
         ),
     },
     {
         name: 'Name',
-        headingComponent: <th className="text-left">Name</th>,
-        dataComponent: (item: ProjectTag) => <td>{item.name}</td>,
+        headingComponent: <th className="p-2 text-left whitespace-nowrap">Name</th>,
+        dataComponent: (item: ProjectTag) => <td className="p-2">{item.name}</td>,
     },
 ];
