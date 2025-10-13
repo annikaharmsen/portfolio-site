@@ -12,18 +12,19 @@ export default function Portfolio({ projects }: { projects: Projects }) {
     return (
         <>
             <Navigation />
+            <main className="md:ml-20">
+                <AboveTheFold>
+                    <Navigation mobile hide="intro" />
+                    <HeaderContent />
+                </AboveTheFold>
 
-            <AboveTheFold>
-                <Navigation mobile hide="intro" />
-                <HeaderContent />
-            </AboveTheFold>
+                <AboutSection />
+                <SkillsSection />
+                {projects && projects.length > 0 && <ProjectsSection projects={projects} />}
+                <ContactSection />
 
-            <AboutSection />
-            <SkillsSection />
-            {projects && projects.length > 0 && <ProjectsSection projects={projects} />}
-            <ContactSection />
-
-            <Footer />
+                <Footer />
+            </main>
         </>
     );
 }
