@@ -10,7 +10,8 @@ class Technology extends Model
     use SoftDeletes;
     protected $fillable = [
         'icon_name',
-        'name'
+        'name',
+        'category'
     ];
 
     public function projects() {
