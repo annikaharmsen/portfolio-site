@@ -1,51 +1,63 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skills, Technologies } from '@/types/models';
 
-export default function SkillsSection() {
+export default function SkillsSection({ technologies, skills }: { technologies: Technologies; skills: Skills }) {
+    const backendTech = technologies.filter((tech) => (tech.category = 'backend'));
+    const frontendTech = technologies.filter((tech) => (tech.category = 'frontend'));
+
     return (
         <section id="skills" className="py-16">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
-                <h2 className="mb-12 text-center font-fascinate text-4xl">Technical Skills</h2>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
-                    <Card className="border-accent">
-                        <CardHeader>
-                            <CardTitle className="font-sans">Backend Technologies</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex min-w-0 flex-wrap gap-2">
-                                <Badge variant="accent">PHP & Laravel (Advanced)</Badge>
-                                <Badge variant="accent">Java & Spring Boot (Developing)</Badge>
-                                <Badge variant="accent">MySQL & Database Design</Badge>
-                                <Badge variant="accent">RESTful API Development</Badge>
-                            </div>
-                        </CardContent>
-                    </Card>
-                    <Card className="border-accent">
-                        <CardHeader>
-                            <CardTitle className="font-sans">Frontend Technologies</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex min-w-0 flex-wrap gap-2">
-                                <Badge variant="accent">JavaScript, HTML5, CSS3</Badge>
-                                <Badge variant="accent">React.js</Badge>
-                                <Badge variant="accent">Node.js</Badge>
-                                <Badge variant="accent">Responsive Design</Badge>
-                            </div>
-                        </CardContent>
-                    </Card>
-                    <Card className="border-accent">
-                        <CardHeader>
-                            <CardTitle className="font-sans">Tools & Practices</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex min-w-0 flex-wrap gap-2">
-                                <Badge variant="accent">Postman</Badge>
-                                <Badge variant="accent">Git</Badge>
-                                <Badge variant="accent">Agile Development</Badge>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
+                {(technologies.length || skills.length) && (
+                    <>
+                        <h2 className="mb-12 text-center font-fascinate text-4xl">Technical Skills</h2>
+                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
+                            {backendTech.length && (
+                                <Card className="border-accent">
+                                    <CardHeader>
+                                        <CardTitle className="font-sans">Backend Technologies</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex min-w-0 flex-wrap gap-2">
+                                            {backendTech.map((tech) => (
+                                                <Badge variant="accent">{tech.name}</Badge>
+                                            ))}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
+                            {frontendTech.length && (
+                                <Card className="border-accent">
+                                    <CardHeader>
+                                        <CardTitle className="font-sans">Frontend Technologies</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex min-w-0 flex-wrap gap-2">
+                                            {frontendTech.map((tech) => (
+                                                <Badge variant="accent">{tech.name}</Badge>
+                                            ))}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
+                            {skills.length && (
+                                <Card className="border-accent">
+                                    <CardHeader>
+                                        <CardTitle className="font-sans">Tools, Skills, and Practices</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex min-w-0 flex-wrap gap-2">
+                                            {skills.map((skill) => (
+                                                <Badge variant="accent">{skill.name}</Badge>
+                                            ))}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
+                        </div>
+                    </>
+                )}
 
                 <div className="mt-16">
                     <h2 className="mb-12 text-center font-fascinate text-4xl">Professional Experience</h2>
