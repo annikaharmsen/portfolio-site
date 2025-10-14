@@ -1,16 +1,20 @@
 <?php
 
 use App\Models\Project;
+use App\Models\Skill;
+use App\Models\Technology;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
 Route::get('/', function () {
     return Inertia::render('portfolio', [
-              'projects' => Project::with(['skills', 'technologies'])
-                             ->orderBy('featured', 'desc')
-                             ->orderBy('date', 'desc')
-                             ->get()
-            ]);
+        'technologies' => Technology::whereNotNull('category')->orderBy('created-at', 'desc')->get(),
+        'skills' => Skill::orderBy('created-at', 'desc')->get(),
+        'projects' => Project::with(['skills', 'technologies'])
+                        ->orderBy('featured', 'desc')
+                        ->orderBy('date', 'desc')
+                        ->get()
+    ]);
 })->name('portfolio');
 
