@@ -20,7 +20,7 @@ export default function EditTechnology({ technology, projects }: EditTechnologyP
                 <div className="flex items-center justify-between *:my-0">
                     <H1>Edit Technology</H1>
                 </div>
-                <TagForm tag={technology} baseURI="technologies" projects={projects} categories={['backend', 'frontend']} />
+                <TagForm tag={technology} baseURI="technologies" projects={projects} categories={['frontend', 'backend']} />
             </div>
         </AppLayout>
     );

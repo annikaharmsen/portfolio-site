@@ -3,8 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Skills, Technologies } from '@/types/models';
 
 export default function SkillsSection({ technologies, skills }: { technologies: Technologies; skills: Skills }) {
-    const backendTech = technologies.filter((tech) => (tech.category = 'backend'));
-    const frontendTech = technologies.filter((tech) => (tech.category = 'frontend'));
+    const backendTech = technologies.filter((tech) => tech.category === 'backend');
+    const frontendTech = technologies.filter((tech) => tech.category === 'frontend');
 
     return (
         <section id="skills" className="py-16">
@@ -13,21 +13,7 @@ export default function SkillsSection({ technologies, skills }: { technologies: 
                     <>
                         <h2 className="mb-12 text-center font-fascinate text-4xl">Technical Skills</h2>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
-                            {backendTech.length && (
-                                <Card className="border-accent">
-                                    <CardHeader>
-                                        <CardTitle className="font-sans">Backend Technologies</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex min-w-0 flex-wrap gap-2">
-                                            {backendTech.map((tech) => (
-                                                <Badge variant="accent">{tech.name}</Badge>
-                                            ))}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            )}
-                            {frontendTech.length && (
+                            {!!frontendTech.length && (
                                 <Card className="border-accent">
                                     <CardHeader>
                                         <CardTitle className="font-sans">Frontend Technologies</CardTitle>
@@ -35,6 +21,20 @@ export default function SkillsSection({ technologies, skills }: { technologies: 
                                     <CardContent>
                                         <div className="flex min-w-0 flex-wrap gap-2">
                                             {frontendTech.map((tech) => (
+                                                <Badge variant="accent">{tech.name}</Badge>
+                                            ))}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
+                            {!!backendTech.length && (
+                                <Card className="border-accent">
+                                    <CardHeader>
+                                        <CardTitle className="font-sans">Backend Technologies</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex min-w-0 flex-wrap gap-2">
+                                            {backendTech.map((tech) => (
                                                 <Badge variant="accent">{tech.name}</Badge>
                                             ))}
                                         </div>

@@ -17,7 +17,7 @@ export default function CreateTechnology({ projects }: CreateTechnologyProps) {
             <Head title="New Technology" />
             <div className="m-12 *:mb-12 md:min-w-160">
                 <H1 className="w-full">Create Technology</H1>
-                <TagForm baseURI="technologies" projects={projects} categories={['backend', 'frontend']} />
+                <TagForm baseURI="technologies" projects={projects} categories={['frontend', 'backend']} />
             </div>
         </AppLayout>
     );
