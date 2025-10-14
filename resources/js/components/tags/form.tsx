@@ -116,6 +116,7 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <InputError>{errors.category}</InputError>
                         </>
                     )}
                 </>
