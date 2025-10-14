@@ -27,7 +27,7 @@ class UpdateTechnologyRequest extends FormRequest
             'icon_name' => ['nullable', Rule::enum(LucideIcon::class)],
             'name' => 'nullable|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id',
-            'category' => Rule::enum('backend' | 'frontend')
+            'category' => Rule::in(['backend', 'frontend'])
         ];
     }
 
