@@ -9,8 +9,8 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('portfolio', [
-        'technologies' => Technology::whereNotNull('category')->orderBy('created-at', 'desc')->get(),
-        'skills' => Skill::orderBy('created-at', 'desc')->get(),
+        'technologies' => Technology::whereNotNull('category')->orderBy('created_at', 'desc')->get(),
+        'skills' => Skill::orderBy('created_at', 'desc')->get(),
         'projects' => Project::with(['skills', 'technologies'])
                         ->orderBy('featured', 'desc')
                         ->orderBy('date', 'desc')
