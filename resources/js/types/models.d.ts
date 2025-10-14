@@ -28,6 +28,7 @@ export type ProjectTag = {
     id: number;
     icon_name: IconName;
     name: string;
+    category?: string;
     // relations
     projects?: Projects;
     // counts
@@ -40,7 +41,7 @@ export type ProjectTags = ProjectTag[];
 export type Skill = ProjectTag;
 export type Skills = Skill[];
 
-export type Technology = ProjectTag & { category: 'backend' | 'frontend' };
+export type Technology = ProjectTag & { category?: 'backend' | 'frontend' };
 export type Technologies = Technology[];
 
 export type User = {

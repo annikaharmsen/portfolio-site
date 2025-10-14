@@ -12,19 +12,22 @@ import InputError from '../input-error';
 import { store } from '../store';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 interface TagFormProps {
     tag?: ProjectTag;
     baseURI: string;
     projects: Projects;
     className?: string;
+    categories?: string[];
 }
 
-export default function TagForm({ tag, baseURI, projects, className }: TagFormProps) {
+export default function TagForm({ tag, baseURI, projects, className, categories = [] }: TagFormProps) {
     const { data, setData, processing, errors, post, put, isDirty } = useForm({
         icon_name: (tag?.icon_name as IconName | null) || null,
         name: tag?.name || '',
         projects: tag?.projects?.map((project) => project.id) || [],
+        category: tag?.category || undefined,
     });
 
     const [deleting, setDeleting] = useState(false);
@@ -85,7 +88,7 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
                     <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="name" />
                     <InputError>{errors.name}</InputError>
                 </>
-                <div className="col-span-full">
+                <div className={!categories.length ? 'col-span-full' : ''}>
                     <Label htmlFor="projects" className="block">
                         Projects
                     </Label>
@@ -98,6 +101,24 @@ export default function TagForm({ tag, baseURI, projects, className }: TagFormPr
                         <p className="pl-1 text-sm text-muted-foreground">no projects found</p>
                     )}
                 </div>
+
+                <>
+                    {!!categories.length && (
+                        <>
+                            <Label htmlFor="category">Category</Label>
+                            <Select defaultValue={data.category} onValueChange={(value) => setData('category', value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {categories.map((category) => (
+                                        <SelectItem value={category}>{category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </>
+                    )}
+                </>
             </FormGridLayout>
 
             <div className="mt-8 flex justify-between">
