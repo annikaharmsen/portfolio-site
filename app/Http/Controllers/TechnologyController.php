@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\StoreTechnologyRequest;
 use App\Http\Requests\Admin\UpdateTechnologyRequest;
 use App\Models\Project;
 use App\Models\Technology;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TechnologyController extends Controller

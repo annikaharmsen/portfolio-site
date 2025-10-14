@@ -26,7 +26,8 @@ class UpdateTechnologyRequest extends FormRequest
         return [
             'icon_name' => ['nullable', Rule::enum(LucideIcon::class)],
             'name' => 'nullable|string|min:1|max:255',
-            'projects' => 'array|distinct|exists:projects,id'
+            'projects' => 'array|distinct|exists:projects,id',
+            'category' => Rule::enum('backend' | 'frontend')
         ];
     }
 
@@ -36,7 +37,8 @@ class UpdateTechnologyRequest extends FormRequest
             'icon_name.Illuminate\Validation\Rules\Enum' => 'Invalid icon selection.',
             'name.required' => 'Technology name is required.',
             'name.min' => 'Technology name cannot be empty.',
-            'projects' => 'Invalid project selection.'
+            'projects' => 'Invalid project selection.',
+            'category' => 'Invalid category selected'
         ];
     }
 }
