@@ -2,8 +2,8 @@ import useController from '@/hooks/use-controller';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, ProjectTag } from '@/types/models';
-import { useForm } from '@inertiajs/react';
-import { useCallback, useState } from 'react';
+import { router, useForm } from '@inertiajs/react';
+import { useCallback, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput from '../badge-select-input';
@@ -36,16 +36,26 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
 
     useUnsavedWarning(isDirty && !processing && !deleting);
 
+    // Reload options when returning via history (preserves form state)
+    useEffect(() => {
+        const handlePopState = () => {
+            router.reload({ only: ['projects'] });
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (tag) {
             put(`/${baseURI}/${tag.id}`, {
-                onSuccess: () => controller.index(),
+                onSuccess: () => history.back(),
             });
         } else {
             post(`/${baseURI}`, {
-                onSuccess: () => controller.index(),
+                onSuccess: () => history.back(),
             });
         }
     };
@@ -67,6 +77,8 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
         },
         [setData],
     );
+
+    const projectCreate = useController('projects').create;
 
     return (
         <form onSubmit={handleSubmit} className={className}>
@@ -92,14 +104,8 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
                     <Label htmlFor="projects" className="block">
                         Projects
                     </Label>
-                    {projects.length ? (
-                        <>
-                            <BadgeSelectInput id="projects" value={data.projects} onChange={handleProjectsChange} options={projects} />
-                            <InputError>{errors.projects}</InputError>
-                        </>
-                    ) : (
-                        <p className="pl-1 text-sm text-muted-foreground">no projects found</p>
-                    )}
+                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} onClickPlus={projectCreate} />
+                    <InputError>{errors.projects}</InputError>
                 </div>
 
                 <>

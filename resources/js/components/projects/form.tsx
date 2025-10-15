@@ -8,8 +8,8 @@ import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Skills, Technologies } from '@/types/models';
-import { useForm } from '@inertiajs/react';
-import React, { useCallback, useState } from 'react';
+import { router, useForm } from '@inertiajs/react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput from '../badge-select-input';
@@ -43,16 +43,26 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
     // Warn user about unsaved changes
     useUnsavedWarning(isDirty && !processing && !deleting);
 
+    // Reload options when returning via history (preserves form state)
+    useEffect(() => {
+        const handlePopState = () => {
+            router.reload({ only: ['skills', 'technologies'] });
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if (project) {
             put(`/projects/${project.id}`, {
-                onSuccess: () => controller.index(),
+                onSuccess: () => history.back(),
             });
         } else {
             post('/projects', {
-                onSuccess: () => controller.index(),
+                onSuccess: () => history.back(),
             });
         }
     };
@@ -81,6 +91,9 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
         },
         [setData],
     );
+
+    const technologyCreate = useController('technologies').create;
+    const skillCreate = useController('skills').create;
 
     return (
         <>
@@ -167,42 +180,30 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
                         <Label htmlFor="skills" className="w-full">
                             Skills
                         </Label>
-                        {skills.length ? (
-                            <>
-                                <BadgeSelectInput
-                                    id="skills"
-                                    value={data.skills}
-                                    onChange={handleSkillsChange}
-                                    options={skills}
-                                    textResource="name"
-                                />
+                        <BadgeSelectInput
+                            value={data.skills}
+                            onChange={handleSkillsChange}
+                            options={skills}
+                            textResource="name"
+                            onClickPlus={skillCreate}
+                        />
 
-                                <InputError>{errors.skills}</InputError>
-                            </>
-                        ) : (
-                            <p className="pl-1 text-sm text-muted-foreground">no skills found</p>
-                        )}
+                        <InputError>{errors.skills}</InputError>
                     </>
 
                     <>
                         <Label htmlFor="technologies" className="w-full">
                             Technologies
                         </Label>
-                        {technologies.length ? (
-                            <>
-                                <BadgeSelectInput
-                                    id="technologies"
-                                    value={data.technologies}
-                                    onChange={handleTechnologiesChange}
-                                    options={technologies}
-                                    textResource="name"
-                                />
+                        <BadgeSelectInput
+                            value={data.technologies}
+                            onChange={handleTechnologiesChange}
+                            options={technologies}
+                            textResource="name"
+                            onClickPlus={technologyCreate}
+                        />
 
-                                <InputError>{errors.technologies}</InputError>
-                            </>
-                        ) : (
-                            <p className="pl-1 text-sm text-muted-foreground">no technologies found</p>
-                        )}
+                        <InputError>{errors.technologies}</InputError>
                     </>
                 </FormGridLayout>
 
