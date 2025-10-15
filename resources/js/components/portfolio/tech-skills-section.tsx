@@ -45,7 +45,7 @@ export default function TechSkillsSection({ technologies }: { technologies: Tech
                             {!!techTools.length && (
                                 <Card className="border-accent">
                                     <CardHeader>
-                                        <CardTitle className="font-sans">Tools, Skills, and Practices</CardTitle>
+                                        <CardTitle className="font-sans">Tools</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="flex min-w-0 flex-wrap gap-2">
