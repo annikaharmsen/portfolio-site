@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\LucideIcon;
+use App\TechCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +29,7 @@ class StoreTechnologyRequest extends FormRequest
             'icon_name' => ['required', Rule::enum(LucideIcon::class)],
             'name' => 'required|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id',
-            'category' => Rule::in(['backend', 'frontend'])
+            'category' => Rule::enum(TechCategory::class)
         ];
     }
 
