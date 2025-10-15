@@ -1,11 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
-enum TechCategory
+enum TechCategory: string
 {
-    case frontend;
-    case backend;
-    case tool;
+    case frontend = 'frontend';
+    case backend = 'backend';
+    case tool = 'tool';
 
 }

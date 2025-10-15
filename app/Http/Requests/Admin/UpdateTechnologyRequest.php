@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\LucideIcon;
-use App\TechCategory;
+use App\Enums\LucideIcon;
+use App\Enums\TechCategory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

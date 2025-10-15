@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\LucideIcon;
+use App\Enums\LucideIcon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
