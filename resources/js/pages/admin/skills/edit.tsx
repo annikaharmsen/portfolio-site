@@ -1,5 +1,6 @@
 import { H1 } from '@/components/headings';
 import TagForm from '@/components/tags/form';
+import { SkillConfig } from '@/config/config';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects, Skill } from '@/types/models';
@@ -20,7 +21,7 @@ export default function EditSkill({ skill, projects }: EditSkillProps) {
                 <div className="flex items-center justify-between *:my-0">
                     <H1>Edit Skill</H1>
                 </div>
-                <TagForm tag={skill} baseURI="skills" projects={projects} />
+                <TagForm tag={skill} tagConfig={SkillConfig} projects={projects} />
             </div>
         </AppLayout>
     );

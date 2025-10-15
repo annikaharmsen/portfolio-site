@@ -1,5 +1,6 @@
 import { H1 } from '@/components/headings';
 import TagForm from '@/components/tags/form';
+import { TechnologyConfig } from '@/config/config';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects } from '@/types/models';
@@ -17,7 +18,7 @@ export default function CreateTechnology({ projects }: CreateTechnologyProps) {
             <Head title="New Technology" />
             <div className="m-12 *:mb-12 md:min-w-160">
                 <H1 className="w-full">Create Technology</H1>
-                <TagForm baseURI="technologies" projects={projects} categories={['frontend', 'backend']} />
+                <TagForm tagConfig={TechnologyConfig} projects={projects} />
             </div>
         </AppLayout>
     );

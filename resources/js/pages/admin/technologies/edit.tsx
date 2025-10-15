@@ -1,5 +1,6 @@
 import { H1 } from '@/components/headings';
 import TagForm from '@/components/tags/form';
+import { TechnologyConfig } from '@/config/config';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
 import { Projects, Technology } from '@/types/models';
@@ -20,7 +21,7 @@ export default function EditTechnology({ technology, projects }: EditTechnologyP
                 <div className="flex items-center justify-between *:my-0">
                     <H1>Edit Technology</H1>
                 </div>
-                <TagForm tag={technology} baseURI="technologies" projects={projects} categories={['frontend', 'backend']} />
+                <TagForm tag={technology} tagConfig={TechnologyConfig} projects={projects} />
             </div>
         </AppLayout>
     );

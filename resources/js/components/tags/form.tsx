@@ -1,7 +1,8 @@
+import { TagConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
-import { Projects, ProjectTag } from '@/types/models';
+import { Projects, Tag } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
 import { useCallback, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -15,19 +16,19 @@ import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 interface TagFormProps {
-    tag?: ProjectTag;
-    baseURI: string;
+    tag?: Tag;
+    tagConfig: TagConfig;
     projects: Projects;
     className?: string;
-    categories?: string[];
 }
 
-export default function TagForm({ tag, baseURI, projects, className, categories = [] }: TagFormProps) {
+export default function TagForm({ tag, tagConfig: { CATEGORIES: categories, BASE_URI: baseURI }, projects, className }: TagFormProps) {
+    const isEditing = !!tag;
     const { data, setData, processing, errors, post, put, isDirty } = useForm({
-        icon_name: (tag?.icon_name as IconName | null) || null,
-        name: tag?.name || '',
-        projects: tag?.projects?.map((project) => project.id) || [],
-        category: tag?.category || undefined,
+        icon_name: (isEditing && tag.icon_name) || null,
+        name: (isEditing && tag.name) || '',
+        projects: (isEditing && tag.projects?.map((project) => project.id)) || [],
+        category: (isEditing && tag.category) || undefined,
     });
 
     const [deleting, setDeleting] = useState(false);
@@ -49,7 +50,7 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (tag) {
+        if (isEditing) {
             put(`/${baseURI}/${tag.id}`, {
                 onSuccess: () => history.back(),
             });
@@ -65,7 +66,7 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
     };
 
     const handleDelete = () => {
-        if (tag && confirm('Are you sure you want to delete?')) {
+        if (isEditing && confirm('Are you sure you want to delete?')) {
             setDeleting(true);
             controller.delete(tag);
         }
@@ -112,13 +113,15 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
                     {!!categories.length && (
                         <>
                             <Label htmlFor="category">Category</Label>
-                            <Select defaultValue={data.category} onValueChange={(value) => setData('category', value)}>
+                            <Select defaultValue={data.category} onValueChange={(value) => setData('category', value as typeof data.category)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select a category" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {categories.map((category) => (
-                                        <SelectItem value={category}>{category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}</SelectItem>
+                                        <SelectItem key={category} value={category}>
+                                            {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}
+                                        </SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -129,11 +132,11 @@ export default function TagForm({ tag, baseURI, projects, className, categories 
             </FormGridLayout>
 
             <div className="mt-8 flex justify-between">
-                {tag && <DeleteButton onClick={handleDelete} disabled={deleting} />}
+                {isEditing && <DeleteButton onClick={handleDelete} disabled={deleting} />}
                 <div className="flex w-full justify-end space-x-2">
                     <CancelButton onClick={handleCancel} />
                     <SaveButton disabled={processing} onClick={handleSubmit}>
-                        {processing ? 'Saving...' : tag ? 'Update' : 'Create'}
+                        {processing ? 'Saving...' : isEditing ? 'Update' : 'Create'}
                     </SaveButton>
                 </div>
             </div>
