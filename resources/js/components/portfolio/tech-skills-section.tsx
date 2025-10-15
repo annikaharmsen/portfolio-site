@@ -3,8 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Technologies } from '@/types/models';
 
 export default function TechSkillsSection({ technologies }: { technologies: Technologies }) {
-    const backendTech = technologies.filter((tech) => tech.category === 'backend');
     const frontendTech = technologies.filter((tech) => tech.category === 'frontend');
+    const backendTech = technologies.filter((tech) => tech.category === 'backend');
     const techTools = technologies.filter((tech) => tech.category === 'tool');
 
     return (
@@ -42,7 +42,7 @@ export default function TechSkillsSection({ technologies }: { technologies: Tech
                                     </CardContent>
                                 </Card>
                             )}
-                            {techTools.length && (
+                            {!!techTools.length && (
                                 <Card className="border-accent">
                                     <CardHeader>
                                         <CardTitle className="font-sans">Tools, Skills, and Practices</CardTitle>

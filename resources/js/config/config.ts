@@ -4,7 +4,7 @@ export interface TagConfig {
 }
 
 export const TechnologyConfig = {
-    CATEGORIES: ['backend', 'frontend', 'tool'],
+    CATEGORIES: ['frontend', 'backend', 'tool'],
     BASE_URI: 'technologies',
 } as const;
 
