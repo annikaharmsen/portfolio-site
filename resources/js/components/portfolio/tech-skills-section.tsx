@@ -1,15 +1,16 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skills, Technologies } from '@/types/models';
+import { Technologies } from '@/types/models';
 
-export default function SkillsSection({ technologies, skills }: { technologies: Technologies; skills: Skills }) {
+export default function TechSkillsSection({ technologies }: { technologies: Technologies }) {
     const backendTech = technologies.filter((tech) => tech.category === 'backend');
     const frontendTech = technologies.filter((tech) => tech.category === 'frontend');
+    const techTools = technologies.filter((tech) => tech.category === 'tool');
 
     return (
         <section id="skills" className="py-16">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
-                {(technologies.length || skills.length) && (
+                {!!technologies.length && (
                     <>
                         <h2 className="mb-12 text-center font-fascinate text-4xl">Technical Skills</h2>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
@@ -41,15 +42,15 @@ export default function SkillsSection({ technologies, skills }: { technologies: 
                                     </CardContent>
                                 </Card>
                             )}
-                            {skills.length && (
+                            {techTools.length && (
                                 <Card className="border-accent">
                                     <CardHeader>
                                         <CardTitle className="font-sans">Tools, Skills, and Practices</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="flex min-w-0 flex-wrap gap-2">
-                                            {skills.map((skill) => (
-                                                <Badge variant="accent">{skill.name}</Badge>
+                                            {techTools.map((tech) => (
+                                                <Badge variant="accent">{tech.name}</Badge>
                                             ))}
                                         </div>
                                     </CardContent>

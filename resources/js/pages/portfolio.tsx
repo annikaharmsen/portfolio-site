@@ -4,11 +4,11 @@ import Footer from '@/components/portfolio/footer';
 import HeaderContent from '@/components/portfolio/header-content';
 import Navigation from '@/components/portfolio/navigation';
 import ProjectsSection from '@/components/portfolio/projects-section';
-import SkillsSection from '@/components/portfolio/skills-section';
+import TechSkillsSection from '@/components/portfolio/tech-skills-section';
 import AboveTheFold from '@/layouts/above-the-fold';
 import { Projects, Skills, Technologies } from '@/types/models';
 
-export default function Portfolio({ technologies, skills, projects }: { technologies: Technologies; skills: Skills; projects: Projects }) {
+export default function Portfolio({ technologies, projects }: { technologies: Technologies; skills: Skills; projects: Projects }) {
     return (
         <>
             <Navigation />
@@ -19,7 +19,7 @@ export default function Portfolio({ technologies, skills, projects }: { technolo
                 </AboveTheFold>
 
                 <AboutSection />
-                <SkillsSection technologies={technologies} skills={skills} />
+                <TechSkillsSection technologies={technologies} />
                 {projects && projects.length > 0 && <ProjectsSection projects={projects} />}
                 <ContactSection />
 
