@@ -6,7 +6,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { type NavItem } from '@/types';
 import { DemoConfig } from '@/types/demo';
 import { Link, usePage } from '@inertiajs/react';
-import { BadgeCheck, FolderClosed, LayoutGrid, Wrench } from 'lucide-react';
+import { Badge, BadgeCheck, FolderClosed, LayoutGrid, Wrench } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
@@ -20,14 +20,19 @@ const mainNavItems: NavItem[] = [
         icon: FolderClosed,
     },
     {
-        title: 'Skills',
-        href: '/skills',
-        icon: BadgeCheck,
+        title: 'All Tags',
+        href: '/tags',
+        icon: Badge,
     },
     {
         title: 'Technologies',
         href: '/technologies',
         icon: Wrench,
+    },
+    {
+        title: 'Skills',
+        href: '/skills',
+        icon: BadgeCheck,
     },
 ];
 

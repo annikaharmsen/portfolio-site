@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Technology extends Model
+class Tag extends Model
 {
     use SoftDeletes;
     protected $fillable = [
@@ -15,6 +15,6 @@ class Technology extends Model
     ];
 
     public function projects() {
-        return $this->belongsToMany(Project::class, 'project_technologies');
+        return $this->belongsToMany(Project::class, 'project_tags');
     }
 }

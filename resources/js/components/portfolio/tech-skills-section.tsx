@@ -1,55 +1,57 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Technologies } from '@/types/models';
+import { Tags } from '@/types/models';
+import IconList from './icon-list';
 
-export default function TechSkillsSection({ technologies }: { technologies: Technologies }) {
-    const frontendTech = technologies.filter((tech) => tech.category === 'frontend');
-    const backendTech = technologies.filter((tech) => tech.category === 'backend');
-    const techTools = technologies.filter((tech) => tech.category === 'tool');
+export default function TechSkillsSection({ tags }: { tags: Tags }) {
+    const frontend = tags.filter((tag) => tag.category === 'frontend');
+    const backend = tags.filter((tag) => tag.category === 'backend');
+    const tools = tags.filter((tag) => tag.category === 'tool');
+    const skills = tags.filter((tag) => tag.category === 'skill');
 
     return (
         <section id="skills" className="py-16">
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
-                {!!technologies.length && (
+                {!!tags.length && (
                     <>
                         <h2 className="mb-12 text-center font-fascinate text-4xl">Technical Skills</h2>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
-                            {!!frontendTech.length && (
+                            {!!frontend.length && (
                                 <Card className="border-accent">
                                     <CardHeader>
                                         <CardTitle className="font-sans">Frontend Technologies</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="flex min-w-0 flex-wrap gap-2">
-                                            {frontendTech.map((tech) => (
+                                            {frontend.map((tech) => (
                                                 <Badge variant="accent">{tech.name}</Badge>
                                             ))}
                                         </div>
                                     </CardContent>
                                 </Card>
                             )}
-                            {!!backendTech.length && (
+                            {!!backend.length && (
                                 <Card className="border-accent">
                                     <CardHeader>
                                         <CardTitle className="font-sans">Backend Technologies</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="flex min-w-0 flex-wrap gap-2">
-                                            {backendTech.map((tech) => (
+                                            {backend.map((tech) => (
                                                 <Badge variant="accent">{tech.name}</Badge>
                                             ))}
                                         </div>
                                     </CardContent>
                                 </Card>
                             )}
-                            {!!techTools.length && (
+                            {!!tools.length && (
                                 <Card className="border-accent">
                                     <CardHeader>
                                         <CardTitle className="font-sans">Tools</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="flex min-w-0 flex-wrap gap-2">
-                                            {techTools.map((tech) => (
+                                            {tools.map((tech) => (
                                                 <Badge variant="accent">{tech.name}</Badge>
                                             ))}
                                         </div>
@@ -57,6 +59,11 @@ export default function TechSkillsSection({ technologies }: { technologies: Tech
                                 </Card>
                             )}
                         </div>
+                        {!!skills.length && (
+                            <div className="mt-12 flex flex-wrap justify-center-safe gap-2">
+                                <IconList items={skills} className="rounded border border-accent px-2 text-lg text-foreground" />
+                            </div>
+                        )}
                     </>
                 )}
 

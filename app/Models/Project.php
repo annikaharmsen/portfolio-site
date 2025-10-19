@@ -24,11 +24,7 @@ class Project extends Model
         return $query->orderBy('featured', 'desc')->orderBy('date', 'desc');
     }
 
-    public function skills() {
-        return $this->belongsToMany(Skill::class, 'project_skills');
-    }
-
-    public function technologies() {
-        return $this->belongsToMany(Technology::class, 'project_technologies');
+    public function tags() {
+        return $this->belongsToMany(Tag::class, 'project_tags');
     }
 }

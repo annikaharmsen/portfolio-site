@@ -1,4 +1,4 @@
-import { TagConfig } from '@/config/config';
+import { TagConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
@@ -16,19 +16,20 @@ import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 interface TagFormProps {
-    tag?: Tag;
-    tagConfig: TagConfig;
+    tagConfig: TagConfigInterface;
     projects: Projects;
+    tag?: Tag;
     className?: string;
 }
 
-export default function TagForm({ tag, tagConfig: { CATEGORIES: categories, BASE_URI: baseURI }, projects, className }: TagFormProps) {
+export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI: baseURI }, projects, tag, className }: TagFormProps) {
     const isEditing = !!tag;
+
     const { data, setData, processing, errors, post, put, isDirty } = useForm({
         icon_name: (isEditing && tag.icon_name) || null,
         name: (isEditing && tag.name) || '',
         projects: (isEditing && tag.projects?.map((project) => project.id)) || [],
-        category: (isEditing && tag.category) || undefined,
+        category: (isEditing && tag.category) || categories.length === 1 ? categories[0] : undefined,
     });
 
     const [deleting, setDeleting] = useState(false);
@@ -51,11 +52,11 @@ export default function TagForm({ tag, tagConfig: { CATEGORIES: categories, BASE
         e.preventDefault();
 
         if (isEditing) {
-            put(`/${baseURI}/${tag.id}`, {
+            put(`${baseURI}/${tag.id}`, {
                 onSuccess: () => history.back(),
             });
         } else {
-            post(`/${baseURI}`, {
+            post(`${baseURI}`, {
                 onSuccess: () => history.back(),
             });
         }
@@ -110,7 +111,7 @@ export default function TagForm({ tag, tagConfig: { CATEGORIES: categories, BASE
                 </div>
 
                 <>
-                    {!!categories.length && (
+                    {categories.length > 1 && (
                         <>
                             <Label htmlFor="category">Category</Label>
                             <Select defaultValue={data.category} onValueChange={(value) => setData('category', value as typeof data.category)}>

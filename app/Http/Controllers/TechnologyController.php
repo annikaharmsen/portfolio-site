@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\BulkDeleteTagsRequest;
 use App\Http\Requests\Admin\BulkDeleteTechnologiesRequest;
+use App\Http\Requests\Admin\StoreTagRequest;
 use App\Http\Requests\Admin\StoreTechnologyRequest;
+use App\Http\Requests\Admin\UpdateTagRequest;
 use App\Http\Requests\Admin\UpdateTechnologyRequest;
 use App\Models\Project;
+use App\Models\Tag;
 use App\Models\Technology;
 use Inertia\Inertia;
 
@@ -16,7 +20,7 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        $technologies = Technology::orderBy('name')->get();
+        $technologies = Tag::whereIn('category', ['frontend', 'backend', 'tool'])->orderBy('name')->get();
 
         return Inertia::render('admin/technologies/index', [
             'technologies' => $technologies
@@ -36,11 +40,11 @@ class TechnologyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTechnologyRequest $request)
+    public function store(StoreTagRequest $request)
     {
         $validated = $request->validated();
 
-        $technology = Technology::create($request->validated());
+        $technology = Tag::create($request->validated());
 
         $technology->projects()->sync($validated['projects']);
 
@@ -50,7 +54,7 @@ class TechnologyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Technology $technology)
+    public function show(Tag $technology)
     {
         return Inertia::render('admin/technologies/show', [
             'technology' => $technology
@@ -60,7 +64,7 @@ class TechnologyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Technology $technology)
+    public function edit(Tag $technology)
     {
         return Inertia::render('admin/technologies/edit', [
             'technology' => $technology->load('projects'),
@@ -71,7 +75,7 @@ class TechnologyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTechnologyRequest $request, Technology $technology)
+    public function update(UpdateTagRequest $request, Tag $technology)
     {
         $validated = $request->validated();
 
@@ -85,16 +89,16 @@ class TechnologyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Technology $technology)
+    public function destroy(Tag $technology)
     {
         $technology->delete();
 
         return redirect('/technologies');
     }
 
-    public function bulkDelete(BulkDeleteTechnologiesRequest $request)
+    public function bulkDelete(BulkDeleteTagsRequest $request)
     {
-        $deletedCount = Technology::destroy($request->getTechnologyIds());
+        $deletedCount = Tag::destroy($request->getTechnologyIds());
 
         return redirect('/technologies');
     }

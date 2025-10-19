@@ -1,5 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { ModelConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useSelection from '@/hooks/use-selection';
 import { cn } from '@/lib/utils';
@@ -9,7 +10,7 @@ import { DeleteButton } from './app-buttons';
 interface ModelListProps<T extends { id: number }> {
     models: T[];
     columns: { name: string; headingComponent?: ReactNode; dataComponent: (model: T) => ReactNode }[];
-    resource: string;
+    modelConfig: ModelConfigInterface;
     searchBy: keyof T;
     className?: string;
     rowClickBehavior?: 'select' | 'show' | 'edit';
@@ -18,7 +19,7 @@ interface ModelListProps<T extends { id: number }> {
 export default function ModelList<T extends { id: number }>({
     models,
     columns,
-    resource,
+    modelConfig: { TYPE: modelType, BASE_URI: baseURI },
     searchBy,
     className,
     rowClickBehavior = 'show',
@@ -38,7 +39,7 @@ export default function ModelList<T extends { id: number }>({
     const filteredModelIDs = filteredModels.map((m: T) => m.id);
 
     // HANDLERS
-    const modelController = useController(resource);
+    const modelController = useController(baseURI);
     const handle = {
         select_all: () => modelSelection.selectAll(filteredModelIDs),
         select: (model: T) => modelSelection.select(model.id),
@@ -54,7 +55,7 @@ export default function ModelList<T extends { id: number }>({
             {/* search and delete  */}
             <div className="flex justify-between gap-2">
                 <Input
-                    placeholder={'Search ' + resource + '...'}
+                    placeholder={'Search ' + baseURI + '...'}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="h-9 w-full min-w-min"
@@ -115,12 +116,12 @@ export default function ModelList<T extends { id: number }>({
                             })
                         ) : (
                             <tr className="h-24 border-b text-center text-muted-foreground">
-                                <td colSpan={columns.length + 1}>No models found.</td>
+                                <td colSpan={columns.length + 1}>No {modelType.toLowerCase().toPlural()} found.</td>
                             </tr>
                         )}
                         <tr onClick={() => handle.create()} className="h-12 w-full text-center hover:bg-accent/50">
                             <td colSpan={columns.length + 1}>
-                                <span className="absolute bottom-12 left-1/2 -translate-x-1/2">+ Add Model</span>
+                                <span className="absolute bottom-12 left-1/2 -translate-x-1/2">+ Add {modelType}</span>
                             </td>
                         </tr>
                     </tbody>

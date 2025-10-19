@@ -1,5 +1,5 @@
 import { IconName } from '@/components/icon-selector-dropdown';
-import { SkillCategory, TechnologyCategory } from '@/config/config';
+import { TagCategory } from '@/config/config';
 
 export type Project = {
     //columns
@@ -13,8 +13,7 @@ export type Project = {
     featured: boolean;
     date?: string;
     // relations
-    skills?: Skills;
-    technologies?: Technologies;
+    tags?: Tags;
     // counts
     skills_count: number;
     technologies_count: number;
@@ -29,7 +28,7 @@ export type Tag = {
     id: number;
     icon_name: IconName;
     name: string;
-    category?: TechnologyCategory & SkillCategory;
+    category?: TagCategory;
     // relations
     projects?: Projects;
     // counts
@@ -38,12 +37,6 @@ export type Tag = {
     projects_exists: boolean;
 };
 export type Tags = Tag[];
-
-export type Skill = Tag & { category?: SkillCategory };
-export type Skills = Skill[];
-
-export type Technology = Tag & { category?: TechnologyCategory };
-export type Technologies = Technology[];
 
 export type User = {
     // columns

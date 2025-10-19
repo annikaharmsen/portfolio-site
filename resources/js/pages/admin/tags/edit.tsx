@@ -1,0 +1,31 @@
+import { H1 } from '@/components/headings';
+import TagForm from '@/components/tags/form';
+import { TagConfig, TagConfigInterface } from '@/config/config';
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
+import AppLayout from '@/layouts/app-layout';
+import { Projects, Tag } from '@/types/models';
+import { Head } from '@inertiajs/react';
+
+interface EditTagProps {
+    tagConfig?: TagConfigInterface;
+    projects: Projects;
+    tag: Tag;
+}
+
+export default function EditTag({ tagConfig, projects, tag }: EditTagProps) {
+    const getBreadcrumbs = useBreadcrumbs().getBreadcrumbs;
+    const breadcrumbs = tagConfig ? getBreadcrumbs('edit_tag', tag, tagConfig) : getBreadcrumbs('edit_tag', tag);
+    const title = breadcrumbs.at(-1)?.title.toTitleCase();
+
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title={title} />
+            <div className="m-12 *:mb-12 md:min-w-160">
+                <div className="flex items-center justify-between *:my-0">
+                    <H1>{title}</H1>
+                </div>
+                <TagForm tag={tag} tagConfig={TagConfig} projects={projects} />
+            </div>
+        </AppLayout>
+    );
+}

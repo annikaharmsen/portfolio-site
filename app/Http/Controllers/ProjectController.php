@@ -7,8 +7,7 @@ use App\Http\Requests\Admin\BulkDeleteProjectsRequest;
 use App\Http\Requests\Admin\StoreProjectRequest;
 use App\Http\Requests\Admin\UpdateProjectRequest;
 use App\Models\Project;
-use App\Models\Skill;
-use App\Models\Technology;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -25,8 +24,7 @@ class ProjectController extends Controller
 
     public function create() {
         return Inertia::render('admin/projects/create', [
-            'skills' => Skill::all(),
-            'technologies' => Technology::all(),
+            'tags' => Tag::all(),
         ]);
     }
 
@@ -36,8 +34,7 @@ class ProjectController extends Controller
 
         $project = Project::create($validated);
 
-        $project->skills()->sync($validated['skills']);
-        $project->technologies()->sync($validated['technologies']);
+        $project->tags()->sync($validated['tags']);
 
         return back();
     }
@@ -45,15 +42,14 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return Inertia::render('admin/projects/show', [
-            'project' => $project->load('skills', 'technologies')
+            'project' => $project->load('tags')
         ]);
     }
 
     public function edit(Project $project) {
         return Inertia::render('admin/projects/edit', [
-            'project' => $project->load('skills', 'technologies'),
-            'skills' => Skill::all(),
-            'technologies' => Technology::all(),
+            'project' => $project->load('tags'),
+            'tags' => Tag::all(),
         ]);
     }
 
@@ -63,8 +59,7 @@ class ProjectController extends Controller
 
         $project->update($validated);
 
-        if (isset($validated['skills'])) $project->skills()->sync($validated['skills']);
-        if (isset($validated['technologies'])) $project->technologies()->sync($validated['technologies']);
+        if (isset($validated['tags'])) $project->tags()->sync($validated['tags']);
 
         return back();
     }

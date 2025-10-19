@@ -2,22 +2,34 @@ import ModelList from '@/components/model-list';
 import { ProjectTableColumns } from '@/components/projects/table-columns';
 import { TagTableColumns } from '@/components/tags/table-columns';
 import { Card, CardContent } from '@/components/ui/card';
+import { ProjectConfig, SkillConfig, TechConfig } from '@/config/config';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayout from '@/layouts/app-layout';
-import { Projects, Skills, Technologies } from '@/types/models';
+import { Project, Projects, Tag, Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
 interface DashboardProps {
     projects: Projects;
-    skills: Skills;
-    technologies: Technologies;
+    tags: Tags;
 }
-export default function Dashboard({ projects, skills, technologies }: DashboardProps) {
+export default function Dashboard({ projects, tags }: DashboardProps) {
     const cards = [
-        <ModelList models={projects} columns={ProjectTableColumns} resource="projects" searchBy="title" />,
-        <ModelList models={skills} columns={TagTableColumns} resource="skills" searchBy="name" rowClickBehavior="edit" />,
-        <ModelList models={technologies} columns={TagTableColumns} resource="technologies" searchBy="name" rowClickBehavior="edit" />,
+        <ModelList<Project> models={projects} modelConfig={ProjectConfig} columns={ProjectTableColumns} searchBy="title" />,
+        <ModelList<Tag>
+            models={tags.filter((tag) => tag.category === 'skill')}
+            modelConfig={SkillConfig}
+            columns={TagTableColumns(SkillConfig)}
+            searchBy="name"
+            rowClickBehavior="edit"
+        />,
+        <ModelList<Tag>
+            models={tags.filter((tag) => tag.category !== 'skill')}
+            modelConfig={TechConfig}
+            columns={TagTableColumns(TechConfig)}
+            searchBy="name"
+            rowClickBehavior="edit"
+        />,
     ];
     const breadcrumbs = useBreadcrumbs().getBreadcrumbs('dashboard');
 

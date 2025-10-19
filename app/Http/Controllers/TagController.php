@@ -9,17 +9,17 @@ use App\Models\Project;
 use App\Models\Tag;
 use Inertia\Inertia;
 
-class SkillController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $skills = Tag::where('category', 'skill')->orderBy('name')->get();
+        $tags = Tag::orderBy('category')->orderBy('name')->get();
 
-        return Inertia::render('admin/skills/index', [
-            'skills' => $skills
+        return Inertia::render('admin/tags/index', [
+            'tags' => $tags
         ]);
     }
 
@@ -28,7 +28,7 @@ class SkillController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/skills/create', [
+        return Inertia::render('admin/tags/create', [
             'projects' => Project::all()
         ]);
     }
@@ -40,9 +40,9 @@ class SkillController extends Controller
     {
         $validated = $request->validated();
 
-        $skill = Tag::create($request->validated());
+        $tag = Tag::create($request->validated());
 
-        $skill->projects()->sync($validated['projects']);
+        $tag->projects()->sync($validated['projects']);
 
         return back();
     }
@@ -50,20 +50,20 @@ class SkillController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tag $skill)
+    public function show(Tag $tag)
     {
-        return Inertia::render('admin/skills/show', [
-            'skill' => $skill
+        return Inertia::render('admin/tags/show', [
+            'tag' => $tag
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tag $skill)
+    public function edit(Tag $tag)
     {
-        return Inertia::render('admin/skills/edit', [
-            'skill' => $skill->load('projects'),
+        return Inertia::render('admin/tags/edit', [
+            'tag' => $tag->load('projects'),
             'projects' => Project::all()
         ]);
     }
@@ -71,13 +71,13 @@ class SkillController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTagRequest $request, Tag $skill)
+    public function update(UpdateTagRequest $request, Tag $tag)
     {
         $validated = $request->validated();
 
-        $skill->update($validated);
+        $tag->update($validated);
 
-        if (isset($validated['projects'])) $skill->projects()->sync($validated['projects']);
+        if (isset($validated['projects'])) $tag->projects()->sync($validated['projects']);
 
         return back();
     }
@@ -85,17 +85,17 @@ class SkillController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tag $skill)
+    public function destroy(Tag $tag)
     {
-        $skill->delete();
+        $tag->delete();
 
-        return redirect('/skills');
+        return;
     }
 
     public function bulkDelete(BulkDeleteTagsRequest $request)
     {
-        $deletedCount = Tag::destroy($request->getSkillIds());
+        $deletedCount = Tag::destroy($request->getTagIds());
 
-        return redirect('/skills');
+        return back();
     }
 }

@@ -32,8 +32,7 @@ class UpdateProjectRequest extends FormRequest
             'demo_link' => 'nullable|url',
             'featured' => 'boolean',
             'date' => 'nullable|date',
-            'skills' => 'array|distinct|exists:skills,id',
-            'technologies' => 'array|distinct|exists:technologies,id'
+            'tags' => 'array|distinct|exists:tags,id',
         ];
     }
 
@@ -46,8 +45,7 @@ class UpdateProjectRequest extends FormRequest
             'title.min' => 'Project title cannot be empty.',
             'repo_link.url' => 'Please enter a valid repository URL.',
             'demo_link.url' => 'Please enter a valid demo URL.',
-            'skills' => 'Invalid skill selection.',
-            'technologies' => 'Invalid technology selection.'
+            'tags' => 'Invalid tag selection.',
         ];
     }
 }

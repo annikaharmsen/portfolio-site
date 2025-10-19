@@ -2,12 +2,18 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Project } from '@/types/models';
 import { ExternalLink, Github, Star } from 'lucide-react';
+import { H3, H4 } from '../headings';
 import IconComponent from '../icon-component';
 import { Badge } from '../ui/badge';
 import IconList from './icon-list';
 
 export default function ProjectCard({ project }: { project: Project }) {
     const mainLink = project.demo_link || project.repo_link || null;
+
+    const frontend = project.tags?.filter((tag) => tag.category === 'frontend');
+    const backend = project.tags?.filter((tag) => tag.category === 'backend');
+    const tools = project.tags?.filter((tag) => tag.category === 'tool');
+    const skills = project.tags?.filter((tag) => tag.category === 'skill');
 
     const DateEl = () => (
         <>
@@ -50,8 +56,10 @@ export default function ProjectCard({ project }: { project: Project }) {
                         {/* title and subtitle */}
                         <div>
                             <CardTitle className="mb-1 font-sans text-lg">
-                                {project.title}
-                                {!!project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
+                                <H3>
+                                    {project.title}
+                                    {!!project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
+                                </H3>
                             </CardTitle>
                             <DateEl />
                         </div>
@@ -64,19 +72,43 @@ export default function ProjectCard({ project }: { project: Project }) {
                 <p className="leading-relaxed whitespace-pre-wrap">{project.description}</p>
 
                 {/* tech list */}
-                {!!project.technologies?.length && (
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <IconList items={project.technologies} />
-                    </div>
+                {!!frontend?.length && (
+                    <>
+                        <H4>Frontend Technologies</H4>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <IconList items={frontend} />
+                        </div>
+                    </>
+                )}
+
+                {!!backend?.length && (
+                    <>
+                        <H4>Backend Technologies</H4>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <IconList items={backend} />
+                        </div>
+                    </>
+                )}
+
+                {!!tools?.length && (
+                    <>
+                        <H4>Additional Tools</H4>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <IconList items={tools} />
+                        </div>
+                    </>
                 )}
 
                 {/* skill badges */}
-                {!!project.skills?.length && (
-                    <div className="flex flex-wrap gap-2">
-                        {project.skills.map((skill) => (
-                            <Badge variant="secondary">{skill.name}</Badge>
-                        ))}
-                    </div>
+                {!!skills?.length && (
+                    <>
+                        <H4>Skills</H4>
+                        <div className="flex flex-wrap gap-2">
+                            {skills.map((skill) => (
+                                <Badge variant="secondary">{skill.name}</Badge>
+                            ))}
+                        </div>
+                    </>
                 )}
 
                 <div className="flex flex-col gap-2 pt-2 sm:flex-row">

@@ -1,6 +1,7 @@
-import { Project, Skill, Technology } from '@/types/models';
+import { TagConfig, TagConfigInterface } from '@/config/config';
+import { Project, Tag } from '@/types/models';
 
-interface BreadcrumbTreeItem {
+export interface BreadcrumbTreeItem {
     title: string;
     href: string;
     parent?: BreadcrumbTreeItem;
@@ -32,45 +33,20 @@ export const useBreadcrumbs = () => {
             href: `/projects/${project.id}/edit`,
             parent: breadcrumbTree.show_project(project),
         }),
-        skill_index: () => ({
-            title: 'Skills',
-            href: '/skills',
+        tag_index: (tagConfig: TagConfigInterface = TagConfig) => ({
+            title: tagConfig.TYPE.toPlural().toTitleCase(),
+            href: tagConfig.BASE_URI,
             parent: breadcrumbTree.dashboard(),
         }),
-        create_skill: () => ({
-            title: 'Add Skill',
-            href: '/skill/create',
-            parent: breadcrumbTree.skill_index(),
+        create_tag: (tagConfig: TagConfigInterface = TagConfig) => ({
+            title: `Add ${tagConfig.TYPE.toTitleCase()}`,
+            href: `${tagConfig.BASE_URI}/create`,
+            parent: breadcrumbTree.tag_index(tagConfig),
         }),
-        // show_skill: (skill: Skill) => ({
-        //     title: skill.name,
-        //     href: `/skills/${skill.id}`,
-        //     parent: breadcrumbTree.skill_index(),
-        // }),
-        edit_skill: (skill: Skill) => ({
-            title: `Edit ${skill.name}`,
-            href: `/projects/${skill.id}/edit`,
-            parent: breadcrumbTree.skill_index(),
-        }),
-        technology_index: () => ({
-            title: 'Technologies',
-            href: '/technologies',
-            parent: breadcrumbTree.dashboard(),
-        }),
-        create_technology: () => ({
-            title: 'Add Technology',
-            href: '/technology/create',
-            parent: breadcrumbTree.technology_index(),
-        }),
-        // show_technology: (technology: Technology) => ({
-        //     title: technology.name,
-        //     href: `/technologies/${technology.id}`,
-        //     parent: breadcrumbTree.technology_index(),
-        // }),
-        edit_technology: (technology: Technology) => ({
-            title: `Edit ${technology.name}`,
-            href: `/projects/${technology.id}/edit`,
-            parent: breadcrumbTree.technology_index(),
+        edit_tag: (tag: Tag, tagConfig: TagConfigInterface = TagConfig) => ({
+            title: `Edit "${tag.name}"`,
+            href: `${tagConfig.BASE_URI}/edit`,
+            parent: breadcrumbTree.tag_index(tagConfig),
         }),
     };
 
@@ -83,8 +59,8 @@ export const useBreadcrumbs = () => {
         return [...parentTree, breadcrumbItem];
     };
 
-    const getBreadcrumbs = (page: string, data?: Project | Skill | Technology) => {
-        const breadcrumbFunction = breadcrumbTree[page as keyof typeof breadcrumbTree];
+    function getBreadcrumbs<K extends keyof typeof breadcrumbTree>(page: K, ...args: Parameters<(typeof breadcrumbTree)[K]>): BreadcrumbTreeItem[] {
+        const breadcrumbFunction = breadcrumbTree[page] as (...args: Parameters<(typeof breadcrumbTree)[K]>) => BreadcrumbTreeItem;
 
         if (!breadcrumbFunction) {
             console.warn(`Breadcrumb page '${page}' not found`);
@@ -92,13 +68,14 @@ export const useBreadcrumbs = () => {
         }
 
         try {
-            const breadcrumb = data ? breadcrumbFunction(data) : breadcrumbFunction();
+            const breadcrumb: BreadcrumbTreeItem = breadcrumbFunction(...args);
+
             return getAncestors(breadcrumb);
         } catch (error) {
             console.warn(`Error generating breadcrumb for '${page}':`, error);
             return [];
         }
-    };
+    }
 
     return { breadcrumbTree, getAncestors, getBreadcrumbs };
 };

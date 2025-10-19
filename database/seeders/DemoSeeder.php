@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
-use App\Models\Skill;
-use App\Models\Technology;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class DemoSeeder extends Seeder
@@ -26,16 +25,9 @@ class DemoSeeder extends Seeder
             'date' => '2025-01-01',
         ]);
 
-        // Create Skill
-        Skill::create([
+        Tag::create([
             'name' => 'Example Skill',
             'icon_name' => 'BadgeCheck',
-        ]);
-
-        // Create Technology
-        Technology::create([
-            'name' => 'Example Technology',
-            'icon_name' => 'Wrench',
         ]);
     }
 }
