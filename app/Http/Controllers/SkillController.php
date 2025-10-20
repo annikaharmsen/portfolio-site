@@ -44,7 +44,7 @@ class SkillController extends Controller
 
         $skill->projects()->sync($validated['projects']);
 
-        return back();
+        return Inertia::render('loading');
     }
 
     /**
@@ -89,13 +89,13 @@ class SkillController extends Controller
     {
         $skill->delete();
 
-        return redirect('/skills');
+        return Inertia::render('loading');
     }
 
     public function bulkDelete(BulkDeleteTagsRequest $request)
     {
         $deletedCount = Tag::destroy($request->getSkillIds());
 
-        return redirect('/skills');
+        return back();
     }
 }

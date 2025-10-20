@@ -48,7 +48,7 @@ class TechnologyController extends Controller
 
         $technology->projects()->sync($validated['projects']);
 
-        return back();
+        return Inertia::render('loading');
     }
 
     /**
@@ -93,13 +93,13 @@ class TechnologyController extends Controller
     {
         $technology->delete();
 
-        return redirect('/technologies');
+        return Inertia::render('loading');
     }
 
     public function bulkDelete(BulkDeleteTagsRequest $request)
     {
         $deletedCount = Tag::destroy($request->getTechnologyIds());
 
-        return redirect('/technologies');
+        return back();
     }
 }

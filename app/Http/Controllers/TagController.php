@@ -44,7 +44,7 @@ class TagController extends Controller
 
         $tag->projects()->sync($validated['projects']);
 
-        return back();
+        return Inertia::render('loading');
     }
 
     /**
@@ -89,7 +89,7 @@ class TagController extends Controller
     {
         $tag->delete();
 
-        return;
+        return Inertia::render('loading');
     }
 
     public function bulkDelete(BulkDeleteTagsRequest $request)

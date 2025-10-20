@@ -24,10 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('tags', TagController::class);
 
     Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])->name('skills.bulk-delete');
-    Route::resource('skills', SkillController::class)->parameters(['skills' => 'tag']);
+    Route::resource('skills', SkillController::class);
 
     Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('technologies.bulk-delete');
-    Route::resource('technologies', TechnologyController::class)->parameters(['technologies' => 'tag']);
+    Route::resource('technologies', TechnologyController::class);
 });
 
 require __DIR__.'/settings.php';

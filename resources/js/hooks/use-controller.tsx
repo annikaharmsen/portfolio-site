@@ -1,4 +1,5 @@
 import { router } from '@inertiajs/react';
+import { VisitOptions } from 'node_modules/@inertiajs/core';
 
 export default function useController<T extends { id: number }>(baseURI: string) {
     return {
@@ -9,16 +10,35 @@ export default function useController<T extends { id: number }>(baseURI: string)
             router.get(`${baseURI}/${model.id}`);
         },
         create: () => {
+            sessionStorage.setItem('returnURL', window.location.pathname);
             router.get(`${baseURI}/create`);
         },
+        store: (postMethod: (url: string, options?: Omit<VisitOptions, 'data'> | undefined) => void, url: string) => {
+            const returnURL = sessionStorage.getItem('returnURL') || baseURI;
+            postMethod(url, {
+                onSuccess: () => router.get(returnURL),
+            });
+        },
         edit: (model: T) => {
+            sessionStorage.setItem('returnURL', window.location.pathname);
             router.get(`${baseURI}/${model.id}/edit`);
         },
+        update: (updateMethod: (url: string, options?: Omit<VisitOptions, 'data'> | undefined) => void, url: string) => {
+            const returnURL = sessionStorage.getItem('returnURL') || baseURI;
+            updateMethod(url, {
+                onSuccess: () => router.get(returnURL),
+            });
+        },
         delete: (model: T) => {
+            const returnURL = sessionStorage.getItem('returnURL') || baseURI;
+            sessionStorage.removeItem('returnURL');
             router.delete(`${baseURI}/${model.id}`, {
-                replace: true,
+                preserveState: false,
                 onSuccess: () => {
-                    history.back();
+                    router.get(returnURL);
+                },
+                onError: (errors) => {
+                    console.error('Delete failed:', errors);
                 },
             });
         },

@@ -3,11 +3,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { SkillConfig, TechConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
-import { Project, Skills, Technologies } from '@/types/models';
+import { Project, Tags } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
@@ -18,11 +19,13 @@ import { store } from '../store';
 
 interface ProjectFormProps {
     project?: Project;
-    skills: Skills;
-    technologies: Technologies;
+    tags: Tags;
 }
 
-export default function ProjectForm({ project, skills, technologies }: ProjectFormProps) {
+export default function ProjectForm({ project, tags }: ProjectFormProps) {
+    const skills = tags.filter((tag) => tag.category && SkillConfig.CATEGORIES.includes(tag.category));
+    const technologies = tags.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category));
+
     const { data, setData, processing, errors, post, put, isDirty } = useForm({
         icon_name: (project?.icon_name as IconName | null) || null,
         title: project?.title || '',
@@ -31,8 +34,7 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
         demo_link: project?.demo_link || '',
         date: project?.date || '',
         featured: project?.featured || false,
-        skills: project?.skills?.map((skill) => skill.id) || [],
-        technologies: project?.technologies?.map((technology) => technology.id) || [],
+        tags: project?.tags?.map((tag) => tag.id) || [],
         description: project?.description || '',
     });
 
@@ -57,13 +59,9 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
         e.preventDefault();
 
         if (project) {
-            put(`/projects/${project.id}`, {
-                onSuccess: () => history.back(),
-            });
+            controller.update(put, `/projects/${project.id}`);
         } else {
-            post('/projects', {
-                onSuccess: () => history.back(),
-            });
+            controller.store(post, '/projects');
         }
     };
 
@@ -78,16 +76,9 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
         }
     };
 
-    const handleSkillsChange = useCallback(
+    const handleTagsChange = useCallback(
         (updatedValue: number[]) => {
-            setData('skills', updatedValue);
-        },
-        [setData],
-    );
-
-    const handleTechnologiesChange = useCallback(
-        (updatedValue: number[]) => {
-            setData('technologies', updatedValue);
+            setData('tags', updatedValue);
         },
         [setData],
     );
@@ -181,14 +172,12 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
                             Skills
                         </Label>
                         <BadgeSelectInput
-                            value={data.skills}
-                            onChange={handleSkillsChange}
+                            value={data.tags.filter((tag) => skills.find((skill) => skill.id === tag))}
+                            onChange={handleTagsChange}
                             options={skills}
                             textResource="name"
                             onClickPlus={skillCreate}
                         />
-
-                        <InputError>{errors.skills}</InputError>
                     </>
 
                     <>
@@ -196,15 +185,14 @@ export default function ProjectForm({ project, skills, technologies }: ProjectFo
                             Technologies
                         </Label>
                         <BadgeSelectInput
-                            value={data.technologies}
-                            onChange={handleTechnologiesChange}
+                            value={data.tags.filter((tag) => technologies.find((technology) => technology.id === tag))}
+                            onChange={handleTagsChange}
                             options={technologies}
                             textResource="name"
                             onClickPlus={technologyCreate}
                         />
-
-                        <InputError>{errors.technologies}</InputError>
                     </>
+                    <InputError className="col-span-full">{errors.tags}</InputError>
                 </FormGridLayout>
 
                 <div className="mt-8 flex justify-between">

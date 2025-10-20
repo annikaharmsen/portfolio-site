@@ -52,13 +52,9 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         e.preventDefault();
 
         if (isEditing) {
-            put(`${baseURI}/${tag.id}`, {
-                onSuccess: () => history.back(),
-            });
+            controller.update(put, `${baseURI}/${tag.id}`);
         } else {
-            post(`${baseURI}`, {
-                onSuccess: () => history.back(),
-            });
+            controller.store(post, baseURI);
         }
     };
 
