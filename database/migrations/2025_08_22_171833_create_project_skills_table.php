@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Project;
-use App\Models\Skill;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('project_skills', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Project::class);
-            $table->foreignIdFor(Skill::class);
+            $table->foreignId('project_id')->constrained();
+            $table->foreignId('skill_id')->constrained();
             $table->timestamps();
         });
     }
