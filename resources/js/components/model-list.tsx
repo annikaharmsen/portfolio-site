@@ -69,31 +69,31 @@ export default function ModelList<T extends { id: number }>({
             <div className="overflow-x-auto rounded-md border">
                 <table className="w-max min-w-full">
                     <thead>
-                        <tr className="border-b">
-                            <th className="p-2 text-left">
-                                <Checkbox
-                                    checked={
-                                        modelSelection.allSelected(filteredModelIDs)
-                                            ? true
-                                            : modelSelection.someSelected(filteredModelIDs)
-                                              ? 'indeterminate'
-                                              : false
-                                    }
-                                    onCheckedChange={handle.select_all}
-                                />
-                            </th>
-                            {/* table headings */}
-                            {models.length > 0 &&
-                                columns.map((column) => {
-                                    return (
-                                        column.headingComponent ?? (
+                        {/* table headings */}
+                        {models.length > 0 && (
+                            <tr className="border-b">
+                                <th className="p-2 text-left">
+                                    <Checkbox
+                                        checked={
+                                            modelSelection.allSelected(filteredModelIDs)
+                                                ? true
+                                                : modelSelection.someSelected(filteredModelIDs)
+                                                  ? 'indeterminate'
+                                                  : false
+                                        }
+                                        onCheckedChange={handle.select_all}
+                                    />
+                                </th>
+                                {columns.map(
+                                    (column) =>
+                                        column.headingComponent && (
                                             <th key={column.name} className="p-2 whitespace-nowrap">
                                                 {column.name}
                                             </th>
-                                        )
-                                    );
-                                })}
-                        </tr>
+                                        ),
+                                )}
+                            </tr>
+                        )}
                     </thead>
                     <tbody>
                         {filteredModels.length > 0 ? (
