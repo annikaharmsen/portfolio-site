@@ -38,7 +38,6 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
 
     useUnsavedWarning(isDirty && !processing && !deleting);
 
-    // Reload options when returning via history (preserves form state)
     useEffect(() => {
         const handlePopState = () => {
             router.reload({ only: ['projects'] });
@@ -56,10 +55,6 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         } else {
             controller.store(post, baseURI);
         }
-    };
-
-    const handleCancel = () => {
-        controller.index();
     };
 
     const handleDelete = () => {
@@ -131,7 +126,7 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
             <div className="mt-8 flex justify-between">
                 {isEditing && <DeleteButton onClick={handleDelete} disabled={deleting} />}
                 <div className="flex w-full justify-end space-x-2">
-                    <CancelButton onClick={handleCancel} />
+                    <CancelButton onClick={controller.index} />
                     <SaveButton disabled={processing} onClick={handleSubmit}>
                         {processing ? 'Saving...' : isEditing ? 'Update' : 'Create'}
                     </SaveButton>

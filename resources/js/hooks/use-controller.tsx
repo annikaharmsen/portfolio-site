@@ -1,7 +1,9 @@
 import { router } from '@inertiajs/react';
 import { VisitOptions } from 'node_modules/@inertiajs/core';
+import useReroute from './use-reroute';
 
 export default function useController<T extends { id: number }>(baseURI: string) {
+    const reroute = useReroute();
     return {
         index: () => {
             router.get(baseURI);
@@ -10,33 +12,27 @@ export default function useController<T extends { id: number }>(baseURI: string)
             router.get(`${baseURI}/${model.id}`);
         },
         create: () => {
-            sessionStorage.setItem('returnURL', window.location.pathname);
+            reroute.setReturnURL();
             router.get(`${baseURI}/create`);
         },
         store: (postMethod: (url: string, options?: Omit<VisitOptions, 'data'> | undefined) => void, url: string) => {
-            const returnURL = sessionStorage.getItem('returnURL') || baseURI;
             postMethod(url, {
-                onSuccess: () => router.get(returnURL),
+                onSuccess: reroute.reroute,
             });
         },
         edit: (model: T) => {
-            sessionStorage.setItem('returnURL', window.location.pathname);
+            reroute.setReturnURL();
             router.get(`${baseURI}/${model.id}/edit`);
         },
         update: (updateMethod: (url: string, options?: Omit<VisitOptions, 'data'> | undefined) => void, url: string) => {
-            const returnURL = sessionStorage.getItem('returnURL') || baseURI;
             updateMethod(url, {
-                onSuccess: () => router.get(returnURL),
+                onSuccess: reroute.reroute,
             });
         },
         delete: (model: T) => {
-            const returnURL = sessionStorage.getItem('returnURL') || baseURI;
-            sessionStorage.removeItem('returnURL');
             router.delete(`${baseURI}/${model.id}`, {
                 preserveState: false,
-                onSuccess: () => {
-                    router.get(returnURL);
-                },
+                onSuccess: reroute.reroute,
                 onError: (errors) => {
                     console.error('Delete failed:', errors);
                 },
