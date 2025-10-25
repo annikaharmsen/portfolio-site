@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectHeroSectionsController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware('auth')->group(function () {
+    // Dashboard route
     Route::get('/', function () {
         return Inertia::render('admin/dashboard', [
             'projects' => Project::ordered()->get(),
@@ -17,16 +20,35 @@ Route::middleware('auth')->group(function () {
         ]);
     })->name('home');
 
-    Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])->name('projects.bulk-delete');
+    // Project routes
+    Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])
+        ->name('projects.bulk-delete');
     Route::resource('projects', ProjectController::class);
 
-    Route::delete('tags/bulk-delete', [TagController::class, 'bulkDelete'])->name('tags.bulk-delete');
+    // Project hero section routes
+    Route::prefix('projects/{project}/hero-sections')
+      ->name('projects.hero-sections.')
+      ->controller(ProjectHeroSectionsController::class)
+      ->group(function () {
+          Route::get('/', 'edit')->name('edit');
+          Route::put('/', 'update')->name('update');
+      });
+
+    // Image routes
+    Route::resource('images', ImageController::class)
+        ->only(['index', 'edit', 'store', 'update', 'destroy']);
+
+    // Tag routes
+    Route::delete('tags/bulk-delete', [TagController::class, 'bulkDelete'])
+        ->name('tags.bulk-delete');
     Route::resource('tags', TagController::class);
 
-    Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])->name('skills.bulk-delete');
+    Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])
+        ->name('skills.bulk-delete');
     Route::resource('skills', SkillController::class);
 
-    Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('technologies.bulk-delete');
+    Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])
+        ->name('technologies.bulk-delete');
     Route::resource('technologies', TechnologyController::class);
 });
 
