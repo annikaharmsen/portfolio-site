@@ -23,6 +23,7 @@ interface ProjectFormProps {
 }
 
 export default function ProjectForm({ project, tags }: ProjectFormProps) {
+    const isEditing = !!project;
     const skills = tags.filter((tag) => tag.category && SkillConfig.CATEGORIES.includes(tag.category));
     const technologies = tags.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category));
 
