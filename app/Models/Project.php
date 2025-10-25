@@ -27,4 +27,8 @@ class Project extends Model
     public function tags() {
         return $this->belongsToMany(Tag::class, 'project_tags');
     }
+
+    public function heroSections() {
+        return $this->hasMany(ProjectHeroSection::class)->ordered();
+    }
 }
