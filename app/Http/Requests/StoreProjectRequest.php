@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
 use App\Enums\LucideIcon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateProjectRequest extends FormRequest
+class StoreProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
+        // Allow access if using demo database or if authenticated
         return config('database.default') === 'demo' || auth()->check();
     }
 
@@ -32,7 +33,7 @@ class UpdateProjectRequest extends FormRequest
             'demo_link' => 'nullable|url',
             'featured' => 'boolean',
             'date' => 'nullable|date',
-            'tags' => 'array|distinct|exists:tags,id',
+            'tags' => 'array|distinct|exists:tags,id'
         ];
     }
 
@@ -43,7 +44,7 @@ class UpdateProjectRequest extends FormRequest
             'icon_name.Illuminate\Validation\Rules\Enum' => 'Invalid icon selection.',
             'title.required' => 'Project title is required.',
             'title.min' => 'Project title cannot be empty.',
-            'repo_link.url' => 'Please enter a valid repository URL.',
+            'repo_link.url' => 'Please enter a valid repository.',
             'demo_link.url' => 'Please enter a valid demo URL.',
             'tags' => 'Invalid tag selection.',
         ];

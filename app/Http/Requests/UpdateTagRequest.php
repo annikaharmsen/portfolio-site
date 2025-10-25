@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
 use App\Enums\LucideIcon;
 use App\Enums\TagCategory;

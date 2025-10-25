@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
 use App\Enums\LucideIcon;
+use App\Enums\TagCategory;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
-class StoreProjectRequest extends FormRequest
+class StoreTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,14 +28,9 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'icon_name' => ['required', Rule::enum(LucideIcon::class)],
-            'title' => 'required|string|min:1|max:255',
-            'subtitle' => 'required|string|max:255',
-            'description' => 'required|string',
-            'repo_link' => 'nullable|url',
-            'demo_link' => 'nullable|url',
-            'featured' => 'boolean',
-            'date' => 'nullable|date',
-            'tags' => 'array|distinct|exists:tags,id'
+            'name' => 'required|string|min:1|max:255',
+            'projects' => 'array|distinct|exists:projects,id',
+            'category' => Rule::enum(TagCategory::class)
         ];
     }
 
@@ -42,11 +39,10 @@ class StoreProjectRequest extends FormRequest
         return [
             'icon_name.required' => 'Icon is required.',
             'icon_name.Illuminate\Validation\Rules\Enum' => 'Invalid icon selection.',
-            'title.required' => 'Project title is required.',
-            'title.min' => 'Project title cannot be empty.',
-            'repo_link.url' => 'Please enter a valid repository.',
-            'demo_link.url' => 'Please enter a valid demo URL.',
-            'tags' => 'Invalid tag selection.',
+            'name.required' => 'Name is required.',
+            'name.min' => 'Name cannot be empty.',
+            'projects' => 'Invalid projects selection.',
+            'category' => 'Invalid category selected.'
         ];
     }
 }
