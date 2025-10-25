@@ -20,9 +20,9 @@ export default function EditProject({ project, tags }: EditProjectProps) {
             <div className="m-12 *:mb-12 md:min-w-160">
                 <div className="flex items-center justify-between *:my-0">
                     <H1>Edit Project</H1>
+                    <EditButton onClick={() => router.get(`/projects/${project.id}/hero-sections`)}>Edit Project Page</EditButton>
                 </div>
                 <ProjectForm project={project} tags={tags} />
-                <EditButton onClick={() => router.get(`/projects/${project.id}/hero-sections`)}>Edit Project Page</EditButton>
             </div>
         </AppLayout>
     );
