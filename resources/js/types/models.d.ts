@@ -14,6 +14,7 @@ export type Project = {
     date?: string;
     // relations
     tags?: Tags;
+    hero_sections?: ProjectHeroSections;
     // counts
     skills_count: number;
     technologies_count: number;
@@ -22,6 +23,27 @@ export type Project = {
     technologies_exists: boolean;
 };
 export type Projects = Project[];
+
+export type ProjectHeroSection = {
+    id: number;
+
+    //relations
+    project?: Project;
+    image?: Image;
+
+    //columns
+    index: number;
+    heading: string;
+    text: string;
+};
+export type ProjectHeroSections = ProjectHeroSection[];
+
+export type Image = {
+    id: number;
+    url: string;
+    alt?: string;
+};
+export type Images = Image[];
 
 export type Tag = {
     //columns
