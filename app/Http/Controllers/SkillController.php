@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Admin\BulkDeleteTagsRequest;
-use App\Http\Requests\Admin\StoreTagRequest;
-use App\Http\Requests\Admin\UpdateTagRequest;
+use App\Http\Requests\BulkDeleteTagsRequest;
+use App\Http\Requests\StoreTagRequest;
+use App\Http\Requests\UpdateTagRequest;
 use App\Models\Project;
 use App\Models\Tag;
 use Inertia\Inertia;

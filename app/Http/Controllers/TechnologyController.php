@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Admin\BulkDeleteTagsRequest;
-use App\Http\Requests\Admin\BulkDeleteTechnologiesRequest;
-use App\Http\Requests\Admin\StoreTagRequest;
-use App\Http\Requests\Admin\StoreTechnologyRequest;
-use App\Http\Requests\Admin\UpdateTagRequest;
-use App\Http\Requests\Admin\UpdateTechnologyRequest;
+use App\Http\Requests\BulkDeleteTagsRequest;
+use App\Http\Requests\BulkDeleteTechnologiesRequest;
+use App\Http\Requests\StoreTagRequest;
+use App\Http\Requests\StoreTechnologyRequest;
+use App\Http\Requests\UpdateTagRequest;
+use App\Http\Requests\UpdateTechnologyRequest;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Technology;

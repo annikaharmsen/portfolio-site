@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\BulkDeleteProjectsRequest;
-use App\Http\Requests\Admin\StoreProjectRequest;
-use App\Http\Requests\Admin\UpdateProjectRequest;
+use App\Http\Requests\BulkDeleteProjectsRequest;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\Tag;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
