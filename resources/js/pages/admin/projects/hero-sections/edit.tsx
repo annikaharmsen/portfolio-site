@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { TextAreaStyles } from '@/components/ui/textarea';
 import useController from '@/hooks/use-controller';
 import useReroute from '@/hooks/use-reroute';
-import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
 import { Image, Project } from '@/types/models';
 import { router, useForm } from '@inertiajs/react';
@@ -74,7 +73,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
         return draftSections.map((section) => ({ ...section, image_id: section.image?.id }));
     };
 
-    const { data, setData, processing, errors, put, isDirty } = useForm({
+    const { data, setData, processing, errors, put } = useForm({
         hero_sections: mapDraftToFormData(),
     });
 
@@ -94,7 +93,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
     }, [draftSections]);
 
     // routing utilities
-    const controller = useController(`projects/${project.id}/hero-sections`);
+    const controller = useController(`/projects/${project.id}/hero-sections`);
     const reroute = useReroute();
 
     // image selection
@@ -164,26 +163,24 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
     };
 
     return (
-        <AppLayout>
-            <CenteredContent>
-                <H1>{project.title}</H1>
-                <span>{project.subtitle}</span>
-                <hr className="my-12" />
-                {!!data.hero_sections.length && (
-                    <form className="w-full max-w-250">
-                        {data.hero_sections.map((section) => (
-                            <HeroSectionFieldset section={section} />
-                        ))}
-                        <div className="my-12 flex w-full justify-end gap-4">
-                            <CancelButton onClick={reroute.reroute} />
-                            <SaveButton onClick={() => controller.update(put)} disabled={!isDirty || processing} />
-                        </div>
-                    </form>
-                )}
-                <Button variant="outline" onClick={addSection}>
-                    Add Section
-                </Button>
-            </CenteredContent>
-        </AppLayout>
+        <CenteredContent>
+            <H1>{project.title}</H1>
+            <span>{project.subtitle}</span>
+            <hr className="my-12" />
+            {!!data.hero_sections.length && (
+                <form className="w-full max-w-250">
+                    {data.hero_sections.map((section) => (
+                        <HeroSectionFieldset section={section} />
+                    ))}
+                    <div className="my-12 flex w-full justify-end gap-4">
+                        <CancelButton onClick={reroute.reroute} />
+                        <SaveButton onClick={() => controller.update(put)} disabled={processing} />
+                    </div>
+                </form>
+            )}
+            <Button variant="outline" onClick={addSection}>
+                Add Section
+            </Button>
+        </CenteredContent>
     );
 }
