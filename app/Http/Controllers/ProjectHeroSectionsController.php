@@ -12,7 +12,7 @@ class ProjectHeroSectionsController extends Controller
 {
     public function edit(Project $project) {
         return Inertia::render('admin/projects/hero-sections/edit', [
-            'project' => $project->load( 'heroSections')
+            'project' => $project->load( ['heroSections', 'heroSections.image'])
         ]);
     }
 
