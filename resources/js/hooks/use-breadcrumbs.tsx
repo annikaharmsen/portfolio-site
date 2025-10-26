@@ -77,5 +77,40 @@ export const useBreadcrumbs = () => {
         }
     }
 
-    return { breadcrumbTree, getAncestors, getBreadcrumbs };
+    // Map Inertia component names to breadcrumb keys
+    const componentToBreadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
+        'admin/dashboard': 'dashboard',
+        'admin/projects/index': 'project_index',
+        'admin/projects/create': 'create_project',
+        'admin/projects/edit': 'edit_project',
+        'admin/projects/show': 'show_project',
+        'admin/projects/hero-sections/edit': 'edit_project', // Could add specific hero section breadcrumb
+        'admin/tags/index': 'tag_index',
+        'admin/tags/create': 'create_tag',
+        'admin/tags/edit': 'edit_tag',
+        'admin/skills/index': 'tag_index',
+        'admin/skills/create': 'create_tag',
+        'admin/skills/edit': 'edit_tag',
+        'admin/technologies/index': 'tag_index',
+        'admin/technologies/create': 'create_tag',
+        'admin/technologies/edit': 'edit_tag',
+    };
+
+    function getBreadcrumbsFromComponent(componentName: string, props?: any): BreadcrumbTreeItem[] {
+        const breadcrumbKey = componentToBreadcrumbMap[componentName];
+
+        if (!breadcrumbKey) {
+            return [];
+        }
+
+        // Extract args from props if needed
+        const args: any[] = [];
+        if (props?.project) args.push(props.project);
+        if (props?.tag) args.push(props.tag);
+        if (props?.tagConfig) args.push(props.tagConfig);
+
+        return getBreadcrumbs(breadcrumbKey, ...args);
+    }
+
+    return { breadcrumbTree, getAncestors, getBreadcrumbs, getBreadcrumbsFromComponent, componentToBreadcrumbMap };
 };

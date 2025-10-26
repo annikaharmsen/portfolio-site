@@ -1,4 +1,5 @@
 import DemoBanner from '@/components/demo-banner';
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { DemoConfig } from '@/types/demo';
@@ -11,11 +12,15 @@ interface AppLayoutProps {
 }
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
-    const { props: pageProps } = usePage();
+    const { component, props: pageProps } = usePage();
     const demoConfig = pageProps.demo_config as DemoConfig;
 
+    // Get breadcrumbs from component name if not explicitly provided
+    const { getBreadcrumbsFromComponent } = useBreadcrumbs();
+    const autoBreadcrumbs = breadcrumbs || getBreadcrumbsFromComponent(component, pageProps);
+
     return (
-        <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+        <AppLayoutTemplate breadcrumbs={autoBreadcrumbs} {...props}>
             <div className="mx-12 my-8">
                 {demoConfig?.enabled && demoConfig?.show_banner && <DemoBanner demoConfig={demoConfig} />}
                 {children}
