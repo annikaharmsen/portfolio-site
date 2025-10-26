@@ -1,8 +1,6 @@
 import { EditButton } from '@/components/app-buttons';
 import { H1 } from '@/components/headings';
 import ProjectForm from '@/components/projects/form';
-import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
-import AppLayout from '@/layouts/app-layout';
 import { Project, Tags } from '@/types/models';
 import { Head, router } from '@inertiajs/react';
 
@@ -12,10 +10,8 @@ interface EditProjectProps {
 }
 
 export default function EditProject({ project, tags }: EditProjectProps) {
-    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('edit_project', project);
-
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title={project.title} />
             <div className="m-12 *:mb-12 md:min-w-160">
                 <div className="flex items-center justify-between *:my-0">
@@ -24,6 +20,6 @@ export default function EditProject({ project, tags }: EditProjectProps) {
                 </div>
                 <ProjectForm project={project} tags={tags} />
             </div>
-        </AppLayout>
+        </>
     );
 }

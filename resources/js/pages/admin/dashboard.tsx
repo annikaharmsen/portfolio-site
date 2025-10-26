@@ -3,8 +3,6 @@ import { ProjectTableColumns } from '@/components/projects/table-columns';
 import { TagTableColumns } from '@/components/tags/table-columns';
 import { Card, CardContent } from '@/components/ui/card';
 import { ProjectConfig, SkillConfig, TechConfig } from '@/config/config';
-import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
-import AppLayout from '@/layouts/app-layout';
 import { Project, Projects, Tag, Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 import { ReactNode } from 'react';
@@ -31,10 +29,9 @@ export default function Dashboard({ projects, tags }: DashboardProps) {
             rowClickBehavior="edit"
         />,
     ];
-    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('dashboard');
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="Dashboard" />
             <div className="grid h-full w-full gap-4 rounded-xl min-[1500px]:grid-cols-2">
                 {cards &&
@@ -44,6 +41,6 @@ export default function Dashboard({ projects, tags }: DashboardProps) {
                         </Card>
                     ))}
             </div>
-        </AppLayout>
+        </>
     );
 }

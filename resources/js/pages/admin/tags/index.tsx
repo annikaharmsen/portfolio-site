@@ -3,7 +3,6 @@ import ModelList from '@/components/model-list';
 import { TagTableColumns } from '@/components/tags/table-columns';
 import { TagConfig, TagConfigInterface } from '@/config/config';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
-import AppLayout from '@/layouts/app-layout';
 import { Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
@@ -17,10 +16,10 @@ export default function TagIndex({ tags, tagConfig = TagConfig }: TagIndexProps)
     const title = breadcrumbs.at(-1)?.title.toTitleCase();
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title={title} />
             <H1 className="mb-6">{title}</H1>
             <ModelList models={tags} modelConfig={tagConfig} searchBy="name" columns={TagTableColumns(tagConfig)} rowClickBehavior="edit" />
-        </AppLayout>
+        </>
     );
 }
