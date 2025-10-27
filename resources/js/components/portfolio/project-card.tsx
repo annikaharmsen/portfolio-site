@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Project } from '@/types/models';
+import { router } from '@inertiajs/react';
 import { ExternalLink, Github, Star } from 'lucide-react';
 import { H3, H4 } from '../headings';
 import IconComponent from '../icon-component';
@@ -36,14 +38,8 @@ export default function ProjectCard({ project }: { project: Project }) {
 
     return (
         <Card
-            onClick={
-                mainLink
-                    ? (e) => {
-                          openLink(mainLink, e);
-                      }
-                    : undefined
-            }
-            className="group cursor-pointer transition-all hover:scale-101 hover:shadow-lg"
+            onClick={project.hero_sections ? () => router.get(`/projects/${project.id}`) : mainLink ? (e) => openLink(mainLink, e) : undefined}
+            className={cn('group transition-all', (mainLink || !!project.hero_sections) && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
         >
             <CardHeader>
                 <div className="flex items-start justify-between">
@@ -64,7 +60,9 @@ export default function ProjectCard({ project }: { project: Project }) {
                             <DateEl />
                         </div>
                     </div>
-                    {!!mainLink && <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />}
+                    {!!(project.hero_sections || mainLink) && (
+                        <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />
+                    )}
                 </div>
             </CardHeader>
             <CardContent className="mx-6 space-y-4">
