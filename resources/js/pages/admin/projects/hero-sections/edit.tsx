@@ -172,15 +172,18 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
                     {data.hero_sections.map((section) => (
                         <HeroSectionFieldset section={section} />
                     ))}
+                    <div className="my-12 flex w-full justify-center">
+                        <Button variant="outline" onClick={addSection}>
+                            <Plus />
+                            Add Section
+                        </Button>
+                    </div>
                     <div className="my-12 flex w-full justify-end gap-4">
                         <CancelButton onClick={reroute.reroute} />
                         <SaveButton onClick={() => controller.update(put)} disabled={processing} />
                     </div>
                 </form>
             )}
-            <Button variant="outline" onClick={addSection}>
-                Add Section
-            </Button>
         </CenteredContent>
     );
 }
