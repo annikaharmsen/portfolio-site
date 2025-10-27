@@ -17,7 +17,7 @@ export default function CenteredContent({ horizontal, vertical, className, child
     const classes = [horizontal && 'items-center', vertical && 'justify-center'];
 
     return (
-        <div {...props} className={cn('flex h-screen flex-col', classes, className)}>
+        <div {...props} className={cn('flex min-h-screen flex-col', classes, className)}>
             {children}
         </div>
     );
