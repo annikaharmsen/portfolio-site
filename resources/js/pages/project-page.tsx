@@ -42,7 +42,7 @@ export default function ProjectPage({ project }: { project: Project }) {
                 <hr />
             </div>
             <div className="my-12 flex w-full justify-center">
-                <Button variant="outline" onClick={() => history.back()}>
+                <Button variant="link" onClick={() => history.back()}>
                     <ArrowLeft />
                     Back to homepage
                 </Button>
