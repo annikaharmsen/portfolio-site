@@ -9,7 +9,7 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('portfolio', [
         'tags' => Tag::whereNotNull('category')->orderBy('created_at', 'desc')->get(),
-        'projects' => Project::with(['tags'])
+        'projects' => Project::with(['tags', 'hero_sections'])
                         ->orderBy('featured', 'desc')
                         ->orderBy('date', 'desc')
                         ->get()
@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Route::get('/projects/{project}', function (Project $project) {
     return Inertia::render('project-page', [
-        'project' => $project->load(['heroSections', 'heroSections.image'])
+        'project' => $project->load(['hero_sections', 'hero_sections.image'])
     ]);
 });
 

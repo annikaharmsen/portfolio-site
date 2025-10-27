@@ -12,7 +12,7 @@ class ProjectHeroSectionsController extends Controller
 {
     public function edit(Project $project) {
         return Inertia::render('admin/projects/hero-sections/edit', [
-            'project' => $project->load( ['heroSections', 'heroSections.image'])
+            'project' => $project->load( ['hero_sections', 'hero_sections.image'])
         ]);
     }
 
@@ -30,7 +30,7 @@ class ProjectHeroSectionsController extends Controller
         };
 
         // Delete sections not in submission
-        $project->heroSections()->whereNotIn('id', $submittedIDs)->delete();
+        $project->hero_sections()->whereNotIn('id', $submittedIDs)->delete();
 
         return back();
     }
