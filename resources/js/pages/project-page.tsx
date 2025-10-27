@@ -1,7 +1,9 @@
 import CenteredContent from '@/components/centered-content';
 import { H1, H2 } from '@/components/headings';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Project, ProjectHeroSection } from '@/types/models';
+import { ArrowLeft } from 'lucide-react';
 
 export default function ProjectPage({ project }: { project: Project }) {
     // hero section component
@@ -22,6 +24,13 @@ export default function ProjectPage({ project }: { project: Project }) {
 
     return (
         <CenteredContent>
+            <Button
+                onClick={() => history.back()}
+                variant="ghost"
+                className="absolute top-4 left-4 size-8 rounded-full md:top-6 md:left-6 md:size-12"
+            >
+                <ArrowLeft className="md:size-6" />
+            </Button>
             <div className="m-8 flex flex-col items-center md:m-16">
                 <H1 className="text-center">{project.title}</H1>
                 <span>{project.subtitle}</span>
@@ -30,6 +39,13 @@ export default function ProjectPage({ project }: { project: Project }) {
                 {project.hero_sections?.map((section) => (
                     <HeroSection section={section} />
                 ))}
+                <hr />
+            </div>
+            <div className="my-12 flex w-full justify-center">
+                <Button variant="outline" onClick={() => history.back()}>
+                    <ArrowLeft />
+                    Back to homepage
+                </Button>
             </div>
         </CenteredContent>
     );
