@@ -121,7 +121,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
                     <Button
                         type="button"
                         onClick={() => handleImageSelect(section.index)}
-                        className="relative max-h-full min-h-50 rounded-2xl border p-0 hover:scale-101 hover:bg-accent"
+                        className="relative h-48 rounded-2xl border p-0 hover:scale-101 hover:bg-accent md:h-100"
                     >
                         {section.image ? (
                             <>
