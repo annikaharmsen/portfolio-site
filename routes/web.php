@@ -16,3 +16,9 @@ Route::get('/', function () {
     ]);
 })->name('portfolio');
 
+Route::get('/projects/{project}', function (Project $project) {
+    return Inertia::render('project-page', [
+        'project' => $project->load(['heroSections', 'heroSections.image'])
+    ]);
+});
+
