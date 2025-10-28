@@ -7,11 +7,12 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function ProjectPage({ project }: { project: Project }) {
     // hero section component
-    const HeroSection = ({ section }: { section: ProjectHeroSection }) => (
+    const HeroSection = ({ section, index }: { section: ProjectHeroSection; index: number }) => (
         <div
             className={cn(
                 'flex w-full items-center justify-around gap-16 border-t-1 p-8 md:p-16 md:px-24',
-                section.index % 2 == 1 && 'flex-row-reverse',
+                !section.image && 'text-center',
+                index % 2 == 1 && 'flex-row-reverse',
             )}
         >
             <>{section.image && <img src={section.image.url} alt="" className="h-48 w-auto rounded-2xl object-contain md:h-100" />}</>
@@ -36,8 +37,8 @@ export default function ProjectPage({ project }: { project: Project }) {
                 <span>{project.subtitle}</span>
             </div>
             <div className="w-full max-w-250">
-                {project.hero_sections?.map((section) => (
-                    <HeroSection section={section} />
+                {project.hero_sections?.map((section, index) => (
+                    <HeroSection section={section} index={index} />
                 ))}
                 <hr />
             </div>

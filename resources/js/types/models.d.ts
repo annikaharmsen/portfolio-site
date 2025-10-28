@@ -32,7 +32,6 @@ export type ProjectHeroSection = {
     image?: Image;
 
     //columns
-    index: number;
     heading: string;
     text: string;
 };
