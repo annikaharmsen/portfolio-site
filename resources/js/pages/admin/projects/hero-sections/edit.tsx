@@ -59,7 +59,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
     const isDirty = JSON.stringify(draftSections) !== JSON.stringify(project.hero_sections || []);
 
     // warn user about unsaved changes
-    useUnsavedWarning(isDirty && !isSubmitting);
+    useUnsavedWarning(isDirty && !isSubmitting && savedHeroSections.length === 0);
 
     // clear session storage after component mounts and state is initialized
     useEffect(() => {
@@ -212,39 +212,37 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
                 <H1>{project.title}</H1>
                 <span>{project.subtitle}</span>
                 <hr className="my-12" />
-                {!!draftSections.length && (
-                    <Form
-                        method="put"
-                        action={`/projects/${project.id}/hero-sections`}
-                        className="w-full max-w-250"
-                        onSubmit={() => setIsSubmitting(true)}
-                        onSuccess={() => setIsSubmitting(false)}
-                        onError={() => setIsSubmitting(false)}
-                    >
-                        {({ errors, processing }) => (
-                            <>
-                                {draftSections.map((section, index) => {
-                                    const sectionErrors = {
-                                        image_id: { message: errors[`hero_sections.${index}.image_id`] as string },
-                                        heading: { message: errors[`hero_sections.${index}.heading`] as string },
-                                        text: { message: errors[`hero_sections.${index}.text`] as string },
-                                    };
-                                    return <HeroSectionFieldset key={index} section={section} index={index} errors={sectionErrors} />;
-                                })}
-                                <div className="my-12 flex w-full justify-center">
-                                    <Button type="button" variant="outline" onClick={addSection}>
-                                        <Plus />
-                                        Add Section
-                                    </Button>
-                                </div>
-                                <div className="my-12 flex w-full justify-end gap-4">
-                                    <CancelButton onClick={reroute.reroute} />
-                                    <SaveButton type="submit" disabled={processing} />
-                                </div>
-                            </>
-                        )}
-                    </Form>
-                )}
+                <Form
+                    method="put"
+                    action={`/projects/${project.id}/hero-sections`}
+                    className="w-full max-w-250"
+                    onSubmit={() => setIsSubmitting(true)}
+                    onSuccess={() => setIsSubmitting(false)}
+                    onError={() => setIsSubmitting(false)}
+                >
+                    {({ errors, processing }) => (
+                        <>
+                            {draftSections.map((section, index) => {
+                                const sectionErrors = {
+                                    image_id: { message: errors[`hero_sections.${index}.image_id`] as string },
+                                    heading: { message: errors[`hero_sections.${index}.heading`] as string },
+                                    text: { message: errors[`hero_sections.${index}.text`] as string },
+                                };
+                                return <HeroSectionFieldset key={index} section={section} index={index} errors={sectionErrors} />;
+                            })}
+                            <div className="my-12 flex w-full justify-center">
+                                <Button type="button" variant="outline" onClick={addSection}>
+                                    <Plus />
+                                    Add Section
+                                </Button>
+                            </div>
+                            <div className="my-12 flex w-full justify-end gap-4">
+                                <CancelButton onClick={reroute.reroute} />
+                                <SaveButton type="submit" disabled={processing} />
+                            </div>
+                        </>
+                    )}
+                </Form>
             </CenteredContent>
         </>
     );
