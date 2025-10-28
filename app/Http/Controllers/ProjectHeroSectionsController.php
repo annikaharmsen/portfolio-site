@@ -32,6 +32,6 @@ class ProjectHeroSectionsController extends Controller
         // Delete sections not in submission
         $project->hero_sections()->whereNotIn('id', $submittedIDs)->delete();
 
-        return back();
+        return redirect(route('projects.show', [$project]));
     }
 }
