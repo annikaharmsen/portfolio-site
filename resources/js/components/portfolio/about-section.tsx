@@ -5,7 +5,7 @@ export default function AboutSection() {
     return (
         <section id="about" className="bg-muted py-16">
             <div className="mx-auto max-w-6xl px-6">
-                <h2 className="mb-12 text-center font-fascinate text-4xl text-foreground">About Me</h2>
+                <h2 className="mb-12 text-center text-4xl text-foreground uppercase">About Me</h2>
                 <div className="grid items-center gap-12 lg:grid-cols-2">
                     <div>
                         <p className="mb-6 text-lg leading-relaxed text-foreground">
@@ -15,23 +15,23 @@ export default function AboutSection() {
                             the challenge of turning ideas into functional applications and the satisfaction of seeing code come to life.
                         </p>
                         <p className="mb-6 text-lg leading-relaxed text-foreground">
-                            {
-                                'Growing up between Germany and Massachusetts has given me a multicultural background and fluency in both German and English. I thrive in collaborative environments and bring strong communication skills to development teams.\n'
-                            }
+                            Growing up between Germany and Massachusetts has given me a multicultural background and fluency in both German and
+                            English. I thrive in collaborative environments and bring strong communication skills to development teams.
                         </p>
                         <p className="mb-6 text-lg leading-relaxed text-foreground">
-                            {
-                                'During my last two years of high school, I started working in hospitality, which taught me invaluable lessons about working under pressure, adapting quickly to changing situations, and always keeping the end user in mind. This experience significantly strengthened my communication skills, teaching me how to clearly convey information, actively listen to feedback, and collaborate effectively with diverse teams.'
-                            }
+                            During my last two years of high school, I started working in hospitality, which taught me invaluable lessons about
+                            working under pressure, adapting quickly to changing situations, and always keeping the end user in mind. This experience
+                            significantly strengthened my communication skills, teaching me how to clearly convey information, actively listen to
+                            feedback, and collaborate effectively with diverse teams.
                         </p>
                         <p className="mb-6 text-lg leading-relaxed text-foreground">
-                            {
-                                "Currently, I'm expanding my backend expertise into Java Spring while continuing to build full-stack applications with Laravel and React. I'm excited to bring my technical skills, international perspective, and collaborative spirit to a development team where I can contribute to meaningful projects while continuing to grow as a developer."
-                            }
+                            Currently, I'm expanding my backend expertise into Java Spring while continuing to build full-stack applications with
+                            Laravel and React. I'm excited to bring my technical skills, international perspective, and collaborative spirit to a
+                            development team where I can contribute to meaningful projects while continuing to grow as a developer.
                         </p>
                     </div>
                     <div className="flex h-full flex-col space-y-12">
-                        <Card className="flex-grow justify-center px-6">
+                        <Card className="flex-grow justify-center border-secondary px-6">
                             <CardHeader>
                                 <CardTitle className="font-sans">Purdue University Global</CardTitle>
                             </CardHeader>
@@ -58,7 +58,7 @@ export default function AboutSection() {
                                 </ul>
                             </CardContent>
                         </Card>
-                        <Card className="flex-grow justify-center px-6">
+                        <Card className="flex-grow justify-center border-secondary px-6">
                             <CardHeader>
                                 <CardTitle className="font-sans">Work Authorization</CardTitle>
                             </CardHeader>

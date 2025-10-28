@@ -14,7 +14,7 @@ export default function TechSkillsSection({ tags }: { tags: Tags }) {
             <div className="mx-auto max-w-6xl px-4 sm:px-6">
                 {!!tags.length && (
                     <>
-                        <h2 className="mb-12 text-center font-fascinate text-4xl">Technical Skills</h2>
+                        <h2 className="mb-12 text-center text-4xl uppercase">Technical Skills</h2>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
                             {!!frontend.length && (
                                 <Card className="border-accent">
@@ -68,7 +68,7 @@ export default function TechSkillsSection({ tags }: { tags: Tags }) {
                 )}
 
                 <div className="mt-16">
-                    <h2 className="mb-12 text-center font-fascinate text-4xl">Professional Experience</h2>
+                    <h2 className="mb-12 text-center text-4xl uppercase">Professional Experience</h2>
                     <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2">
                         <Card className="border-accent">
                             <CardHeader>
