@@ -11,6 +11,8 @@ import IconList from './icon-list';
 
 export default function ProjectCard({ project }: { project: Project }) {
     const mainLink = project.demo_link || project.repo_link || null;
+    const hasProjectPage = !!project.hero_sections?.length;
+    const isClickable = hasProjectPage || mainLink;
 
     const frontend = project.tags?.filter((tag) => tag.category === 'frontend');
     const backend = project.tags?.filter((tag) => tag.category === 'backend');
@@ -38,8 +40,8 @@ export default function ProjectCard({ project }: { project: Project }) {
 
     return (
         <Card
-            onClick={project.hero_sections ? () => router.get(`/projects/${project.id}`) : mainLink ? (e) => openLink(mainLink, e) : undefined}
-            className={cn('group transition-all', (mainLink || !!project.hero_sections) && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
+            onClick={hasProjectPage ? () => router.get(`/projects/${project.id}`) : mainLink ? (e) => openLink(mainLink, e) : undefined}
+            className={cn('group transition-all', isClickable && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
         >
             <CardHeader>
                 <div className="flex items-start justify-between">
@@ -60,9 +62,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                             <DateEl />
                         </div>
                     </div>
-                    {!!(project.hero_sections || mainLink) && (
-                        <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />
-                    )}
+                    {isClickable && <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />}
                 </div>
             </CardHeader>
             <CardContent className="mx-6 space-y-4">
