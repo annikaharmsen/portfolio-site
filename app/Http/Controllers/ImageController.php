@@ -18,7 +18,7 @@ class ImageController extends Controller
     }
 
     public function edit(Image $image) {
-        return Inertia::render('admin/images', ['images' => Image::all(), 'default_image' => $image]);
+        return Inertia::render('admin/images', ['images' => Image::all(), 'default_image_id' => $image->id]);
     }
 
     public function store(StoreImageRequest $request) {

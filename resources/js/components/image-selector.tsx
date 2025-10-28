@@ -9,9 +9,9 @@ export default function ImageSelector({
 }: {
     images: Images;
     defaultImageID?: number;
-    onValueChange?: (value: number | null) => void;
+    onValueChange?: (value?: number) => void;
 }) {
-    const [imageID, setImageID] = useState(defaultImageID || null);
+    const [imageID, setImageID] = useState(defaultImageID);
 
     const getSelectedImg = () => images.find((img) => img.id === imageID);
 
@@ -38,7 +38,7 @@ export default function ImageSelector({
                             <div className="absolute top-0 left-0 size-full bg-white/65 opacity-0 hover:opacity-100">
                                 <span className="absolute top-1/2 left-1/2 -translate-1/2 text-center *:m-2">
                                     {getSelectedImg()?.alt}
-                                    <Button variant="outline" onClick={() => setImageID(null)}>
+                                    <Button variant="outline" onClick={() => setImageID(undefined)}>
                                         Clear Selection
                                     </Button>
                                 </span>
