@@ -2,9 +2,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Project } from '@/types/models';
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { ExternalLink, Github, Star } from 'lucide-react';
-import { H3, H4 } from '../headings';
+import { H3 } from '../headings';
 import IconComponent from '../icon-component';
 import { Badge } from '../ui/badge';
 import IconList from './icon-list';
@@ -72,7 +72,6 @@ export default function ProjectCard({ project }: { project: Project }) {
                 {/* tech list */}
                 {!!frontend?.length && (
                     <>
-                        <H4>Frontend Technologies</H4>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <IconList items={frontend} />
                         </div>
@@ -81,7 +80,6 @@ export default function ProjectCard({ project }: { project: Project }) {
 
                 {!!backend?.length && (
                     <>
-                        <H4>Backend Technologies</H4>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <IconList items={backend} />
                         </div>
@@ -90,7 +88,6 @@ export default function ProjectCard({ project }: { project: Project }) {
 
                 {!!tools?.length && (
                     <>
-                        <H4>Additional Tools</H4>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <IconList items={tools} />
                         </div>
@@ -106,6 +103,13 @@ export default function ProjectCard({ project }: { project: Project }) {
                             ))}
                         </div>
                     </>
+                )}
+
+                {hasProjectPage && (
+                    <Link className="mb-4 inline-block font-semibold uppercase underline-offset-4">
+                        Learn More
+                        <div className="relative -top-0.5 h-[1.4px] w-0 bg-primary transition-[width] duration-300 group-hover:w-full" />
+                    </Link>
                 )}
 
                 <div className="flex flex-col gap-2 pt-2 sm:flex-row">
