@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Project } from '@/types/models';
 import { Link, router } from '@inertiajs/react';
-import { ExternalLink, Github, Star } from 'lucide-react';
+import { ChevronRight, ExternalLink, Github, Star } from 'lucide-react';
 import { H3 } from '../headings';
 import IconComponent from '../icon-component';
 import { Badge } from '../ui/badge';
@@ -107,7 +107,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
                 {hasProjectPage && (
                     <Link className="mb-4 inline-block font-semibold uppercase underline-offset-4">
-                        Learn More
+                        Learn More <ChevronRight className="mb-1 inline size-5" />
                         <div className="relative -top-0.5 h-[1.4px] w-0 bg-primary transition-[width] duration-300 group-hover:w-full" />
                     </Link>
                 )}
