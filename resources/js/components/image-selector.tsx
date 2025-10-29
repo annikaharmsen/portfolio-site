@@ -20,7 +20,7 @@ export default function ImageSelector({
     }, [imageID]);
 
     const gridItems = images.map((img) => (
-        <img className="size-full object-contain" src={img.url} alt={img.alt} onClick={() => setImageID(img.id)} />
+        <img key={img.alt + ' - ' + img.id} className="size-full object-contain" src={img.url} alt={img.alt} onClick={() => setImageID(img.id)} />
     ));
     while (gridItems.length < 4) gridItems.push(<div className="hidden aspect-square size-full border bg-accent/30 lg:block" />);
 
