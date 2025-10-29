@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Artisan;
 
 class Project extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'icon_name',
         'title',
@@ -18,21 +20,15 @@ class Project extends Model
         'date'
     ];
 
-    protected static function booted() {
-        static::saved(function ($project) {
-            Artisan::call('icons:generate');
-        });
-    }
-
     public function scopeOrdered($query) {
         return $query->orderBy('featured', 'desc')->orderBy('date', 'desc');
     }
 
-    public function skills() {
-        return $this->belongsToMany(Skill::class, 'project_skills');
+    public function tags() {
+        return $this->belongsToMany(Tag::class, 'project_tags');
     }
 
-    public function technologies() {
-        return $this->belongsToMany(Technology::class, 'project_technologies');
+    public function hero_sections() {
+        return $this->hasMany(ProjectHeroSection::class)->ordered();
     }
 }

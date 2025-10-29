@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\BulkDeleteProjectsRequest;
-use App\Http\Requests\Admin\StoreProjectRequest;
-use App\Http\Requests\Admin\UpdateProjectRequest;
+use App\Http\Requests\BulkDeleteProjectsRequest;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
-use App\Models\Skill;
+use App\Models\Tag;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -23,7 +23,7 @@ class ProjectController extends Controller
 
     public function create() {
         return Inertia::render('admin/projects/create', [
-            'skills' => Skill::all()
+            'tags' => Tag::all(),
         ]);
     }
 
@@ -33,24 +33,22 @@ class ProjectController extends Controller
 
         $project = Project::create($validated);
 
-        $project->skills()->sync($validated['skills']);
+        $project->tags()->sync($validated['tags']);
 
-        return redirect(route('projects.show', [
-            'project' => $project
-        ]));
+        return back();
     }
 
     public function show(Project $project)
     {
         return Inertia::render('admin/projects/show', [
-            'project' => $project
+            'project' => $project->load('tags')
         ]);
     }
 
     public function edit(Project $project) {
         return Inertia::render('admin/projects/edit', [
-            'project' => $project->load('skills'),
-            'skills' => Skill::all()
+            'project' => $project->load('tags'),
+            'tags' => Tag::all(),
         ]);
     }
 
@@ -60,22 +58,22 @@ class ProjectController extends Controller
 
         $project->update($validated);
 
-        if (isset($validated['skills'])) $project->skills()->sync($validated['skills']);
+        if (isset($validated['tags'])) $project->tags()->sync($validated['tags']);
 
-        return;
+        return back();
     }
 
     public function destroy(Project $project)
     {
         $project->delete();
 
-        return redirect(route('projects.index'));;
+        return redirect('/projects');
     }
 
     public function bulkDelete(BulkDeleteProjectsRequest $request)
     {
         $deletedCount = Project::destroy($request->getProjectIds());
 
-        return;
+        return redirect('/projects');
     }
 }

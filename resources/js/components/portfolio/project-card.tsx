@@ -1,12 +1,24 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getIcon } from '@/lib/generated-icons';
+import { cn } from '@/lib/utils';
 import { Project } from '@/types/models';
+import { router } from '@inertiajs/react';
 import { ExternalLink, Github, Star } from 'lucide-react';
+import { H3, H4 } from '../headings';
+import IconComponent from '../icon-component';
 import { Badge } from '../ui/badge';
 import IconList from './icon-list';
 
-export default function ProjectCard({ project, asPreview }: { project: Project; asPreview?: boolean }) {
+export default function ProjectCard({ project }: { project: Project }) {
+    const mainLink = project.demo_link || project.repo_link || null;
+    const hasProjectPage = !!project.hero_sections?.length;
+    const isClickable = hasProjectPage || mainLink;
+
+    const frontend = project.tags?.filter((tag) => tag.category === 'frontend');
+    const backend = project.tags?.filter((tag) => tag.category === 'backend');
+    const tools = project.tags?.filter((tag) => tag.category === 'tool');
+    const skills = project.tags?.filter((tag) => tag.category === 'skill');
+
     const DateEl = () => (
         <>
             {project.date && (
@@ -27,55 +39,74 @@ export default function ProjectCard({ project, asPreview }: { project: Project; 
     };
 
     return (
-        <Card className="group cursor-pointer transition-all hover:scale-101 hover:shadow-lg">
-            <CardHeader className={!asPreview ? 'pb-4' : ''}>
+        <Card
+            onClick={hasProjectPage ? () => router.get(`/projects/${project.id}`) : mainLink ? (e) => openLink(mainLink, e) : undefined}
+            className={cn('group border-secondary transition-all', isClickable && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
+        >
+            <CardHeader>
                 <div className="flex items-start justify-between">
-                    {!asPreview ? (
-                        <>
-                            <div className="flex items-center gap-3">
-                                {/* lucide icon */}
-                                <div className="rounded-lg p-2">
-                                    {(() => {
-                                        const IconComponent = getIcon(project.icon_name);
-                                        return <IconComponent className="h-6 w-6 text-primary" />;
-                                    })()}
-                                </div>
+                    <div className="flex items-center gap-3">
+                        {/* lucide icon */}
+                        <div className="rounded-lg p-2">
+                            <IconComponent icon_name={project.icon_name} className="h-6 w-6 text-primary" />
+                        </div>
 
-                                {/* title and subtitle */}
-                                <div>
-                                    <CardTitle className="mb-1 font-sans text-lg">
-                                        {project.title}
-                                        {!!project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
-                                    </CardTitle>
-                                    <DateEl />
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="ml-6">
+                        {/* title and subtitle */}
+                        <div>
+                            <CardTitle className="mb-1 font-sans text-lg">
+                                <H3>
+                                    {project.title}
+                                    {!!project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
+                                </H3>
+                            </CardTitle>
                             <DateEl />
                         </div>
-                    )}
-
-                    <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />
+                    </div>
+                    {isClickable && <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />}
                 </div>
             </CardHeader>
             <CardContent className="mx-6 space-y-4">
                 {/* description */}
-                <p className="leading-relaxed">{project.description}</p>
+                <p className="leading-relaxed whitespace-pre-wrap">{project.description}</p>
 
-                {/* skill list */}
-                <div className="grid grid-cols-2 gap-4">
-                    <IconList items={project.skills} />
-                </div>
+                {/* tech list */}
+                {!!frontend?.length && (
+                    <>
+                        <H4>Frontend Technologies</H4>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <IconList items={frontend} />
+                        </div>
+                    </>
+                )}
 
-                {/* tech stack badges */}
-                {project.technologies && (
-                    <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((technology) => (
-                            <Badge variant="secondary">{technology.name}</Badge>
-                        ))}
-                    </div>
+                {!!backend?.length && (
+                    <>
+                        <H4>Backend Technologies</H4>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <IconList items={backend} />
+                        </div>
+                    </>
+                )}
+
+                {!!tools?.length && (
+                    <>
+                        <H4>Additional Tools</H4>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <IconList items={tools} />
+                        </div>
+                    </>
+                )}
+
+                {/* skill badges */}
+                {!!skills?.length && (
+                    <>
+                        <H4>Skills</H4>
+                        <div className="flex flex-wrap gap-2">
+                            {skills.map((skill) => (
+                                <Badge variant="secondary">{skill.name}</Badge>
+                            ))}
+                        </div>
+                    </>
                 )}
 
                 <div className="flex flex-col gap-2 pt-2 sm:flex-row">

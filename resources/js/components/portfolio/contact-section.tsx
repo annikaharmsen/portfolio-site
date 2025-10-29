@@ -31,20 +31,13 @@ export default function ContactSection() {
                 body: JSON.stringify(data),
             });
 
-            console.log('Response status:', response.status);
-            console.log('Response ok:', response.ok);
-            const responseData = await response.text();
-            console.log('Response data:', responseData);
-
             if (response.ok) {
                 setSubmitStatus('success');
                 form.reset();
             } else {
-                console.log('Response not okay - status:', response.status);
                 setSubmitStatus('error');
             }
-        } catch (error) {
-            console.log('caught error: ' + error);
+        } catch {
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);
@@ -54,7 +47,7 @@ export default function ContactSection() {
     return (
         <section id="contact" className="py-16">
             <div className="mx-auto max-w-4xl px-6">
-                <h2 className="mb-12 text-center font-fascinate text-4xl">Let's Connect</h2>
+                <h2 className="mb-12 text-center text-4xl uppercase">Let's Connect</h2>
                 <div className="grid gap-12 md:grid-cols-2">
                     <div>
                         <h3 className="mb-6 font-sans text-2xl font-semibold">Get In Touch</h3>

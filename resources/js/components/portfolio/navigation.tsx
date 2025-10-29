@@ -9,7 +9,11 @@ export default function Navigation({ mobile = false, hide = [] }: { mobile?: boo
     const NavLink = ({ link, hover_color }: { link: string; hover_color: string }) => (
         <a
             href={'#' + link.toLowerCase()}
-            className={cn('whitespace-nowrap text-foreground transition-colors duration-300', 'hover:text-' + hover_color)}
+            className={cn(
+                'whitespace-nowrap text-foreground transition-colors duration-300',
+                hover_color === 'accent' && 'hover:text-accent',
+                hover_color === 'secondary' && 'hover:text-secondary'
+            )}
         >
             {link.toUpperCase()}
         </a>

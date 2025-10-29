@@ -4,8 +4,9 @@ import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { BadgeCheck, FolderClosed, LayoutGrid } from 'lucide-react';
+import { DemoConfig } from '@/types/demo';
+import { Link, usePage } from '@inertiajs/react';
+import { Badge, BadgeCheck, FolderClosed, LayoutGrid, Wrench } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
@@ -19,6 +20,16 @@ const mainNavItems: NavItem[] = [
         icon: FolderClosed,
     },
     {
+        title: 'All Tags',
+        href: '/tags',
+        icon: Badge,
+    },
+    {
+        title: 'Technologies',
+        href: '/technologies',
+        icon: Wrench,
+    },
+    {
         title: 'Skills',
         href: '/skills',
         icon: BadgeCheck,
@@ -28,13 +39,15 @@ const mainNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
+    const demoConfig = usePage().props.demo_config as DemoConfig;
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href="/" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -48,7 +61,7 @@ export function AppSidebar() {
 
             <SidebarFooter>
                 <NavFooter items={footerNavItems} className="mt-auto" />
-                <NavUser />
+                {!demoConfig?.enabled && <NavUser />}
             </SidebarFooter>
         </Sidebar>
     );

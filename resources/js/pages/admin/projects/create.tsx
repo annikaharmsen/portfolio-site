@@ -1,20 +1,16 @@
-import ProjectForm from '@/components/projects/project-form';
-import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
-import AppLayout from '@/layouts/app-layout';
-import { Skills } from '@/types/models';
+import ProjectForm from '@/components/projects/form';
+import { Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
 interface CreateProjectProps {
-    skills: Skills;
+    tags: Tags;
 }
 
-export default function CreateProject({ skills }: CreateProjectProps) {
-    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('create_project');
-
+export default function CreateProject({ tags }: CreateProjectProps) {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="New Project" />
-            <ProjectForm skills={skills} />
-        </AppLayout>
+            <ProjectForm tags={tags} />
+        </>
     );
 }

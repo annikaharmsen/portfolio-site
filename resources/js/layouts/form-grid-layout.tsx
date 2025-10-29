@@ -1,9 +1,9 @@
 import { cn } from '@/lib/utils';
 import { ReactElement } from 'react';
 
-export default function FormGridLayout({ children }: { children: ReactElement[] }) {
+export default function FormGridLayout({ children, className }: { children: ReactElement[]; className?: string }) {
     return (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className={cn('grid grid-cols-2 gap-4 md:grid-cols-4', className)}>
             {children.map((child, index) => {
                 const props = child.props as { className?: string };
                 return (

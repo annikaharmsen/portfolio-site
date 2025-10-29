@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Middleware\FreshDemoMiddleware;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\SetDemoDatabase;
+use App\Http\Middleware\ShareDemoConfig;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::domain('admin.' . env('APP_DOMAIN'))
                 ->middleware('web')
                 ->group(base_path('routes/admin.php'));
+
+            if (config('demo.enabled')) Route::domain('admin-demo.' . env('APP_DOMAIN'))
+                ->middleware([SetDemoDatabase::class, 'web', FreshDemoMiddleware::class, ShareDemoConfig::class])
+                ->group(base_path('routes/admin-demo.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

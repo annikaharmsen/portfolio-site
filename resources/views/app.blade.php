@@ -36,14 +36,14 @@
             crossOrigin='anonymous'
         />
         <link
-            href='https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=Fascinate&display=swap'
+            href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=Fascinate&display=swap'
             rel='stylesheet'
         />
 
         <!-- react routing -->
         @routes
         @viteReactRefresh
-        @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
+        @vite(['resources/js/app.tsx'])
         @inertiaHead
     </head>
     <body class="font-sans antialiased">

@@ -1,7 +1,10 @@
+import { IconName } from '@/components/icon-selector-dropdown';
+import { TagCategory } from '@/config/config';
+
 export type Project = {
     //columns
     id: number;
-    icon_name: string;
+    icon_name: IconName;
     title: string;
     subtitle: string;
     description: string;
@@ -10,8 +13,8 @@ export type Project = {
     featured: boolean;
     date?: string;
     // relations
-    skills?: Skills;
-    technologies?: Technologies;
+    tags?: Tags;
+    hero_sections?: ProjectHeroSections;
     // counts
     skills_count: number;
     technologies_count: number;
@@ -21,24 +24,32 @@ export type Project = {
 };
 export type Projects = Project[];
 
-export type Skill = {
-    //columns
+export type ProjectHeroSection = {
     id: number;
-    icon_name: string;
-    name: string;
-    // relations
-    projects?: Projects;
-    // counts
-    projects_count: number;
-    // exists
-    projects_exists: boolean;
-};
-export type Skills = Skill[];
 
-export type Technology = {
+    //relations
+    project?: Project;
+    image?: Image;
+
+    //columns
+    heading: string;
+    text: string;
+};
+export type ProjectHeroSections = ProjectHeroSection[];
+
+export type Image = {
+    id: number;
+    url: string;
+    alt?: string;
+};
+export type Images = Image[];
+
+export type Tag = {
     //columns
     id: number;
+    icon_name: IconName;
     name: string;
+    category?: TagCategory;
     // relations
     projects?: Projects;
     // counts
@@ -46,7 +57,7 @@ export type Technology = {
     // exists
     projects_exists: boolean;
 };
-export type Technologies = Technology[];
+export type Tags = Tag[];
 
 export type User = {
     // columns

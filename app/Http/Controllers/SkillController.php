@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Admin\BulkDeleteSkillsRequest;
-use App\Http\Requests\Admin\StoreSkillRequest;
-use App\Http\Requests\Admin\UpdateSkillRequest;
+use App\Http\Requests\BulkDeleteTagsRequest;
+use App\Http\Requests\StoreTagRequest;
+use App\Http\Requests\UpdateTagRequest;
 use App\Models\Project;
-use App\Models\Skill;
+use App\Models\Tag;
 use Inertia\Inertia;
 
 class SkillController extends Controller
@@ -16,7 +16,7 @@ class SkillController extends Controller
      */
     public function index()
     {
-        $skills = Skill::orderBy('name')->get();
+        $skills = Tag::where('category', 'skill')->orderBy('name')->get();
 
         return Inertia::render('admin/skills/index', [
             'skills' => $skills
@@ -36,21 +36,21 @@ class SkillController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSkillRequest $request)
+    public function store(StoreTagRequest $request)
     {
         $validated = $request->validated();
 
-        $skill = Skill::create($request->validated());
+        $skill = Tag::create($request->validated());
 
         $skill->projects()->sync($validated['projects']);
 
-        return redirect(route('skills.index'));
+        return Inertia::render('loading');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Skill $skill)
+    public function show(Tag $skill)
     {
         return Inertia::render('admin/skills/show', [
             'skill' => $skill
@@ -60,7 +60,7 @@ class SkillController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Skill $skill)
+    public function edit(Tag $skill)
     {
         return Inertia::render('admin/skills/edit', [
             'skill' => $skill->load('projects'),
@@ -71,7 +71,7 @@ class SkillController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSkillRequest $request, Skill $skill)
+    public function update(UpdateTagRequest $request, Tag $skill)
     {
         $validated = $request->validated();
 
@@ -79,23 +79,23 @@ class SkillController extends Controller
 
         if (isset($validated['projects'])) $skill->projects()->sync($validated['projects']);
 
-        return redirect(route('skills.index'));
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Skill $skill)
+    public function destroy(Tag $skill)
     {
         $skill->delete();
 
-        return redirect(route('skills.index'));;
+        return Inertia::render('loading');
     }
 
-    public function bulkDelete(BulkDeleteSkillsRequest $request)
+    public function bulkDelete(BulkDeleteTagsRequest $request)
     {
-        $deletedCount = Skill::destroy($request->getSkillIds());
+        $deletedCount = Tag::destroy($request->getSkillIds());
 
-        return;
+        return back();
     }
 }
