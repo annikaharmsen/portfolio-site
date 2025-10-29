@@ -78,7 +78,7 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
 
     const handleTagsChange = useCallback(
         (updatedValue: number[]) => {
-            setData('tags', updatedValue);
+            setData('tags', [...new Set([...data.tags, ...updatedValue])]);
         },
         [setData],
     );
