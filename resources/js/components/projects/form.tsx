@@ -3,7 +3,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { SkillConfig, TechConfig } from '@/config/config';
+import { ProjectConfig, SkillConfig, TechConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
@@ -40,7 +40,7 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
 
     const [deleting, setDeleting] = useState(false);
 
-    const controller = useController('projects');
+    const controller = useController(ProjectConfig.BASE_URI);
 
     // Warn user about unsaved changes
     useUnsavedWarning(isDirty && !processing && !deleting);
@@ -83,8 +83,8 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
         [setData],
     );
 
-    const technologyCreate = useController('technologies').create;
-    const skillCreate = useController('skills').create;
+    const technologyCreate = useController(TechConfig.BASE_URI).create;
+    const skillCreate = useController(SkillConfig.BASE_URI).create;
 
     return (
         <>

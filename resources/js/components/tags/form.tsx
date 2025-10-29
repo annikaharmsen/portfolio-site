@@ -1,4 +1,4 @@
-import { TagConfigInterface } from '@/config/config';
+import { ProjectConfig, TagConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
@@ -71,7 +71,7 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         [setData],
     );
 
-    const projectCreate = useController('projects').create;
+    const projectCreate = useController(ProjectConfig.BASE_URI).create;
 
     return (
         <form onSubmit={handleSubmit} className={className}>

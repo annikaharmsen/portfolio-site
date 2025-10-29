@@ -1,11 +1,12 @@
 import { DeleteButton, EditButton } from '@/components/app-buttons';
 import { H1 } from '@/components/headings';
+import { ProjectConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import type { Project } from '@/types/models';
 import { FeaturedStar } from './featured-star';
 
 export default function ProjectShowHeader({ project }: { project: Project }) {
-    const controller = useController<Project>('projects');
+    const controller = useController<Project>(ProjectConfig.BASE_URI);
     const handleDelete = () => {
         if (project && confirm('Are you sure you want to delete this project?')) controller.delete(project);
     };
