@@ -7,7 +7,7 @@ export default function useController<T extends { id: number }>(baseURI: string)
     return {
         index: () => {
             reroute.setReturnURL();
-            router.get(baseURI);
+            router.get(`${baseURI}`);
         },
         show: (model: T) => {
             reroute.setReturnURL();
@@ -27,7 +27,7 @@ export default function useController<T extends { id: number }>(baseURI: string)
             router.get(`${baseURI}/${model.id}/edit`);
         },
         update: (updateMethod: (url: string, options?: Omit<VisitOptions, 'data'> | undefined) => void, model: T) => {
-            updateMethod(`${baseURI}/${model.id}`, {
+            updateMethod(`/${baseURI}/${model.id}`, {
                 onSuccess: reroute.reroute,
             });
         },

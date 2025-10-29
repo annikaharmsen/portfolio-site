@@ -100,8 +100,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 {/* skill badges */}
                 {!!skills?.length && (
                     <>
-                        <H4>Skills</H4>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="mt-8 flex flex-wrap gap-2">
                             {skills.map((skill) => (
                                 <Badge variant="secondary">{skill.name}</Badge>
                             ))}
