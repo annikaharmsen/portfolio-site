@@ -12,12 +12,11 @@ interface AppLayoutProps {
 }
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
-    const { component, props: pageProps } = usePage();
+    const { props: pageProps } = usePage();
     const demoConfig = pageProps.demo_config as DemoConfig;
 
     // Get breadcrumbs from component name if not explicitly provided
-    const { getBreadcrumbsFromComponent } = useBreadcrumbs();
-    const autoBreadcrumbs = breadcrumbs || getBreadcrumbsFromComponent(component, pageProps);
+    const autoBreadcrumbs = breadcrumbs || useBreadcrumbs().breadcrumbs;
 
     return (
         <AppLayoutTemplate breadcrumbs={autoBreadcrumbs} {...props}>
