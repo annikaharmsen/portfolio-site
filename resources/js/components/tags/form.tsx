@@ -51,7 +51,7 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         e.preventDefault();
 
         if (isEditing) {
-            controller.update(put, `${baseURI}/${tag.id}`);
+            controller.update(put, tag);
         } else {
             controller.store(post, baseURI);
         }
