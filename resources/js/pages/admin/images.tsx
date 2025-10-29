@@ -9,9 +9,7 @@ import { Image, Images } from '@/types/models';
 export default function ImagesIndex({ images, default_image_id }: { images: Images; default_image_id?: number }) {
     const getImage = (image_id?: number) => images.find((image) => image.id === image_id) || null;
 
-    const [selectedImage, setSelectedImage] = useSessionStorage<Image | null>(`selectedImage`, getImage(default_image_id));
-
-    console.log(selectedImage);
+    const [, setSelectedImage] = useSessionStorage<Image | null>(`selectedImage`, getImage(default_image_id));
 
     const reroute = useReroute('images');
 
