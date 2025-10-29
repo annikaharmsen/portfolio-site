@@ -5,7 +5,7 @@ import type { Project } from '@/types/models';
 import { FeaturedStar } from './featured-star';
 
 export default function ProjectShowHeader({ project }: { project: Project }) {
-    const controller = useController<Project>('/projects');
+    const controller = useController<Project>('projects');
     const handleDelete = () => {
         if (project && confirm('Are you sure you want to delete this project?')) controller.delete(project);
     };

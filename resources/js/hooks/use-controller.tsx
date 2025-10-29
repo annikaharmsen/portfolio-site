@@ -7,15 +7,15 @@ export default function useController<T extends { id: number }>(baseURI: string)
     return {
         index: () => {
             reroute.setReturnURL();
-            router.get(`${baseURI}`);
+            router.get(`/${baseURI}`);
         },
         show: (model: T) => {
             reroute.setReturnURL();
-            router.get(`${baseURI}/${model.id}`);
+            router.get(`/${baseURI}/${model.id}`);
         },
         create: () => {
             reroute.setReturnURL();
-            router.get(`${baseURI}/create`);
+            router.get(`/${baseURI}/create`);
         },
         store: (postMethod: (url: string, options?: Omit<VisitOptions, 'data'> | undefined) => void, url?: string) => {
             postMethod(url || baseURI, {
@@ -24,7 +24,7 @@ export default function useController<T extends { id: number }>(baseURI: string)
         },
         edit: (model: T) => {
             reroute.setReturnURL();
-            router.get(`${baseURI}/${model.id}/edit`);
+            router.get(`/${baseURI}/${model.id}/edit`);
         },
         update: (updateMethod: (url: string, options?: Omit<VisitOptions, 'data'> | undefined) => void, model: T) => {
             updateMethod(`/${baseURI}/${model.id}`, {
@@ -32,7 +32,7 @@ export default function useController<T extends { id: number }>(baseURI: string)
             });
         },
         delete: (model: T) => {
-            router.delete(`${baseURI}/${model.id}`, {
+            router.delete(`/${baseURI}/${model.id}`, {
                 preserveState: false,
                 onSuccess: reroute.reroute,
             });
@@ -40,7 +40,7 @@ export default function useController<T extends { id: number }>(baseURI: string)
         bulk_delete: (modelIDs: number[]) => {
             const quantity = modelIDs.length;
             if (quantity > 0 && confirm(`Are you sure you want to delete ${quantity} entr${quantity === 1 ? 'y' : 'ies'}?`)) {
-                router.delete(`${baseURI}/bulk-delete`, {
+                router.delete(`/${baseURI}/bulk-delete`, {
                     data: { ids: modelIDs },
                     onSuccess: reroute.reroute,
                 });
