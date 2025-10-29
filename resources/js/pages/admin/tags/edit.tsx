@@ -1,7 +1,6 @@
 import { H1 } from '@/components/headings';
 import TagForm from '@/components/tags/form';
 import { TagConfig, TagConfigInterface } from '@/config/config';
-import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import { Projects, Tag } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
@@ -12,9 +11,7 @@ interface EditTagProps {
 }
 
 export default function EditTag({ tagConfig, projects, tag }: EditTagProps) {
-    const getBreadcrumbs = useBreadcrumbs().getBreadcrumbs;
-    const breadcrumbs = tagConfig ? getBreadcrumbs('edit_tag', tag, tagConfig) : getBreadcrumbs('edit_tag', tag);
-    const title = breadcrumbs.at(-1)?.title.toTitleCase();
+    const title = 'Edit ' + tagConfig?.TYPE;
 
     return (
         <>

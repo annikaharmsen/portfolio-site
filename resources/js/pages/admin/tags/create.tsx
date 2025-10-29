@@ -1,7 +1,6 @@
 import { H1 } from '@/components/headings';
 import TagForm from '@/components/tags/form';
 import { TagConfig, TagConfigInterface } from '@/config/config';
-import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import { Projects } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
@@ -11,8 +10,7 @@ interface CreateTagProps {
 }
 
 export default function CreateTag({ tagConfig = TagConfig, projects }: CreateTagProps) {
-    const breadcrumbs = useBreadcrumbs().getBreadcrumbs('create_tag', tagConfig);
-    const title = breadcrumbs.at(-1)?.title.toTitleCase();
+    const title = 'Create ' + tagConfig.TYPE;
 
     return (
         <>
