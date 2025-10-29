@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { TechConfig } from '@/config/config';
 import { cn } from '@/lib/utils';
 import { Project } from '@/types/models';
 import { Link, router } from '@inertiajs/react';
@@ -14,20 +15,18 @@ export default function ProjectCard({ project }: { project: Project }) {
     const hasProjectPage = !!project.hero_sections?.length;
     const isClickable = hasProjectPage || mainLink;
 
-    const frontend = project.tags?.filter((tag) => tag.category === 'frontend');
-    const backend = project.tags?.filter((tag) => tag.category === 'backend');
-    const tools = project.tags?.filter((tag) => tag.category === 'tool');
-    const skills = project.tags?.filter((tag) => tag.category === 'skill');
+    const tech = project.tags?.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category)) || [];
+    const skills = project.tags?.filter((tag) => tag.category === 'skill') || [];
 
     const DateEl = () => (
         <>
             {project.date && (
-                <p className="mt-1 text-xs text-muted-foreground">
+                <span className="mt-1 text-xs text-muted-foreground">
                     {new Date(project.date).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
                     })}
-                </p>
+                </span>
             )}
         </>
     );
@@ -59,45 +58,24 @@ export default function ProjectCard({ project }: { project: Project }) {
                                     {!!project.featured && <Star className="mx-2 mb-1 inline-block size-4 fill-accent text-accent" />}
                                 </H3>
                             </CardTitle>
-                            <DateEl />
+                            {project.date ? (
+                                <DateEl />
+                            ) : (
+                                !!project.subtitle && <span className="mt-1 text-xs text-muted-foreground">{project.subtitle}</span>
+                            )}
                         </div>
                     </div>
                     {isClickable && <ExternalLink className="h-5 w-5 text-primary transition-colors group-hover:text-secondary" />}
                 </div>
             </CardHeader>
-            <CardContent className="mx-6 space-y-4">
+            <CardContent className="mx-6">
                 {/* description */}
-                <p className="leading-relaxed whitespace-pre-wrap">{project.description}</p>
-
-                {/* tech list */}
-                {!!frontend?.length && (
-                    <>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <IconList items={frontend} />
-                        </div>
-                    </>
-                )}
-
-                {!!backend?.length && (
-                    <>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <IconList items={backend} />
-                        </div>
-                    </>
-                )}
-
-                {!!tools?.length && (
-                    <>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <IconList items={tools} />
-                        </div>
-                    </>
-                )}
+                <p className="mb-8 leading-relaxed whitespace-pre-wrap">{project.description}</p>
 
                 {/* skill badges */}
                 {!!skills?.length && (
                     <>
-                        <div className="mt-8 flex flex-wrap gap-2">
+                        <div className="mb-4 flex flex-wrap gap-2">
                             {skills.map((skill) => (
                                 <Badge variant="secondary">{skill.name}</Badge>
                             ))}
@@ -105,14 +83,20 @@ export default function ProjectCard({ project }: { project: Project }) {
                     </>
                 )}
 
+                {!!tech.length && (
+                    <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <IconList items={tech} />
+                    </div>
+                )}
+
                 {hasProjectPage && (
-                    <Link className="mb-4 inline-block font-semibold uppercase underline-offset-4">
+                    <Link className="mb-3 inline-block font-semibold uppercase underline-offset-4">
                         Learn More <ChevronRight className="mb-1 inline size-5" />
                         <div className="relative -top-0.5 h-[1.4px] w-0 bg-primary transition-[width] duration-300 group-hover:w-full" />
                     </Link>
                 )}
 
-                <div className="flex flex-col gap-2 pt-2 sm:flex-row">
+                <div className="flex flex-col gap-2 sm:flex-row">
                     {/* repo button */}
                     {project.repo_link && (
                         <Button
