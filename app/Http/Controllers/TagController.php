@@ -16,10 +16,9 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::orderBy('category')->orderBy('name')->get();
 
         return Inertia::render('admin/tags/index', [
-            'tags' => $tags
+            'tags' => Tag::all()
         ]);
     }
 

@@ -16,7 +16,7 @@ class SkillController extends Controller
      */
     public function index()
     {
-        $skills = Tag::where('category', 'skill')->orderBy('name')->get();
+        $skills = Tag::where('category', 'skill')->get();
 
         return Inertia::render('admin/skills/index', [
             'skills' => $skills

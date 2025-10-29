@@ -20,7 +20,7 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        $technologies = Tag::whereIn('category', ['frontend', 'backend', 'tool'])->orderBy('name')->get();
+        $technologies = Tag::whereIn('category', ['frontend', 'backend', 'tool'])->get();
 
         return Inertia::render('admin/technologies/index', [
             'technologies' => $technologies
