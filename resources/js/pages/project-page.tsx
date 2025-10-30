@@ -32,8 +32,8 @@ export default function ProjectPage({ project }: { project: Project }) {
             >
                 <ArrowLeft className="md:size-6" />
             </Button>
-            <div className="m-8 flex flex-col items-center md:m-16">
-                <H1 className="text-center">{project.title}</H1>
+            <div className="m-8 flex flex-col items-center text-center md:m-16">
+                <H1>{project.title}</H1>
                 <span>{project.subtitle}</span>
             </div>
             <div className="w-full max-w-250">
