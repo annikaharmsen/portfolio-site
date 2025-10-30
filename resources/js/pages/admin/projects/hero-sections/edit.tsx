@@ -32,12 +32,16 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
     const [imageSectionIndex, setImageSectionIndex] = useSessionStorage<number | null>(`imageSectionIndex/${project.id}`, null);
     const [savedHeroSections, setSavedHeroSections] = useSessionStorage<DraftHeroSection[]>(`heroSections/${project.id}`, []);
 
+    const [allowNavigate, setAllowNavigate] = useState<boolean>(false);
+
     // initialize data - saved state/project data
     const getInitialSectionData = (): DraftHeroSection[] => {
         if (typeof imageSectionIndex === 'number' && savedHeroSections.length) {
             // restore from sessionStorage and update with selected image
             const restoredSections = [...savedHeroSections];
             restoredSections[imageSectionIndex].image = selectedImage || undefined;
+
+            setAllowNavigate(false);
 
             // cleanup session storage after restoring data
             setSelectedImage(null);
@@ -59,7 +63,8 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
     const isDirty = JSON.stringify(draftSections) !== JSON.stringify(project.hero_sections || []);
 
     // warn user about unsaved changes
-    useUnsavedWarning(isDirty && !isSubmitting && savedHeroSections.length === 0);
+    useUnsavedWarning(isDirty && !isSubmitting && allowNavigate);
+    console.log(savedHeroSections);
 
     // clear session storage after component mounts and state is initialized
     useEffect(() => {
@@ -81,7 +86,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
         let reordered = [];
         if (from === to) return;
         else if (from < to)
-            reordered = draftSections.slice(0, from).concat(draftSections.slice(from + 1, to), draftSections[from], draftSections.slice(to));
+            reordered = draftSections.slice(0, from).concat(draftSections.slice(from + 1, to + 1), draftSections[from], draftSections.slice(to + 1));
         else reordered = draftSections.slice(0, to).concat(draftSections[from], draftSections.slice(to, from), draftSections.slice(from + 1));
 
         setDraftSections(reordered);
@@ -110,6 +115,8 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
         // set return url for reroute after image selection
         imageReroute.setReturnURL();
 
+        setAllowNavigate(true);
+
         // request image page
         if (imageID) router.get(`/images/${imageID}/edit`);
         else router.get('/images');
@@ -127,8 +134,8 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
     }) => (
         <fieldset
             className={cn(
-                'relative flex w-full items-center justify-stretch gap-8 border-y-1 px-8 py-8 md:px-24',
-                index % 2 == 1 && 'flex-row-reverse',
+                'relative flex w-full flex-col-reverse items-center justify-stretch gap-8 border-y-1 px-8 py-8 md:flex-row md:px-24',
+                index % 2 == 1 && 'md:flex-row-reverse',
             )}
         >
             {index > 0 && (
@@ -157,18 +164,18 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
                 <Button
                     type="button"
                     onClick={() => handleImageSelect(index, section.image?.id)}
-                    className="relative h-48 rounded-2xl border p-0 hover:scale-101 hover:bg-accent md:h-100"
+                    className="relative h-full w-full bg-transparent p-0 shadow-none hover:scale-101 md:h-max md:w-auto md:max-w-1/2"
                 >
                     {section.image ? (
                         <>
-                            <img src={section.image.url} alt="" className="size-full rounded-2xl object-contain" />
-                            <div className="absolute top-0 left-0 size-full rounded-2xl bg-primary/65 opacity-0 hover:opacity-100">
+                            <img src={section.image.url} alt="" className="size-full max-h-full rounded object-contain" />
+                            <div className="absolute top-0 left-0 size-full rounded bg-primary/65 opacity-0 hover:opacity-100">
                                 <span className="absolute top-1/2 left-1/2 -translate-1/2 text-center *:m-2">Click to change</span>
                                 <span className="absolute bottom-2 left-1/2 -translate-x-1/2 text-center text-xs *:m-2">{section.image.alt}</span>
                             </div>
                         </>
                     ) : (
-                        <div className="aspect-3/4 size-full">
+                        <div className="aspect-square w-full rounded bg-primary hover:bg-accent md:aspect-3/4 md:h-100 md:w-auto">
                             <Plus className="absolute top-1/2 left-1/2 size-8 -translate-x-1/2 -translate-y-1/2" />
                         </div>
                     )}
@@ -197,7 +204,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
             <Button
                 type="button"
                 variant="destructive"
-                className="absolute right-2 h-48 w-6 md:right-8 md:h-100 md:w-8"
+                className="absolute top-4 right-0 h-[calc(100%-32px)] w-6 md:right-8 md:w-8"
                 onClick={() => removeSection(index)}
             >
                 <X />

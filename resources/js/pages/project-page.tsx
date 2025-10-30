@@ -10,14 +10,16 @@ export default function ProjectPage({ project }: { project: Project }) {
     const HeroSection = ({ section, index }: { section: ProjectHeroSection; index: number }) => (
         <div
             className={cn(
-                'flex w-full items-center justify-around gap-16 border-t-1 p-8 md:p-16 md:px-24',
+                'flex w-full flex-col-reverse items-center justify-around gap-8 pt-4 pb-8 md:flex-row md:gap-16 md:px-24 md:pt-8 md:pb-16',
                 !section.image && 'text-center',
-                index % 2 == 1 && 'flex-row-reverse',
+                index % 2 == 1 && 'md:flex-row-reverse',
             )}
         >
-            <>{section.image && <img src={section.image.url} alt="" className="h-48 w-auto rounded-2xl object-contain md:h-100" />}</>
+            {section.image && (
+                <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
+            )}
             <article className="w-full">
-                <H2>{section.heading}</H2>
+                <H2 className="text-center md:text-left">{section.heading}</H2>
                 <p>{section.text}</p>
             </article>
         </div>
@@ -36,9 +38,12 @@ export default function ProjectPage({ project }: { project: Project }) {
                 <H1>{project.title}</H1>
                 <span>{project.subtitle}</span>
             </div>
-            <div className="w-full max-w-250">
+            <div className="w-full max-w-250 px-8 md:px-16">
                 {project.hero_sections?.map((section, index) => (
-                    <HeroSection section={section} index={index} />
+                    <>
+                        <hr />
+                        <HeroSection section={section} index={index} />
+                    </>
                 ))}
                 <hr />
             </div>
