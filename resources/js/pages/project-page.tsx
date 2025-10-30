@@ -18,8 +18,8 @@ export default function ProjectPage({ project }: { project: Project }) {
             {section.image && (
                 <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
             )}
-            <article className="w-full">
-                <H2>{section.heading}</H2>
+            <article className="w-full space-y-6">
+                <H2 className="mb-4">{section.heading}</H2>
                 <p className="leading-relaxed whitespace-pre-wrap">{section.text}</p>
             </article>
         </div>
