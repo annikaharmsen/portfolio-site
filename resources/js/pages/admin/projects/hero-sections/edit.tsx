@@ -194,7 +194,11 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
                 <InputError>{errors.heading?.message}</InputError>
                 <TextareaAutosize
                     name={`hero_sections[${index}].text`}
-                    className={cn(TextAreaStyles, 'min-h-15 resize-none', section.text && 'border-none text-foreground shadow-none')}
+                    className={cn(
+                        TextAreaStyles,
+                        'min-h-15 resize-none',
+                        section.text && 'border-none whitespace-pre-wrap text-foreground shadow-none',
+                    )}
                     defaultValue={section.text}
                     onBlur={(e) => updateSectionData(index, 'text', e.target.value)}
                     placeholder="add text here"

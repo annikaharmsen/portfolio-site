@@ -10,17 +10,17 @@ export default function ProjectPage({ project }: { project: Project }) {
     const HeroSection = ({ section, index }: { section: ProjectHeroSection; index: number }) => (
         <div
             className={cn(
-                'flex w-full flex-col-reverse items-center justify-around gap-8 pt-4 pb-8 text-center md:flex-row md:gap-16 md:px-24 md:pt-8 md:pb-16',
+                'flex w-full flex-col-reverse items-center justify-around gap-8 pt-4 pb-8 text-center md:flex-row md:gap-8 md:px-16 md:pt-8 md:pb-16',
                 section.image && 'md:text-left',
                 index % 2 == 1 && 'md:flex-row-reverse',
             )}
         >
             {section.image && (
-                <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-2/5" />
+                <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
             )}
             <article className="w-full">
                 <H2>{section.heading}</H2>
-                <p>{section.text}</p>
+                <p className="leading-relaxed whitespace-pre-wrap">{section.text}</p>
             </article>
         </div>
     );
