@@ -171,7 +171,9 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
                             <img src={section.image.url} alt="" className="size-full max-h-full rounded object-contain" />
                             <div className="absolute top-0 left-0 size-full rounded bg-primary/65 opacity-0 hover:opacity-100">
                                 <span className="absolute top-1/2 left-1/2 -translate-1/2 text-center *:m-2">Click to change</span>
-                                <span className="absolute bottom-2 left-1/2 -translate-x-1/2 text-center text-xs *:m-2">{section.image.alt}</span>
+                                <span className="absolute bottom-4 left-1/2 block w-[calc(100%-16px)] -translate-x-1/2 text-center text-xs text-wrap">
+                                    {section.image.alt}
+                                </span>
                             </div>
                         </>
                     ) : (
