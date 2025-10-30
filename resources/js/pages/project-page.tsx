@@ -16,7 +16,7 @@ export default function ProjectPage({ project }: { project: Project }) {
             )}
         >
             {section.image && (
-                <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
+                <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-2/5" />
             )}
             <article className="w-full">
                 <H2>{section.heading}</H2>
@@ -38,7 +38,7 @@ export default function ProjectPage({ project }: { project: Project }) {
                 <H1>{project.title}</H1>
                 <span>{project.subtitle}</span>
             </div>
-            <div className="w-full max-w-250 px-8 md:px-16">
+            <div className="w-full max-w-300 px-8 md:px-16">
                 {project.hero_sections?.map((section, index) => (
                     <>
                         <hr />
