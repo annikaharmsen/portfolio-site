@@ -23,7 +23,7 @@ Route::get('/projects/{project}', function (Project $project) {
 });
 
 Route::get('/resume', function () {
-    $filename = env('RESUME_FILENAME');
+    $filename = config('portfolio.resume.filename');
 
     if (!$filename) {
         Log::error('Resume file name not defined');
@@ -33,7 +33,7 @@ Route::get('/resume', function () {
     $filePath = storage_path('app/public/' . $filename);
 
     if (!file_exists($filePath)) {
-        Log::error('Resume file not found');
+        Log::error('Resume file not found at: ' . $filePath);
         abort(404, 'File not found');
     }
 
