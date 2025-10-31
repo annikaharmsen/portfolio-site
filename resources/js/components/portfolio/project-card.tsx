@@ -34,7 +34,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     return (
         <Card
             onClick={hasProjectPage ? () => router.get(`/projects/${project.id}`) : mainLink ? (e) => openLink(mainLink, e) : undefined}
-            className={cn('group border-secondary transition-all', isClickable && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
+            className={cn('group h-fit border-secondary transition-all', isClickable && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
         >
             <CardHeader>
                 <div className="flex items-start justify-between">
