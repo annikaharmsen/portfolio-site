@@ -70,3 +70,9 @@ String.prototype.toPlural = function (this: string) {
 
     return this;
 };
+
+export const openLink = (link: string, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+
+    window.open(link);
+};
