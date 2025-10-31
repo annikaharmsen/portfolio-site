@@ -1,3 +1,4 @@
+import { DemoButton, GitHubButton } from '@/components/app-buttons';
 import CenteredContent from '@/components/centered-content';
 import { H1, H2 } from '@/components/headings';
 import { Button } from '@/components/ui/button';
@@ -71,7 +72,16 @@ export default function ProjectPage({ project }: { project: Project }) {
                 ))}
                 <hr />
             </div>
-            <div className="my-12 flex w-full justify-center">
+            {(!!project.repo_link || !!project.demo_link) && (
+                <div className="m-8 flex flex-col gap-2 sm:flex-row">
+                    {/* repo button */}
+                    {project.repo_link && <GitHubButton url={project.repo_link} />}
+
+                    {/* demo button */}
+                    {project.demo_link && <DemoButton url={project.demo_link} />}
+                </div>
+            )}
+            <div className="mb-8 flex w-full justify-center">
                 <Button variant="link" onClick={() => history.back()}>
                     <ArrowLeft />
                     Back to homepage

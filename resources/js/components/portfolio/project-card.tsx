@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TechConfig } from '@/config/config';
-import { cn } from '@/lib/utils';
+import { cn, openLink } from '@/lib/utils';
 import { Project } from '@/types/models';
 import { Link, router } from '@inertiajs/react';
-import { ChevronRight, ExternalLink, Github, Star } from 'lucide-react';
+import { ChevronRight, ExternalLink, Star } from 'lucide-react';
+import { DemoButton, GitHubButton } from '../app-buttons';
 import { H3 } from '../headings';
 import IconComponent from '../icon-component';
 import { Badge } from '../ui/badge';
@@ -30,12 +30,6 @@ export default function ProjectCard({ project }: { project: Project }) {
             )}
         </>
     );
-
-    const openLink = (link: string, e?: React.MouseEvent) => {
-        e?.stopPropagation();
-
-        window.open(link);
-    };
 
     return (
         <Card
@@ -98,30 +92,10 @@ export default function ProjectCard({ project }: { project: Project }) {
 
                 <div className="flex flex-col gap-2 sm:flex-row">
                     {/* repo button */}
-                    {project.repo_link && (
-                        <Button
-                            onClick={(e) => openLink(project.repo_link || '#', e)}
-                            size="sm"
-                            variant="outline"
-                            className="cursor-pointer border-foreground bg-transparent transition-all duration-300 hover:border-secondary hover:bg-secondary hover:text-secondary-foreground"
-                        >
-                            <Github className="mr-2 h-4 w-4" />
-                            View Code
-                        </Button>
-                    )}
+                    {project.repo_link && <GitHubButton url={project.repo_link} />}
 
                     {/* demo button */}
-                    {project.demo_link && (
-                        <Button
-                            onClick={(e) => openLink(project.demo_link || '#', e)}
-                            variant="outline"
-                            size="sm"
-                            className="cursor-pointer border-foreground bg-transparent transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
-                        >
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            Live Demo
-                        </Button>
-                    )}
+                    {project.demo_link && <DemoButton url={project.demo_link} />}
                 </div>
             </CardContent>
         </Card>
