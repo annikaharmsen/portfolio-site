@@ -7,11 +7,8 @@ export default function HeaderContent() {
 
     useEffect(() => {
         const checkResumeExists = async () => {
-            const resumePath = import.meta.env.VITE_RESUME_PATH;
-            if (!resumePath) return;
-
             try {
-                const response = await fetch(resumePath, { method: 'HEAD' });
+                const response = await fetch('/resume', { method: 'HEAD' });
                 const contentType = response.headers.get('content-type') || '';
                 const isDocument = response.ok && contentType.includes('application/pdf');
                 setResumeExists(isDocument);
@@ -75,7 +72,7 @@ export default function HeaderContent() {
                     </Button>
                 </a>
                 {resumeExists && (
-                    <a href={import.meta.env.VITE_RESUME_PATH} download={import.meta.env.VITE_RESUME_FILENAME}>
+                    <a href="/resume">
                         <Button
                             variant="outline"
                             size="lg"
