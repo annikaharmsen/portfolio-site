@@ -15,7 +15,7 @@ export default function ImagesIndex({ images, default_image_id }: { images: Imag
 
     return (
         <CenteredContent className="flex flex-col justify-evenly">
-            <div className="m-4 grid md:grid-cols-[33%_67%]">
+            <div className="m-4 grid w-full max-w-250 md:grid-cols-[33%_67%]">
                 <ImageUploadForm />
                 <ImageSelector images={images} defaultImageID={default_image_id} onValueChange={(image_id) => setSelectedImage(getImage(image_id))} />
             </div>
