@@ -26,13 +26,13 @@ Route::get('/resume', function () {
     $filename = env('RESUME_FILENAME');
 
     if (!$filename) {
-        abort(404);
+        abort(404, 'File name not found');
     }
 
     $filePath = storage_path('app/public/' . $filename);
 
     if (!file_exists($filePath)) {
-        abort(404);
+        abort(404, 'File not found');
     }
 
     return response()->download($filePath, $filename);
