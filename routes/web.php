@@ -22,3 +22,19 @@ Route::get('/projects/{project}', function (Project $project) {
     ]);
 });
 
+Route::get('/resume', function () {
+    $filename = env('RESUME_FILENAME');
+
+    if (!$filename) {
+        abort(404);
+    }
+
+    $filePath = storage_path('app/public/' . $filename);
+
+    if (!file_exists($filePath)) {
+        abort(404);
+    }
+
+    return response()->download($filePath, $filename);
+})->name('resume.download');
+
