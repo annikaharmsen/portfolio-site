@@ -40,7 +40,7 @@ export default function ProjectPage({ project }: { project: Project }) {
                     <H2 className="mb-4">{section.heading}</H2>
                     <div
                         className={cn(
-                            'm-auto prose flex flex-col items-center leading-relaxed whitespace-pre-wrap',
+                            'm-auto prose flex flex-col items-center leading-relaxed whitespace-pre-wrap [&_ol]:text-left [&_ul]:text-left',
                             section.image && 'md:items-start',
                         )}
                         dangerouslySetInnerHTML={{
