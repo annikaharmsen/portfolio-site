@@ -3,27 +3,51 @@ import { H1, H2 } from '@/components/headings';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Project, ProjectHeroSection } from '@/types/models';
+import DOMPurify from 'dompurify';
 import { ArrowLeft } from 'lucide-react';
+import { marked } from 'marked';
+import { useEffect, useState } from 'react';
+
+// Enable GitHub Flavored Markdown for task lists and other GFM features
+marked.use({ gfm: true });
 
 export default function ProjectPage({ project }: { project: Project }) {
     // hero section component
-    const HeroSection = ({ section, index }: { section: ProjectHeroSection; index: number }) => (
-        <div
-            className={cn(
-                'flex w-full flex-col-reverse items-center justify-around gap-8 pt-4 pb-8 text-center md:flex-row md:gap-8 md:px-16 md:pt-8 md:pb-16',
-                section.image && 'md:text-left',
-                index % 2 == 1 && 'md:flex-row-reverse',
-            )}
-        >
-            {section.image && (
-                <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
-            )}
-            <article className="w-full space-y-6">
-                <H2 className="mb-4">{section.heading}</H2>
-                <p className="leading-relaxed whitespace-pre-wrap">{section.text}</p>
-            </article>
-        </div>
-    );
+    const HeroSection = ({ section, index }: { section: ProjectHeroSection; index: number }) => {
+        const [htmlContent, setHtmlContent] = useState<string>('');
+
+        useEffect(() => {
+            const parseMarkdown = async () => {
+                const parsed = await marked.parse(section.text);
+                const sanitized = DOMPurify.sanitize(parsed);
+                setHtmlContent(sanitized);
+            };
+            parseMarkdown();
+        }, [section.text]);
+
+        return (
+            <div
+                className={cn(
+                    'flex w-full flex-col-reverse items-center justify-around gap-8 pt-4 pb-8 text-center md:flex-row md:gap-8 md:px-16 md:pt-8 md:pb-16',
+                    section.image && 'md:text-left',
+                    index % 2 == 1 && 'md:flex-row-reverse',
+                )}
+            >
+                {section.image && (
+                    <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
+                )}
+                <article className="w-full space-y-6">
+                    <H2 className="mb-4">{section.heading}</H2>
+                    <div
+                        className="[&_ul:text-left prose flex flex-col items-center leading-relaxed whitespace-pre-wrap [&_li]:mb-2 [&_ol]:ml-6 [&_ol]:list-decimal [&_ol]:text-left [&_ul]:ml-6 [&_ul]:w-fit [&_ul]:list-disc"
+                        dangerouslySetInnerHTML={{
+                            __html: htmlContent,
+                        }}
+                    />
+                </article>
+            </div>
+        );
+    };
 
     return (
         <CenteredContent>
