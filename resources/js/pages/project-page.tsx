@@ -39,7 +39,7 @@ export default function ProjectPage({ project }: { project: Project }) {
                 <article className="w-full space-y-6">
                     <H2 className="mb-4">{section.heading}</H2>
                     <div
-                        className="[&_ul:text-left prose flex flex-col items-center leading-relaxed whitespace-pre-wrap [&_li]:mb-2 [&_ol]:ml-6 [&_ol]:list-decimal [&_ol]:text-left [&_ul]:ml-6 [&_ul]:w-fit [&_ul]:list-disc"
+                        className="[&_ul:text-left m-auto prose flex flex-col items-center leading-relaxed whitespace-pre-wrap [&_li]:mb-2 [&_ol]:ml-6 [&_ol]:list-decimal [&_ol]:text-left [&_ul]:ml-6 [&_ul]:w-fit [&_ul]:list-disc"
                         dangerouslySetInnerHTML={{
                             __html: htmlContent,
                         }}
