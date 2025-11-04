@@ -3,36 +3,37 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { SkillConfig, TagConfig, TechConfig } from '@/config/config';
+import { breadcrumbTree } from '@/hooks/use-breadcrumbs';
 import { type NavItem } from '@/types';
 import { DemoConfig } from '@/types/demo';
 import { Link, usePage } from '@inertiajs/react';
-import { Badge, BadgeCheck, FolderClosed, LayoutGrid, Wrench } from 'lucide-react';
+import { Badge, BadgeCheck, FolderClosed, LayoutGrid, Text, Wrench } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/',
+        ...breadcrumbTree.dashboard(),
         icon: LayoutGrid,
     },
     {
-        title: 'Projects',
-        href: '/projects',
+        ...breadcrumbTree.project_index(),
         icon: FolderClosed,
     },
     {
-        title: 'All Tags',
-        href: '/tags',
+        ...breadcrumbTree.tag_index({ tagConfig: TagConfig }),
         icon: Badge,
     },
     {
-        title: 'Technologies',
-        href: '/technologies',
+        ...breadcrumbTree.tag_index({ tagConfig: TechConfig }),
         icon: Wrench,
     },
     {
-        title: 'Skills',
-        href: '/skills',
+        ...breadcrumbTree.tag_index({ tagConfig: SkillConfig }),
         icon: BadgeCheck,
+    },
+    {
+        ...breadcrumbTree.edit_text(),
+        icon: Text,
     },
 ];
 

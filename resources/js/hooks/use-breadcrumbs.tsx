@@ -1,14 +1,15 @@
 import { TagConfig, TagConfigInterface } from '@/config/config';
+import { BreadcrumbItem } from '@/types';
 import { Project, Tag } from '@/types/models';
 import { usePage } from '@inertiajs/react';
 
-interface BreadcrumbValue {
+export interface BreadcrumbTreeItem extends BreadcrumbItem {
     title: string;
     href: string;
-    parent?: BreadcrumbValue;
+    parent?: BreadcrumbTreeItem;
 }
 
-const breadcrumbTree = {
+export const breadcrumbTree = {
     dashboard: () => ({
         title: 'Dashboard',
         href: '/',
@@ -53,6 +54,16 @@ const breadcrumbTree = {
         href: `${tagConfig.BASE_URI}/edit`,
         parent: breadcrumbTree.tag_index({ tagConfig }),
     }),
+    select_image: ({ project }: { project: Project }) => ({
+        title: 'Select Image',
+        href: '/images',
+        parent: breadcrumbTree.edit_project({ project }),
+    }),
+    edit_text: () => ({
+        title: 'Edit Site Text',
+        href: '/text/edit',
+        parent: breadcrumbTree.dashboard(),
+    }),
 };
 
 const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
@@ -71,28 +82,30 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/technologies/index': 'tag_index',
     'admin/technologies/create': 'create_tag',
     'admin/technologies/edit': 'edit_tag',
+    'admin/images': 'select_image',
+    'admin/text': 'edit_text',
 };
 
 type BreadcrumbProps<C extends keyof typeof breadcrumbMap> = Parameters<(typeof breadcrumbTree)[(typeof breadcrumbMap)[C]]>[0];
 
-type BreadcrumbFunction<C extends keyof typeof breadcrumbMap> = (args: BreadcrumbProps<C>) => BreadcrumbValue;
+type BreadcrumbFunction<C extends keyof typeof breadcrumbMap> = (args: BreadcrumbProps<C>) => BreadcrumbTreeItem;
 
 export const useBreadcrumbs = (): {
-    breadcrumbs: BreadcrumbValue[];
-    getBreadcrumbs: <C extends keyof typeof breadcrumbMap>(component: C, args: BreadcrumbProps<C>) => BreadcrumbValue[];
+    breadcrumbs: BreadcrumbTreeItem[];
+    getBreadcrumbs: <C extends keyof typeof breadcrumbMap>(component: C, args: BreadcrumbProps<C>) => BreadcrumbTreeItem[];
 } => {
     const { component, props } = usePage();
 
-    const getAncestors = (breadcrumb: BreadcrumbValue) => {
+    const getAncestors = (breadcrumb: BreadcrumbTreeItem) => {
         const breadcrumbItem = { title: breadcrumb.title, href: breadcrumb.href };
 
         if (!breadcrumb.parent) return [breadcrumbItem];
 
-        const parentTree: BreadcrumbValue[] = getAncestors(breadcrumb.parent);
+        const parentTree: BreadcrumbTreeItem[] = getAncestors(breadcrumb.parent);
         return [...parentTree, breadcrumbItem];
     };
 
-    function getBreadcrumbs<C extends keyof typeof breadcrumbMap>(component: C, args: BreadcrumbProps<C>): BreadcrumbValue[] {
+    function getBreadcrumbs<C extends keyof typeof breadcrumbMap>(component: C, args: BreadcrumbProps<C>): BreadcrumbTreeItem[] {
         const breadcrumbFunction = breadcrumbTree[breadcrumbMap[component]] as BreadcrumbFunction<C>;
 
         if (!breadcrumbFunction) {
@@ -101,7 +114,7 @@ export const useBreadcrumbs = (): {
         }
 
         try {
-            const breadcrumb: BreadcrumbValue = breadcrumbFunction(args ?? ({} as BreadcrumbProps<C>));
+            const breadcrumb: BreadcrumbTreeItem = breadcrumbFunction(args ?? ({} as BreadcrumbProps<C>));
             return getAncestors(breadcrumb);
         } catch (error) {
             console.warn(`Error generating breadcrumbs for this page:`, error);
