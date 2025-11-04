@@ -40,7 +40,10 @@ export default function ProjectPage({ project }: { project: Project }) {
                 <article className="w-full space-y-6">
                     <H2 className="mb-4">{section.heading}</H2>
                     <div
-                        className={cn('m-auto prose flex flex-col items-center [&_ol]:text-left [&_ul]:text-left', section.image && 'md:items-start')}
+                        className={cn(
+                            'm-auto prose flex flex-col items-center text-foreground *:text-inherit dark:prose-invert [&_ol]:text-left [&_ul]:text-left',
+                            section.image && 'md:items-start',
+                        )}
                         dangerouslySetInnerHTML={{
                             __html: htmlContent,
                         }}
