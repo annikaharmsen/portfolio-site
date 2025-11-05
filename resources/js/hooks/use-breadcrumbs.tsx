@@ -83,7 +83,7 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/technologies/create': 'create_tag',
     'admin/technologies/edit': 'edit_tag',
     'admin/images': 'select_image',
-    'admin/text': 'edit_text',
+    'admin/text/edit': 'edit_text',
 };
 
 type BreadcrumbProps<C extends keyof typeof breadcrumbMap> = Parameters<(typeof breadcrumbTree)[(typeof breadcrumbMap)[C]]>[0];
