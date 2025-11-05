@@ -3,6 +3,7 @@
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectHeroSectionsController;
+use App\Http\Controllers\SiteTextController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
@@ -50,6 +51,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])
         ->name('technologies.bulk-delete');
     Route::resource('technologies', TechnologyController::class);
+
+    Route::prefix('text')
+      ->name('text.')
+      ->controller(SiteTextController::class)
+      ->group(function () {
+          Route::get('/edit', 'edit')->name('edit');
+          Route::put('/', 'update')->name('update');
+      });
 });
 
 require __DIR__.'/settings.php';
