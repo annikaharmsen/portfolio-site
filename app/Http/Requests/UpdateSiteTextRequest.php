@@ -28,7 +28,7 @@ class UpdateSiteTextRequest extends FormRequest
             'section' => ['required', Rule::enum(SiteSection::class)],
             'texts' => 'required|array|min:1|max:255',
             'texts.*.id' => 'nullable|integer',
-            'texts.*.slot' => 'required|regex:/^[0-9]+(\.[0-9]+)*$/',
+            'texts.*.slot' => 'required|regex:/^[a-z](\.[a-z])*$/',
             'texts.*.text' => 'required|string|min:1',
         ];
     }
