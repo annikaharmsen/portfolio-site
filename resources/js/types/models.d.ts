@@ -77,3 +77,5 @@ export type User = {
     notifications_exists: boolean;
 };
 export type Users = User[];
+
+export type Section = 'intro' | 'about' | 'skills' | 'projects' | 'contact';
