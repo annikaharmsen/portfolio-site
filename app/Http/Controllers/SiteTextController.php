@@ -19,7 +19,7 @@ class SiteTextController extends Controller
         $section = $validated['section'];
         foreach ($validated['texts'] as $textEntry) {
             $text = SiteText::findOrNew($textEntry['id'] ?? null);
-            $text->fill($text);
+            $text->fill($textEntry);
             $text->section = $section;
             $text->save();
 
