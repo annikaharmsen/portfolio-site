@@ -26,10 +26,8 @@ class UpdateSiteTextRequest extends FormRequest
     {
         return [
             'section' => ['required', Rule::enum(SiteSection::class)],
-            'texts' => 'required|array|min:1|max:255',
-            'texts.*.id' => 'nullable|integer',
-            'texts.*.slot' => 'required|regex:/^[a-z](\.[a-z])*$/',
-            'texts.*.text' => 'required|string|min:1',
+            'text' => 'nullable|string',
+            'slot' => 'required|regex:/^[a-z]+(\.[a-z]+)*$/',
         ];
     }
 
@@ -43,16 +41,10 @@ class UpdateSiteTextRequest extends FormRequest
         return [
             'section.required' => 'A section must be selected.',
             'section.Illuminate\Validation\Rules\Enum' => 'The selected section is invalid.',
-            'texts.required' => 'At least one text entry is required.',
-            'texts.array' => 'Text entries must be provided as a list.',
-            'texts.min' => 'At least one text entry is required.',
-            'texts.max' => 'You cannot add more than 255 text entries in one section.',
-            'texts.*.id.integer' => 'Text ID must be a valid number.',
-            'texts.*.slot.required' => 'A slot position is required for each text entry.',
-            'texts.*.slot.regex' => 'Slot position must be in the format of numbers separated by dots (e.g., 1, 1.2, 1.2.3).',
-            'texts.*.text.required' => 'Text content is required.',
-            'texts.*.text.string' => 'Text content must be a valid text string.',
-            'texts.*.text.min' => 'Text content cannot be empty.',
+            'text.string' => 'Text content must be a valid text string.',
+            'text.min' => 'Text content cannot be empty.',
+            'slot.required' => 'A slot position is required.',
+            'slot.regex' => 'Slot position must be in the format of lowercase letters separated by dots (e.g., a, a.b, a.b.c).',
         ];
     }
 }

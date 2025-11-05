@@ -9,25 +9,23 @@ use Inertia\Inertia;
 class SiteTextController extends Controller
 {
     public function edit() {
-        return Inertia::render('admin/text/edit');
+        return Inertia::render('admin/text/edit', [
+            'texts' => SiteText::allNested()
+        ]);
     }
 
     public function update(UpdateSiteTextRequest $request) {
         $validated = $request->validated();
 
-        $submittedIDs = [];
         $section = $validated['section'];
-        foreach ($validated['texts'] as $textEntry) {
-            $text = SiteText::findOrNew($textEntry['id'] ?? null);
-            $text->fill($textEntry);
-            $text->section = $section;
-            $text->save();
+        $slot = $validated['slot'];
+        $text = $validated['text'];
 
-            $submittedIDs[] = $text->id;
-        };
+        // (soft) delete existing record
+        SiteText::where('section', $section)->where('slot', $slot)->delete();
 
-        // delete texts in section not in submission
-        SiteText::where('section', '=', $section)->whereNotIn('id', $submittedIDs)->delete();
+        // create new record if text is not nullish
+        if ($text) SiteText::create($validated);
 
         return redirect("/text/edit")->with([
             'section' => $section
