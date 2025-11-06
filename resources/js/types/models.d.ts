@@ -80,33 +80,7 @@ export type Users = User[];
 
 export type Section = 'intro' | 'about' | 'skills' | 'projects' | 'contact';
 
-type LowercaseLetter =
-    | 'a'
-    | 'b'
-    | 'c'
-    | 'd'
-    | 'e'
-    | 'f'
-    | 'g'
-    | 'h'
-    | 'i'
-    | 'j'
-    | 'k'
-    | 'l'
-    | 'm'
-    | 'n'
-    | 'o'
-    | 'p'
-    | 'q'
-    | 'r'
-    | 's'
-    | 't'
-    | 'u'
-    | 'v'
-    | 'w'
-    | 'x'
-    | 'y'
-    | 'z';
-
-type SiteTextSlot = { [L in LowercaseLetter]?: SiteTextSlot | string };
+type SiteTextSlot = Record<string, SiteTextSlot | string>;
 export type SiteTexts = { [S in Section]?: SiteTextSlot };
+
+export type SiteTextPath = `${Section}.${string}`;
