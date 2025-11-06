@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum SiteSection: string
 {
-    case header = 'header';
+    case intro = 'intro';
     case about = 'about';
     case skills = 'skills';
     case projects = 'projects';

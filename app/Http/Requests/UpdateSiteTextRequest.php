@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\SiteSection;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateSiteTextRequest extends FormRequest
 {
@@ -24,10 +22,10 @@ class UpdateSiteTextRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
-            'section' => ['required', Rule::enum(SiteSection::class)],
-            'text' => 'nullable|string',
-            'slot' => 'required|regex:/^[a-z]+(\.[a-z]+)*$/',
+            'path' => ['required', 'regex:/^(intro|about|skills|projects|contact)\.[a-z]+(\.[a-z]+)*$/'],
+           'text' => 'nullable|string',
         ];
     }
 
@@ -39,12 +37,9 @@ class UpdateSiteTextRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'section.required' => 'A section must be selected.',
-            'section.Illuminate\Validation\Rules\Enum' => 'The selected section is invalid.',
+            'path.required' => 'A path is required.',
+            'path.regex' => 'Path must be in the format: section.slot (e.g., intro.a, about.title). Valid sections: intro, about, skills, projects, contact.',
             'text.string' => 'Text content must be a valid text string.',
-            'text.min' => 'Text content cannot be empty.',
-            'slot.required' => 'A slot position is required.',
-            'slot.regex' => 'Slot position must be in the format of lowercase letters separated by dots (e.g., a, a.b, a.b.c).',
         ];
     }
 }
