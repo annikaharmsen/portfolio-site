@@ -4,7 +4,7 @@ import { H1, H2Classes } from '@/components/headings';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { TextAreaStyles } from '@/components/ui/textarea';
+import { textAreaStyles } from '@/components/ui/textarea';
 import useReroute from '@/hooks/use-reroute';
 import useSessionStorage from '@/hooks/use-session-storage';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
@@ -134,7 +134,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
     }) => (
         <fieldset
             className={cn(
-                'relative flex w-full flex-col-reverse items-center justify-stretch gap-8 border-y-1 px-8 py-8 md:flex-row md:px-24',
+                'relative flex w-full flex-col-reverse items-center justify-stretch gap-8 border-y px-8 py-8 md:flex-row md:px-24',
                 index % 2 == 1 && 'md:flex-row-reverse',
             )}
         >
@@ -197,7 +197,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
                 <TextareaAutosize
                     name={`hero_sections[${index}].text`}
                     className={cn(
-                        TextAreaStyles,
+                        textAreaStyles,
                         'min-h-15 resize-none',
                         section.text && 'border-none whitespace-pre-wrap text-foreground shadow-none',
                     )}
