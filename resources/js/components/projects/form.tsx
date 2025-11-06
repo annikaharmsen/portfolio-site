@@ -9,7 +9,7 @@ import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Tags } from '@/types/models';
-import { router, useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
@@ -23,10 +23,16 @@ interface ProjectFormProps {
 }
 
 export default function ProjectForm({ project, tags }: ProjectFormProps) {
+    const { errors } = usePage().props;
+    const controller = useController(ProjectConfig.BASE_URI);
+
+    const [processing, setProcessing] = useState<boolean>(false);
+    const [deleting, setDeleting] = useState<boolean>(false);
+
     const skills = tags.filter((tag) => tag.category && SkillConfig.CATEGORIES.includes(tag.category));
     const technologies = tags.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category));
 
-    const { data, setData, processing, errors, post, put, isDirty } = useForm({
+    const { data, setData, isDirty } = useForm({
         icon_name: (project?.icon_name as IconName | null) || null,
         title: project?.title || '',
         subtitle: project?.subtitle || '',
@@ -37,15 +43,9 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
         tags: project?.tags?.map((tag) => tag.id) || [],
         description: project?.description || '',
     });
-
-    const [deleting, setDeleting] = useState(false);
-
-    const controller = useController(ProjectConfig.BASE_URI);
-
-    // Warn user about unsaved changes
     useUnsavedWarning(isDirty && !processing && !deleting);
 
-    // Reload options when returning via history (preserves form state)
+    // reload tag options when returning via history (preserves form state)
     useEffect(() => {
         const handlePopState = () => {
             router.reload({ only: ['skills', 'technologies'] });
@@ -57,16 +57,12 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
+        setProcessing(true);
         if (project) {
-            controller.update(put, project);
+            controller.update(project, data, { onFinish: () => setProcessing(false) });
         } else {
-            controller.store(post, '/projects');
+            controller.store(data, { onFinish: () => setProcessing(false) });
         }
-    };
-
-    const handleCancel = () => {
-        controller.index();
     };
 
     const handleDelete = () => {
@@ -83,8 +79,8 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
         [setData],
     );
 
-    const technologyCreate = useController(TechConfig.BASE_URI).create;
-    const skillCreate = useController(SkillConfig.BASE_URI).create;
+    const createTech = useController(TechConfig.BASE_URI).create;
+    const createSkill = useController(SkillConfig.BASE_URI).create;
 
     return (
         <>
@@ -176,7 +172,7 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
                             onChange={handleTagsChange}
                             options={skills}
                             textResource="name"
-                            onClickPlus={skillCreate}
+                            onClickPlus={createSkill}
                         />
                     </>
 
@@ -189,7 +185,7 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
                             onChange={handleTagsChange}
                             options={technologies}
                             textResource="name"
-                            onClickPlus={technologyCreate}
+                            onClickPlus={createTech}
                         />
                     </>
                     <InputError className="col-span-full">{errors.tags}</InputError>
@@ -198,7 +194,7 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
                 <div className="mt-8 flex justify-between">
                     {project && <DeleteButton onClick={handleDelete} disabled={deleting} />}
                     <div className="flex w-full justify-end space-x-2">
-                        <CancelButton onClick={handleCancel} />
+                        <CancelButton onClick={controller.index} />
                         <SaveButton disabled={processing} onClick={handleSubmit}>
                             {processing ? 'Saving...' : project ? 'Update' : 'Create'}
                         </SaveButton>

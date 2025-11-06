@@ -35,7 +35,7 @@ class ProjectController extends Controller
 
         $project->tags()->sync($validated['tags']);
 
-        return back();
+        return redirect("/projects/{$project->id}");
     }
 
     public function show(Project $project)
@@ -60,7 +60,7 @@ class ProjectController extends Controller
 
         if (isset($validated['tags'])) $project->tags()->sync($validated['tags']);
 
-        return back();
+        return redirect("/projects/{$project->id}");
     }
 
     public function destroy(Project $project)

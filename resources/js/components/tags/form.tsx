@@ -1,9 +1,10 @@
 import { ProjectConfig, TagConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
+import useReroute from '@/hooks/use-reroute';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, Tag } from '@/types/models';
-import { router, useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { useCallback, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
@@ -23,19 +24,19 @@ interface TagFormProps {
 }
 
 export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI: baseURI }, projects, tag, className }: TagFormProps) {
-    const isEditing = !!tag;
-
-    const { data, setData, processing, errors, post, put, isDirty } = useForm({
-        icon_name: (isEditing && tag.icon_name) || null,
-        name: (isEditing && tag.name) || '',
-        projects: (isEditing && tag.projects?.map((project) => project.id)) || [],
-        category: (isEditing && tag.category) || categories.length === 1 ? categories[0] : undefined,
-    });
-
-    const [deleting, setDeleting] = useState(false);
-
     const controller = useController(baseURI);
+    const { reroute } = useReroute();
+    const { errors } = usePage().props;
 
+    const [processing, setProcessing] = useState<boolean>(false);
+    const [deleting, setDeleting] = useState<boolean>(false);
+
+    const { data, setData, isDirty } = useForm({
+        icon_name: (!!tag && tag.icon_name) || null,
+        name: (!!tag && tag.name) || '',
+        projects: (!!tag && tag.projects?.map((project) => project.id)) || [],
+        category: (!!tag && tag.category) || categories.length === 1 ? categories[0] : undefined,
+    });
     useUnsavedWarning(isDirty && !processing && !deleting);
 
     useEffect(() => {
@@ -50,15 +51,16 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (isEditing) {
-            controller.update(put, tag);
+        setProcessing(true);
+        if (tag) {
+            controller.update(tag, data, { onSuccess: reroute, onFinish: () => setProcessing(false) });
         } else {
-            controller.store(post, baseURI);
+            controller.store(data, { onSuccess: reroute, onFinish: () => setProcessing(false) });
         }
     };
 
     const handleDelete = () => {
-        if (isEditing && confirm('Are you sure you want to delete?')) {
+        if (!!tag && confirm('Are you sure you want to delete?')) {
             setDeleting(true);
             controller.delete(tag);
         }
@@ -71,7 +73,7 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         [setData],
     );
 
-    const projectCreate = useController(ProjectConfig.BASE_URI).create;
+    const createProject = useController(ProjectConfig.BASE_URI).create;
 
     return (
         <form onSubmit={handleSubmit} className={className}>
@@ -97,7 +99,7 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
                     <Label htmlFor="projects" className="block">
                         Projects
                     </Label>
-                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} onClickPlus={projectCreate} />
+                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} onClickPlus={createProject} />
                     <InputError>{errors.projects}</InputError>
                 </div>
 
@@ -124,11 +126,11 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
             </FormGridLayout>
 
             <div className="mt-8 flex justify-between">
-                {isEditing && <DeleteButton onClick={handleDelete} disabled={deleting} />}
+                {!!tag && <DeleteButton onClick={handleDelete} disabled={deleting} />}
                 <div className="flex w-full justify-end space-x-2">
                     <CancelButton onClick={controller.index} />
                     <SaveButton disabled={processing} onClick={handleSubmit}>
-                        {processing ? 'Saving...' : isEditing ? 'Update' : 'Create'}
+                        {processing ? 'Saving...' : tag ? 'Update' : 'Create'}
                     </SaveButton>
                 </div>
             </div>
