@@ -92,10 +92,10 @@ export default function ProjectCard({ project }: { project: Project }) {
 
                 <div className="flex flex-col gap-2 sm:flex-row">
                     {/* repo button */}
-                    {project.repo_link && <GitHubButton url={project.repo_link} />}
+                    {project.repo_link && <GitHubButton hoverVariant="secondary" href={project.repo_link} />}
 
                     {/* demo button */}
-                    {project.demo_link && <DemoButton url={project.demo_link} />}
+                    {project.demo_link && <DemoButton href={project.demo_link} />}
                 </div>
             </CardContent>
         </Card>

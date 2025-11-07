@@ -78,10 +78,10 @@ export default function ProjectPage({ project }: { project: Project }) {
             {(!!project.repo_link || !!project.demo_link) && (
                 <div className="m-8 flex flex-col gap-2 sm:flex-row">
                     {/* repo button */}
-                    {project.repo_link && <GitHubButton url={project.repo_link} />}
+                    {project.repo_link && <GitHubButton href={project.repo_link} />}
 
                     {/* demo button */}
-                    {project.demo_link && <DemoButton url={project.demo_link} />}
+                    {project.demo_link && <DemoButton href={project.demo_link} />}
                 </div>
             )}
             <div className="mb-8 flex w-full justify-center">
