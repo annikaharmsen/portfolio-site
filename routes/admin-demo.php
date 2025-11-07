@@ -57,7 +57,7 @@ Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDel
 Route::resource('technologies', TechnologyController::class)->names('demo.technologies');
 
 Route::prefix('text')
-    ->name('text.')
+    ->name('demo.text.')
     ->controller(SiteTextController::class)
     ->group(function () {
         Route::get('/edit', 'edit')->name('edit');
