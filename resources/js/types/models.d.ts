@@ -80,7 +80,9 @@ export type Users = User[];
 
 export type Section = 'intro' | 'about' | 'skills' | 'projects' | 'contact';
 
-type SiteTextSlot = Record<string, SiteTextSlot | string>;
+type SiteTextSlot = {
+    [key: string]: SiteTextSlot | string;
+};
 export type SiteTexts = { [S in Section]?: SiteTextSlot };
 
 export type SiteTextPath = `${Section}.${string}`;
