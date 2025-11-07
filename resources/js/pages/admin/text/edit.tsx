@@ -8,8 +8,10 @@ import { Section, SiteTextPath, SiteTexts } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { FocusEventHandler } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import EditAbout from './edit-about';
 
-export default function Edit({ section = 'intro', texts }: { section?: Section; texts?: SiteTexts }) {
+export default function Edit({ section = 'intro', texts }: { section?: Section; texts: SiteTexts }) {
+    console.log(texts);
     const updatePath = (path: SiteTextPath, text: string) => {
         router.put('/text', { path: path, text: text });
     };
@@ -56,6 +58,18 @@ export default function Edit({ section = 'intro', texts }: { section?: Section; 
                                 </div>
                             </div>
                         </CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="about">
+                    <Card>
+                        <CardContent>
+                            <EditAbout aboutTexts={texts.about || {}} handleFieldBlur={handleBlur} />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="contact">
+                    <Card>
+                        <CardContent></CardContent>
                     </Card>
                 </TabsContent>
             </Tabs>
