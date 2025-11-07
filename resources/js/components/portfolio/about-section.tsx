@@ -86,7 +86,7 @@ export const aboutPStyles = 'mb-6 text-lg leading-relaxed text-foreground';
 
 const mainDivStyles = 'grid items-start gap-12 lg:grid-cols-2';
 const cardDivStyles =
-    'flex h-full flex-col space-y-8 text-lg leading-relaxed text-foreground space-y-6 *:grow *:justify-center *:px-6 *:border-secondary';
+    'flex h-full flex-col space-y-8 text-lg leading-relaxed text-foreground space-y-6 *:grow *:not-last:px-6 *:justify-center *:border-secondary';
 const locationDivStyles = 'mb-4 flex items-center gap-2 text-foreground grow-0!';
 
 export const AboutContentShell = ({
@@ -110,7 +110,7 @@ export const AboutContentShell = ({
                 {!!Cards && <Cards />}
                 {!!Location && (
                     <div className={locationDivStyles}>
-                        <MapPin className="h-4 w-4" />
+                        <MapPin className="m-2 size-6" />
                         <Location />
                     </div>
                 )}
