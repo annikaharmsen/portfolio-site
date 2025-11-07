@@ -24,7 +24,7 @@ class UpdateSiteTextRequest extends FormRequest
     {
 
         return [
-            'path' => ['required', 'regex:/^(intro|about|skills|projects|contact)\.[a-z]+(\.[a-z]+)*$/'],
+            'path' => ['required', 'regex:/^(intro|about|skills|projects|contact)\.[a-z0-9_]+(\.[a-z0-9_]+)*$/'],
            'text' => 'nullable|string',
         ];
     }
