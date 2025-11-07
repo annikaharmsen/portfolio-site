@@ -3,6 +3,7 @@
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectHeroSectionsController;
+use App\Http\Controllers\SiteTextController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
@@ -54,4 +55,12 @@ Route::resource('skills', SkillController::class)->names('demo.skills');
 // Technology routes
 Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('demo.technologies.bulk-delete');
 Route::resource('technologies', TechnologyController::class)->names('demo.technologies');
+
+Route::prefix('text')
+    ->name('text.')
+    ->controller(SiteTextController::class)
+    ->group(function () {
+        Route::get('/edit', 'edit')->name('edit');
+        Route::put('/', 'update')->name('update');
+    });
 
