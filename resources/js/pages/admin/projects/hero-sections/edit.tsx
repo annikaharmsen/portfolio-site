@@ -64,7 +64,6 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
 
     // warn user about unsaved changes
     useUnsavedWarning(isDirty && !isSubmitting && allowNavigate);
-    console.log(savedHeroSections);
 
     // clear session storage after component mounts and state is initialized
     useEffect(() => {
