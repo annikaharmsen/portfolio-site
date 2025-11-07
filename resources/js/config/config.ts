@@ -1,3 +1,12 @@
+import AboutSection from '@/components/portfolio/about-section';
+import ContactSection from '@/components/portfolio/contact-section';
+import HeaderContent from '@/components/portfolio/header-content';
+import EditAbout from '@/pages/admin/text/edit-about';
+import EditContact from '@/pages/admin/text/edit-contact';
+import EditIntro from '@/pages/admin/text/edit-intro';
+import { SiteTextSlot } from '@/types/models';
+import { ReactElement } from 'react';
+
 export type ModelType = 'Project' | TagType;
 export type TagType = 'Tag' | 'Technology' | 'Skill';
 
@@ -43,3 +52,25 @@ export const SkillConfig: TagConfigInterface = {
 
 export type TechCategory = (typeof TechConfig.CATEGORIES)[number];
 export type SkillCategory = (typeof SkillConfig.CATEGORIES)[number];
+
+// Sections
+export type SectionComponent = ({ texts }: { texts?: SiteTextSlot | undefined }) => ReactElement;
+export interface SectionConfigInterface {
+    EDIT: SectionComponent;
+    SHOW: SectionComponent;
+}
+
+export const SectionConfigs = {
+    intro: {
+        EDIT: EditIntro,
+        SHOW: HeaderContent,
+    },
+    about: {
+        EDIT: EditAbout,
+        SHOW: AboutSection,
+    },
+    contact: {
+        EDIT: EditContact,
+        SHOW: ContactSection,
+    },
+};

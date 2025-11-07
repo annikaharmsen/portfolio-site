@@ -2,16 +2,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { textAreaStyles } from '@/components/ui/textarea';
+import { SectionComponent } from '@/config/config';
 import { cn } from '@/lib/utils';
-import { Section, SiteTextPath, SiteTexts, SiteTextSlot } from '@/types/models';
+import { Section, SiteTextPath, SiteTexts } from '@/types/models';
 import { router } from '@inertiajs/react';
-import { ComponentProps, FocusEventHandler, ReactElement, useState } from 'react';
+import { ComponentProps, FocusEventHandler, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import EditAbout from './edit-about';
 import EditContact from './edit-contact';
 import EditIntro from './edit-intro';
-
-export type SectionComponent = ({ texts, onFieldBlur }: { texts?: SiteTextSlot | undefined; onFieldBlur: FocusEventHandler }) => ReactElement;
 
 const sections: [Section, SectionComponent][] = [
     ['intro', EditIntro],
@@ -40,7 +39,7 @@ export default function Edit({ section: defaultSection = 'intro', texts }: { sec
                     <TabsContent value={value}>
                         <Card>
                             <CardContent>
-                                <Section texts={texts[value]} onFieldBlur={handleBlur} />
+                                <Section texts={texts[value]} />
                             </CardContent>
                         </Card>
                     </TabsContent>

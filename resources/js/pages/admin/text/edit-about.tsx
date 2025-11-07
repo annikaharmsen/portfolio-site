@@ -1,20 +1,18 @@
 import { AboutContentShell } from '@/components/portfolio/about-section';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, cardStyles, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { textAreaStyles } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { SiteTextSlot } from '@/types/models';
 import { Plus } from 'lucide-react';
-import { FocusEventHandler, useEffect, useState } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
+import { useEffect, useState } from 'react';
+import { SiteTextInput, SiteTextTextarea } from './edit';
 
 type AboutCard = {
     heading?: string;
     content?: string;
 };
 
-export default function EditAbout({ texts: aboutTexts = {}, onFieldBlur }: { texts?: SiteTextSlot; onFieldBlur: FocusEventHandler }) {
+export default function EditAbout({ texts: aboutTexts = {} }: { texts?: SiteTextSlot }) {
     const [cards, setCards] = useState(Object.entries(aboutTexts.cards || {}) as [string, AboutCard][]);
 
     // sync cards state when aboutTexts changes
@@ -33,15 +31,7 @@ export default function EditAbout({ texts: aboutTexts = {}, onFieldBlur }: { tex
 
     return (
         <AboutContentShell
-            MainBody={() => (
-                <TextareaAutosize
-                    name="about.main"
-                    defaultValue={(aboutTexts?.main as string) || ''}
-                    onBlur={onFieldBlur}
-                    placeholder="Type about me body"
-                    className={cn(textAreaStyles, 'w-full resize-none overflow-hidden! text-lg!')}
-                />
-            )}
+            MainBody={() => <SiteTextTextarea name="about.main" defaultValue={(aboutTexts?.main as string) || ''} placeholder="Type about me body" />}
             Cards={() => {
                 return (
                     <>
@@ -49,23 +39,18 @@ export default function EditAbout({ texts: aboutTexts = {}, onFieldBlur }: { tex
                             <Card key={index} className="gap-y-2">
                                 <CardHeader>
                                     <CardTitle>
-                                        <Input
+                                        <SiteTextInput
                                             name={`about.cards.${key}.heading`}
                                             defaultValue={card.heading || ''}
-                                            onBlur={onFieldBlur}
                                             placeholder="Enter card heading"
-                                            type="text"
-                                            className="placeholder:text-foreground/60"
                                         />
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <TextareaAutosize
+                                    <SiteTextTextarea
                                         name={`about.cards.${key}.content`}
                                         defaultValue={card.content || ''}
-                                        onBlur={onFieldBlur}
                                         placeholder={`Type "about me" body`}
-                                        className={cn(textAreaStyles, 'w-full resize-none overflow-hidden!')}
                                     />
                                 </CardContent>
                             </Card>
@@ -77,12 +62,10 @@ export default function EditAbout({ texts: aboutTexts = {}, onFieldBlur }: { tex
                 );
             }}
             Location={() => (
-                <TextareaAutosize
+                <SiteTextTextarea
                     name={`about.location`}
                     defaultValue={(aboutTexts.location as string) || ''}
-                    onBlur={onFieldBlur}
                     placeholder="Enter location statement"
-                    className={cn(textAreaStyles, 'w-full resize-none overflow-hidden!')}
                 />
             )}
         />

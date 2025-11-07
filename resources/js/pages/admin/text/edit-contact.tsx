@@ -1,10 +1,9 @@
 import { GitHubButton, LinkedinButton } from '@/components/app-buttons';
 import { ContactContentShell, ContactForm } from '@/components/portfolio/contact-section';
 import { SiteTextSlot } from '@/types/models';
-import { FocusEventHandler } from 'react';
 import { SiteTextInput, SiteTextTextarea } from './edit';
 
-export default function EditContact({ texts = {} }: { texts?: SiteTextSlot; onFieldBlur: FocusEventHandler }) {
+export default function EditContact({ texts = {} }: { texts?: SiteTextSlot }) {
     return (
         <ContactContentShell
             MainBody={() => (
