@@ -14,13 +14,22 @@ type AboutCard = {
     content?: string;
 };
 
-export default function EditAbout({ aboutTexts, handleFieldBlur }: { aboutTexts: SiteTextSlot; handleFieldBlur: FocusEventHandler }) {
-    const [cards, setCards] = useState(Object.values(aboutTexts.cards || {}) as AboutCard[]);
+export default function EditAbout({ texts: aboutTexts = {}, onFieldBlur }: { texts?: SiteTextSlot; onFieldBlur: FocusEventHandler }) {
+    const [cards, setCards] = useState(Object.entries(aboutTexts.cards || {}) as [string, AboutCard][]);
 
     // sync cards state when aboutTexts changes
     useEffect(() => {
-        setCards(Object.values(aboutTexts.cards || {}) as AboutCard[]);
+        setCards(Object.entries(aboutTexts.cards || {}) as [string, AboutCard][]);
     }, [aboutTexts]);
+
+    const addCard = () => {
+        const lastCard = cards[cards.length - 1];
+        const lastCardKey = lastCard ? parseFloat(lastCard[0]) : -1;
+
+        const newCard: [string, AboutCard] = [`${lastCardKey + 1}`, {}];
+
+        setCards([...cards, newCard]);
+    };
 
     return (
         <AboutContentShell
@@ -28,22 +37,22 @@ export default function EditAbout({ aboutTexts, handleFieldBlur }: { aboutTexts:
                 <TextareaAutosize
                     name="about.main"
                     defaultValue={(aboutTexts?.main as string) || ''}
-                    onBlur={handleFieldBlur}
+                    onBlur={onFieldBlur}
                     placeholder="Type about me body"
-                    className={cn(textAreaStyles, 'size-full resize-none text-lg!')}
+                    className={cn(textAreaStyles, 'w-full resize-none overflow-hidden! text-lg!')}
                 />
             )}
             Cards={() => {
                 return (
                     <>
-                        {cards.map((card, index) => (
+                        {cards.map(([key, card], index) => (
                             <Card key={index} className="gap-y-2">
                                 <CardHeader>
                                     <CardTitle>
                                         <Input
-                                            name={`about.cards.card_${index}.heading`}
+                                            name={`about.cards.${key}.heading`}
                                             defaultValue={card.heading || ''}
-                                            onBlur={handleFieldBlur}
+                                            onBlur={onFieldBlur}
                                             placeholder="Enter card heading"
                                             type="text"
                                             className="placeholder:text-foreground/60"
@@ -52,27 +61,30 @@ export default function EditAbout({ aboutTexts, handleFieldBlur }: { aboutTexts:
                                 </CardHeader>
                                 <CardContent>
                                     <TextareaAutosize
-                                        name={`about.cards.card_${index}.content`}
+                                        name={`about.cards.${key}.content`}
                                         defaultValue={card.content || ''}
-                                        onBlur={handleFieldBlur}
+                                        onBlur={onFieldBlur}
                                         placeholder={`Type "about me" body`}
-                                        className={cn(textAreaStyles, 'w-full resize-none')}
+                                        className={cn(textAreaStyles, 'w-full resize-none overflow-hidden!')}
                                     />
                                 </CardContent>
                             </Card>
                         ))}
-                        <Button
-                            onClick={() => {
-                                setCards([...cards, {}]);
-                            }}
-                            variant="ghost"
-                            className={cn(cardStyles, 'w-full hover:bg-muted hover:text-foreground')}
-                        >
+                        <Button onClick={addCard} variant="ghost" className={cn(cardStyles, 'w-full grow-0! hover:bg-muted hover:text-foreground')}>
                             <Plus />
                         </Button>
                     </>
                 );
             }}
+            Location={() => (
+                <TextareaAutosize
+                    name={`about.location`}
+                    defaultValue={(aboutTexts.location as string) || ''}
+                    onBlur={onFieldBlur}
+                    placeholder="Enter location statement"
+                    className={cn(textAreaStyles, 'w-full resize-none overflow-hidden!')}
+                />
+            )}
         />
     );
 }
