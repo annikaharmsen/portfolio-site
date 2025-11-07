@@ -1,13 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { sectionHeadingStyles } from '@/lib/styles';
 import { MapPin } from 'lucide-react';
+import { ReactComponent } from 'node_modules/@inertiajs/react/types/types';
 
 export default function AboutSection() {
     return (
         <section id="about" className="bg-muted py-16">
-            <div className="mx-auto max-w-6xl px-6">
-                <h2 className="mb-12 text-center text-4xl text-foreground uppercase">About Me</h2>
-                <div className="grid items-center gap-12 lg:grid-cols-2">
-                    <div>
+            <AboutContentShell
+                MainBody={() => (
+                    <>
                         <p className="mb-6 text-lg leading-relaxed text-foreground">
                             I'm a passionate full-stack developer who discovered my love for coding through teaching myself my first language,
                             JavaScript, in 2021. This passion led me to take two AP Computer Science courses over my sophomore and junior years of
@@ -29,11 +30,13 @@ export default function AboutSection() {
                             Laravel and React. I'm excited to bring my technical skills, international perspective, and collaborative spirit to a
                             development team where I can contribute to meaningful projects while continuing to grow as a developer.
                         </p>
-                    </div>
-                    <div className="flex h-full flex-col space-y-12">
-                        <Card className="flex-grow justify-center border-secondary px-6">
+                    </>
+                )}
+                Cards={() => (
+                    <>
+                        <Card>
                             <CardHeader>
-                                <CardTitle className="font-sans">Purdue University Global</CardTitle>
+                                <CardTitle>Purdue University Global</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <ul className="list-disc space-y-2 text-sm *:ml-[1rem]">
@@ -45,7 +48,7 @@ export default function AboutSection() {
                                 </ul>
                             </CardContent>
                             <CardHeader>
-                                <CardTitle className="font-sans">Additional College Credits</CardTitle>
+                                <CardTitle>Additional College Credits</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <ul className="list-disc space-y-2 text-sm *:ml-[1rem]">
@@ -58,9 +61,9 @@ export default function AboutSection() {
                                 </ul>
                             </CardContent>
                         </Card>
-                        <Card className="flex-grow justify-center border-secondary px-6">
+                        <Card>
                             <CardHeader>
-                                <CardTitle className="font-sans">Work Authorization</CardTitle>
+                                <CardTitle>Work Authorization</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <ul className="list-disc space-y-2 text-sm *:ml-[1rem]">
@@ -71,13 +74,47 @@ export default function AboutSection() {
                                 </ul>
                             </CardContent>
                         </Card>
-                        <div className="mb-4 flex items-center gap-2 text-foreground">
-                            <MapPin className="h-4 w-4" />
-                            <span>Available for in-person and hybrid roles in the United States of America </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    </>
+                )}
+                Location={() => <span>Available for in-person and hybrid roles in the United States of America </span>}
+            />
         </section>
     );
 }
+
+export const aboutPStyles = 'mb-6 text-lg leading-relaxed text-foreground';
+
+const mainDivStyles = 'grid items-start gap-12 lg:grid-cols-2';
+const cardDivStyles =
+    'flex h-full flex-col space-y-8 text-lg leading-relaxed text-foreground space-y-6 *:grow *:justify-center *:px-6 *:border-secondary';
+const locationDivStyles = 'mb-4 flex items-center gap-2 text-foreground grow-0!';
+
+export const AboutContentShell = ({
+    MainBody,
+    Cards,
+    Location,
+}: {
+    MainBody?: ReactComponent;
+    Cards?: ReactComponent;
+    Location?: ReactComponent;
+}) => (
+    <div className="mx-auto max-w-6xl px-6">
+        <h2 className={sectionHeadingStyles}>About Me</h2>
+        <div className={mainDivStyles}>
+            {!!MainBody && (
+                <div>
+                    <MainBody />
+                </div>
+            )}
+            <div className={cardDivStyles}>
+                {!!Cards && <Cards />}
+                {!!Location && (
+                    <div className={locationDivStyles}>
+                        <MapPin className="h-4 w-4" />
+                        <Location />
+                    </div>
+                )}
+            </div>
+        </div>
+    </div>
+);
