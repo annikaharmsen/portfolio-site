@@ -21,7 +21,7 @@ class SiteText extends Model
     }
 
     public static function allNested() {
-        $records = SiteText::all();
+        $records = SiteText::all()->sortBy('path');
 
         $dottedArr = [];
         foreach ($records as $record) {
