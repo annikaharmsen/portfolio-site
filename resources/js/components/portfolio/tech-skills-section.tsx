@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tags } from '@/types/models';
+import IconComponent from '../icon-component';
 import IconList from './icon-list';
 
 export default function TechSkillsSection({ tags }: { tags: Tags }) {
@@ -8,6 +9,20 @@ export default function TechSkillsSection({ tags }: { tags: Tags }) {
     const backend = tags.filter((tag) => tag.category === 'backend');
     const tools = tags.filter((tag) => tag.category === 'tool');
     const skills = tags.filter((tag) => tag.category === 'skill');
+    const tech = [
+        {
+            name: 'Frontend Technologies',
+            items: frontend,
+        },
+        {
+            name: 'Backend Technologies',
+            items: backend,
+        },
+        {
+            name: 'Tools',
+            items: tools,
+        },
+    ];
 
     return (
         <section id="skills" className="py-16">
@@ -16,48 +31,27 @@ export default function TechSkillsSection({ tags }: { tags: Tags }) {
                     <>
                         <h2 className="mb-12 text-center text-4xl uppercase">Technical Skills</h2>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
-                            {!!frontend.length && (
-                                <Card className="border-accent">
-                                    <CardHeader>
-                                        <CardTitle className="font-sans">Frontend Technologies</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex min-w-0 flex-wrap gap-2">
-                                            {frontend.map((tech) => (
-                                                <Badge variant="accent">{tech.name}</Badge>
-                                            ))}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            )}
-                            {!!backend.length && (
-                                <Card className="border-accent">
-                                    <CardHeader>
-                                        <CardTitle className="font-sans">Backend Technologies</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex min-w-0 flex-wrap gap-2">
-                                            {backend.map((tech) => (
-                                                <Badge variant="accent">{tech.name}</Badge>
-                                            ))}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            )}
-                            {!!tools.length && (
-                                <Card className="border-accent">
-                                    <CardHeader>
-                                        <CardTitle className="font-sans">Tools</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex min-w-0 flex-wrap gap-2">
-                                            {tools.map((tech) => (
-                                                <Badge variant="accent">{tech.name}</Badge>
-                                            ))}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            )}
+                            {tech.map((category) => (
+                                <>
+                                    {!!category.items.length && (
+                                        <Card className="border-accent">
+                                            <CardHeader>
+                                                <CardTitle className="font-sans">{category.name}</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="flex min-w-0 flex-wrap gap-2">
+                                                    {category.items.map((tech) => (
+                                                        <Badge className="text-sm" variant="accent">
+                                                            <IconComponent icon_name={tech.icon_name} />
+                                                            {tech.name}
+                                                        </Badge>
+                                                    ))}
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    )}
+                                </>
+                            ))}
                         </div>
                         {!!skills.length && (
                             <div className="mt-12 flex flex-wrap justify-center-safe gap-2">
