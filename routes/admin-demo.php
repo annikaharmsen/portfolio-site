@@ -56,11 +56,11 @@ Route::resource('skills', SkillController::class)->names('demo.skills');
 Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])->name('demo.technologies.bulk-delete');
 Route::resource('technologies', TechnologyController::class)->names('demo.technologies');
 
-Route::prefix('text')
-    ->name('demo.text.')
-    ->controller(SiteTextController::class)
-    ->group(function () {
-        Route::get('/edit', 'edit')->name('edit');
-        Route::put('/', 'update')->name('update');
-    });
+// Site text routes
+Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])
+        ->name('section.edit')
+        ->whereIn('section', ['intro', 'about', 'contact']);
+
+Route::put('text', [SiteTextController::class, 'update'])
+    ->name('text.update');
 

@@ -1,6 +1,7 @@
 import { TagConfig, TagConfigInterface } from '@/config/config';
 import { BreadcrumbItem } from '@/types';
 import { Project, Tag } from '@/types/models';
+import { TextSection } from '@/types/site-texts';
 import { usePage } from '@inertiajs/react';
 
 export interface BreadcrumbTreeItem extends BreadcrumbItem {
@@ -59,9 +60,9 @@ export const breadcrumbTree = {
         href: '/images',
         parent: breadcrumbTree.edit_project({ project }),
     }),
-    edit_text: () => ({
-        title: 'Edit Site Text',
-        href: '/text/edit',
+    edit_section: ({ section }: { section: TextSection }) => ({
+        title: `Edit ${section.toTitleCase()} Section`,
+        href: `/sections/${section}/edit`,
         parent: breadcrumbTree.dashboard(),
     }),
 };
@@ -83,7 +84,7 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/technologies/create': 'create_tag',
     'admin/technologies/edit': 'edit_tag',
     'admin/images': 'select_image',
-    'admin/text/edit': 'edit_text',
+    'admin/sections/edit': 'edit_section',
 };
 
 type BreadcrumbProps<C extends keyof typeof breadcrumbMap> = Parameters<(typeof breadcrumbTree)[(typeof breadcrumbMap)[C]]>[0];

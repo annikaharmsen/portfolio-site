@@ -8,9 +8,10 @@ use Inertia\Inertia;
 
 class SiteTextController extends Controller
 {
-    public function edit() {
-        return Inertia::render('admin/text/edit', [
-            'texts' => SiteText::allNested()
+    public function edit(string $section) {
+        return Inertia::render('admin/sections/edit', [
+            'section' => $section,
+            'texts' => SiteText::getSection($section)
         ]);
     }
 
@@ -26,8 +27,8 @@ class SiteTextController extends Controller
         // create new record if text is not nullish
         if ($text) SiteText::create($validated);
 
-        return redirect("/text/edit")->with([
-            'section' => explode('.', $path, 2)[0]
-        ]);
+        $section = explode('.', $path, 2)[0];
+
+        return redirect("/sections/{$section}/edit");
     }
 }

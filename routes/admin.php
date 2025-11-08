@@ -52,13 +52,12 @@ Route::middleware('auth')->group(function () {
         ->name('technologies.bulk-delete');
     Route::resource('technologies', TechnologyController::class);
 
-    Route::prefix('text')
-      ->name('text.')
-      ->controller(SiteTextController::class)
-      ->group(function () {
-          Route::get('/edit', 'edit')->name('edit');
-          Route::put('/', 'update')->name('update');
-      });
+    Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])
+        ->name('section.edit')
+        ->whereIn('section', ['intro', 'about', 'contact']);
+
+    Route::put('text', [SiteTextController::class, 'update'])
+        ->name('text.update');
 });
 
 require __DIR__.'/settings.php';
