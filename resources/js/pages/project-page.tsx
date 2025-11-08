@@ -1,13 +1,12 @@
 import { DemoButton, GitHubButton } from '@/components/app-buttons';
 import CenteredContent from '@/components/centered-content';
 import { H1, H2 } from '@/components/headings';
+import Markdown from '@/components/markdown';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Project, ProjectHeroSection } from '@/types/models';
-import DOMPurify from 'dompurify';
 import { ArrowLeft } from 'lucide-react';
 import { marked } from 'marked';
-import { useEffect, useState } from 'react';
 
 // Enable GitHub Flavored Markdown for task lists and other GFM features
 marked.use({ gfm: true });
@@ -15,17 +14,6 @@ marked.use({ gfm: true });
 export default function ProjectPage({ project }: { project: Project }) {
     // hero section component
     const HeroSection = ({ section, index }: { section: ProjectHeroSection; index: number }) => {
-        const [htmlContent, setHtmlContent] = useState<string>('');
-
-        useEffect(() => {
-            const parseMarkdown = async () => {
-                const parsed = await marked.parse(section.text);
-                const sanitized = DOMPurify.sanitize(parsed);
-                setHtmlContent(sanitized);
-            };
-            parseMarkdown();
-        }, [section.text]);
-
         return (
             <div
                 className={cn(
@@ -39,15 +27,7 @@ export default function ProjectPage({ project }: { project: Project }) {
                 )}
                 <article className="w-full space-y-6">
                     <H2 className="mb-4">{section.heading}</H2>
-                    <div
-                        className={cn(
-                            'm-auto prose flex flex-col items-center text-foreground *:text-inherit dark:prose-invert [&_ol]:text-left [&_ul]:text-left',
-                            section.image && 'md:items-start',
-                        )}
-                        dangerouslySetInnerHTML={{
-                            __html: htmlContent,
-                        }}
-                    />
+                    <Markdown className={cn('m-auto flex flex-col items-center', section.image && 'md:items-start')}>{section.text}</Markdown>
                 </article>
             </div>
         );
