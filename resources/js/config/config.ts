@@ -1,11 +1,10 @@
-import AboutSection from '@/components/portfolio/about-section';
-import ContactSection from '@/components/portfolio/contact-section';
-import HeaderContent from '@/components/portfolio/header-content';
-import EditAbout from '@/pages/admin/text/edit-about';
-import EditContact from '@/pages/admin/text/edit-contact';
-import EditIntro from '@/pages/admin/text/edit-intro';
-import { SiteTextSlot } from '@/types/models';
-import { ReactElement } from 'react';
+import EditAbout from '@/components/sections/edit-about';
+import EditContact from '@/components/sections/edit-contact';
+import EditIntro from '@/components/sections/edit-intro';
+import ShowAbout from '@/components/sections/show-about';
+import ShowContact from '@/components/sections/show-contact';
+import ShowIntro from '@/components/sections/show-intro';
+import { SectionTexts, TextSectionComponent } from '@/types/site-texts';
 
 export type ModelType = 'Project' | TagType;
 export type TagType = 'Tag' | 'Technology' | 'Skill';
@@ -53,24 +52,23 @@ export const SkillConfig: TagConfigInterface = {
 export type TechCategory = (typeof TechConfig.CATEGORIES)[number];
 export type SkillCategory = (typeof SkillConfig.CATEGORIES)[number];
 
-// Sections
-export type SectionComponent = ({ texts }: { texts?: SiteTextSlot | undefined }) => ReactElement;
-export interface SectionConfigInterface {
-    EDIT: SectionComponent;
-    SHOW: SectionComponent;
+// Text Sections
+export interface SectionConfigInterface<T extends SectionTexts = SectionTexts> {
+    EditComponent: TextSectionComponent<T>;
+    ShowComponent: TextSectionComponent<T>;
 }
 
 export const SectionConfigs = {
     intro: {
-        EDIT: EditIntro,
-        SHOW: HeaderContent,
+        EditComponent: EditIntro,
+        ShowComponent: ShowIntro,
     },
     about: {
-        EDIT: EditAbout,
-        SHOW: AboutSection,
+        EditComponent: EditAbout,
+        ShowComponent: ShowAbout,
     },
     contact: {
-        EDIT: EditContact,
-        SHOW: ContactSection,
+        EditComponent: EditContact,
+        ShowComponent: ShowContact,
     },
-};
+} as const;
