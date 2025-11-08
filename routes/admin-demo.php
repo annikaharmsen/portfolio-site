@@ -58,9 +58,9 @@ Route::resource('technologies', TechnologyController::class)->names('demo.techno
 
 // Site text routes
 Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])
-        ->name('section.edit')
+        ->name('demo.section.edit')
         ->whereIn('section', ['intro', 'about', 'contact']);
 
 Route::put('text', [SiteTextController::class, 'update'])
-    ->name('text.update');
+    ->name('demo.text.update');
 
