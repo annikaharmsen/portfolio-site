@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Edit, ExternalLink, Github, Linkedin, Trash2 } from 'lucide-react';
+import { Download, Edit, ExternalLink, Github, Linkedin, Trash2 } from 'lucide-react';
 import { ComponentProps } from 'react';
 
 export const CancelButton = ({ ...props }: ComponentProps<typeof Button>) => (
@@ -49,23 +49,50 @@ const hoverVariants = {
 
 type HoverButton<B extends typeof Button = typeof Button> = { hoverVariant?: keyof typeof hoverVariants } & ComponentProps<B>;
 
-export const GitHubButton = ({ href, hoverVariant = 'accent', children = 'View Code' }: HoverButton<typeof LinkButton>) => (
-    <LinkButton href={href} size="sm" variant="outline" className={cn(hoverBaseStyles, hoverVariants[hoverVariant])}>
+export const GitHubButton = ({ href, hoverVariant = 'accent', className, children = 'View Code', ...props }: HoverButton<typeof LinkButton>) => (
+    <LinkButton href={href} size="sm" variant="outline" className={cn(hoverBaseStyles, hoverVariants[hoverVariant], className)} {...props}>
         <Github className="mr-2 h-4 w-4" />
         {children}
     </LinkButton>
 );
 
-export const LinkedinButton = ({ href, hoverVariant = 'accent', children = 'Linkedin' }: HoverButton<typeof LinkButton>) => (
-    <LinkButton href={href} size="sm" variant="outline" className={cn(hoverBaseStyles, hoverVariants[hoverVariant])}>
+export const LinkedinButton = ({ href, hoverVariant = 'accent', className, children = 'Linkedin', ...props }: HoverButton<typeof LinkButton>) => (
+    <LinkButton href={href} size="sm" variant="outline" className={cn(hoverBaseStyles, hoverVariants[hoverVariant], className)} {...props}>
         <Linkedin className="mr-2 h-4 w-4" />
         {children}
     </LinkButton>
 );
 
-export const DemoButton = ({ href, hoverVariant = 'accent' }: HoverButton<typeof LinkButton>) => (
-    <LinkButton href={href} variant="outline" size="sm" className={cn(hoverBaseStyles, hoverVariants[hoverVariant])}>
+export const DemoButton = ({ href, hoverVariant = 'accent', className, children = 'Live Demo', ...props }: HoverButton<typeof LinkButton>) => (
+    <LinkButton href={href} variant="outline" size="sm" className={cn(hoverBaseStyles, hoverVariants[hoverVariant], className)} {...props}>
         <ExternalLink className="mr-2 h-4 w-4" />
-        Live Demo
+        {children}
+    </LinkButton>
+);
+
+export const ViewWorkButton = ({ href, className, children = 'View My Work', ...props }: ComponentProps<typeof LinkButton>) => (
+    <LinkButton
+        href={href}
+        size="lg"
+        className={cn('bg-primary transition-colors duration-300 hover:bg-accent hover:text-accent-foreground', className)}
+        {...props}
+    >
+        {children}
+    </LinkButton>
+);
+
+export const ResumeButton = ({ href, className, children = 'Download Resume', ...props }: ComponentProps<typeof LinkButton>) => (
+    <LinkButton
+        href={href}
+        variant="outline"
+        size="lg"
+        className={cn(
+            'border-primary bg-transparent transition-all duration-300 hover:border-secondary hover:bg-secondary hover:text-secondary-foreground',
+            className,
+        )}
+        {...props}
+    >
+        <Download className="mr-2 h-4 w-4" />
+        {children}
     </LinkButton>
 );

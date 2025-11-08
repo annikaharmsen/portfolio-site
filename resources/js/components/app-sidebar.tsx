@@ -1,39 +1,62 @@
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
-import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { SkillConfig, TagConfig, TechConfig } from '@/config/config';
 import { breadcrumbTree } from '@/hooks/use-breadcrumbs';
-import { type NavItem } from '@/types';
+import { NavGroup, type NavItem } from '@/types';
 import { DemoConfig } from '@/types/demo';
 import { Link, usePage } from '@inertiajs/react';
-import { Badge, BadgeCheck, FolderClosed, LayoutGrid, Text, Wrench } from 'lucide-react';
+import { Badge, BadgeCheck, FolderClosed, Info, LayoutGrid, MessageCircle, Text, Wrench } from 'lucide-react';
+import { NavSection } from './nav-main';
 
-const mainNavItems: NavItem[] = [
+const mainNav: NavGroup[] = [
     {
-        ...breadcrumbTree.dashboard(),
-        icon: LayoutGrid,
+        title: 'Home',
+        items: [
+            {
+                ...breadcrumbTree.dashboard(),
+                icon: LayoutGrid,
+            },
+        ],
     },
     {
-        ...breadcrumbTree.project_index(),
-        icon: FolderClosed,
+        title: 'Project Management',
+        items: [
+            {
+                ...breadcrumbTree.project_index(),
+                icon: FolderClosed,
+            },
+            {
+                ...breadcrumbTree.tag_index({ tagConfig: TagConfig }),
+                icon: Badge,
+            },
+            {
+                ...breadcrumbTree.tag_index({ tagConfig: TechConfig }),
+                icon: Wrench,
+            },
+            {
+                ...breadcrumbTree.tag_index({ tagConfig: SkillConfig }),
+                icon: BadgeCheck,
+            },
+        ],
     },
     {
-        ...breadcrumbTree.tag_index({ tagConfig: TagConfig }),
-        icon: Badge,
-    },
-    {
-        ...breadcrumbTree.tag_index({ tagConfig: TechConfig }),
-        icon: Wrench,
-    },
-    {
-        ...breadcrumbTree.tag_index({ tagConfig: SkillConfig }),
-        icon: BadgeCheck,
-    },
-    {
-        ...breadcrumbTree.edit_text(),
-        icon: Text,
+        title: 'Website Text',
+        items: [
+            {
+                ...breadcrumbTree.edit_section({ section: 'intro' }),
+                icon: Text,
+            },
+            {
+                ...breadcrumbTree.edit_section({ section: 'about' }),
+                icon: Info,
+            },
+            {
+                ...breadcrumbTree.edit_section({ section: 'contact' }),
+                icon: MessageCircle,
+            },
+        ],
     },
 ];
 
@@ -57,7 +80,9 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                {mainNav.map((group) => (
+                    <NavSection title={group.title} items={group.items} />
+                ))}
             </SidebarContent>
 
             <SidebarFooter>
