@@ -8,7 +8,6 @@ import Markdown from '../markdown';
 export default function ShowContact({ texts }: { texts: ContactTexts }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    console.log(texts);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

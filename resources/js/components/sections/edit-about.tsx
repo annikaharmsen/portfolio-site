@@ -12,7 +12,6 @@ export default function EditAbout({ texts = {} }: { texts?: AboutTexts }) {
 
     // sync cards state when aboutTexts changes
     useEffect(() => {
-        console.log(texts.cards);
         setCards(Object.entries(texts.cards || {}));
     }, [texts.cards]);
 

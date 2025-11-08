@@ -4,7 +4,6 @@ import { AboutShell } from '../about-shell';
 import Markdown from '../markdown';
 
 export default function ShowAbout({ texts }: { texts: AboutTexts }) {
-    console.log(texts);
     return (
         <AboutShell
             MainBody={() => <Markdown>{texts.main}</Markdown>}
