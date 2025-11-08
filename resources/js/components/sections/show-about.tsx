@@ -24,7 +24,7 @@ export default function ShowAbout({ texts }: { texts: AboutTexts }) {
                     ))}
                 </>
             )}
-            Location={() => <Markdown>{texts.location || ''}</Markdown>}
+            Location={() => <>{texts.location && <Markdown>{texts.location}</Markdown>}</>}
         />
     );
 }

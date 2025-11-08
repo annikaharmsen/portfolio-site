@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react';
 import { SiteTextInput, SiteTextTextarea } from '../../pages/admin/sections/edit';
 import { AboutShell } from '../about-shell';
 
-export default function EditAbout({ texts: aboutTexts = {} }: { texts?: AboutTexts }) {
-    const [cards, setCards] = useState(Object.entries(aboutTexts.cards || {}));
+export default function EditAbout({ texts = {} }: { texts?: AboutTexts }) {
+    const [cards, setCards] = useState(Object.entries(texts.cards || {}));
 
     // sync cards state when aboutTexts changes
     useEffect(() => {
-        setCards(Object.entries(aboutTexts.cards || {}));
-    }, [aboutTexts]);
+        console.log(texts.cards);
+        setCards(Object.entries(texts.cards || {}));
+    }, [texts.cards]);
 
     const addCard = () => {
         const lastCard = cards[cards.length - 1];
@@ -26,7 +27,7 @@ export default function EditAbout({ texts: aboutTexts = {} }: { texts?: AboutTex
 
     return (
         <AboutShell
-            MainBody={() => <SiteTextTextarea name="about.main" defaultValue={(aboutTexts?.main as string) || ''} placeholder="Type about me body" />}
+            MainBody={() => <SiteTextTextarea name="about.main" defaultValue={(texts?.main as string) || ''} placeholder="Type about me body" />}
             Cards={() => {
                 return (
                     <>
@@ -57,11 +58,7 @@ export default function EditAbout({ texts: aboutTexts = {} }: { texts?: AboutTex
                 );
             }}
             Location={() => (
-                <SiteTextTextarea
-                    name={`about.location`}
-                    defaultValue={(aboutTexts.location as string) || ''}
-                    placeholder="Enter location statement"
-                />
+                <SiteTextTextarea name={`about.location`} defaultValue={(texts.location as string) || ''} placeholder="Enter location statement" />
             )}
         />
     );

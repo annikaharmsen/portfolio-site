@@ -11,9 +11,17 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 export default function Edit({ section = 'intro', texts }: { section?: TextSection; texts: SiteTexts }) {
     const { EditComponent, ShowComponent } = SectionConfigs[section];
+
+    const handleTabChange = () => {
+        // Force blur on the currently focused element before switching tabs
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+    };
+
     return (
         <>
-            <Tabs defaultValue="edit" className="min-h-full">
+            <Tabs defaultValue="edit" className="min-h-full" onValueChange={handleTabChange}>
                 <TabsList>
                     <TabsTrigger value="edit">Edit</TabsTrigger>
                     <TabsTrigger value="show">Preview</TabsTrigger>

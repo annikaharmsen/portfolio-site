@@ -4,7 +4,7 @@ import { ReactComponent } from 'node_modules/@inertiajs/react/types/types';
 
 const mainDivStyles = 'grid items-start gap-12 lg:grid-cols-2';
 const cardDivStyles =
-    'flex h-full flex-col space-y-8 text-lg leading-relaxed text-foreground space-y-6 *:grow *:not-last:px-6 *:justify-center *:border-secondary';
+    'flex h-full flex-col space-y-8 text-lg leading-relaxed text-foreground space-y-6 *:grow *:not-last:px-6 *:not-last:justify-center *:border-secondary';
 const locationDivStyles = 'mb-4 flex items-center gap-2 text-foreground grow-0!';
 
 export const AboutShell = ({ MainBody, Cards, Location }: { MainBody?: ReactComponent; Cards?: ReactComponent; Location?: ReactComponent }) => (
