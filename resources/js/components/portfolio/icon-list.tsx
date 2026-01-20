@@ -8,8 +8,8 @@ export default function IconList({ items = [], className, ...props }: HTMLAttrib
         <>
             {items &&
                 items.map((item) => (
-                    <div key={`${item.id}-${item.name}`} className={cn('flex items-center gap-2 text-sm text-secondary', className)} {...props}>
-                        <IconComponent icon_name={item.icon_name} className="size-4" />
+                    <div key={`${item.id}-${item.name}`} className={cn('flex items-center gap-2 text-sm', className)} {...props}>
+                        <IconComponent icon_name={item.icon_name} className="size-4 text-secondary" />
                         <span>{item.name}</span>
                     </div>
                 ))}

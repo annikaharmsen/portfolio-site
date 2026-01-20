@@ -1,5 +1,6 @@
 import Footer from '@/components/portfolio/footer';
 import Navigation from '@/components/portfolio/navigation';
+import ProfessionalExperienceSection from '@/components/sections/professional-experience-section';
 import ProjectsSection from '@/components/sections/projects-section';
 import AboutSection from '@/components/sections/show-about';
 import ShowContact from '@/components/sections/show-contact';
@@ -26,6 +27,7 @@ export default function Portfolio({ texts, tags, projects }: { texts: SiteTexts;
                 </section>
                 <TechSkillsSection tags={tags} />
                 {projects && projects.length > 0 && <ProjectsSection projects={projects} />}
+                <ProfessionalExperienceSection />
                 <ShowContact texts={texts.contact || {}} />
 
                 <Footer />

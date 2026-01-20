@@ -47,7 +47,7 @@ export default function ContactShell({
                         </div>
                     )}
                     {!!Callout && (
-                        <div className="rounded-lg bg-accent/10 text-sm text-muted-foreground italic">
+                        <div className="rounded-lg bg-accent/10 text-sm text-muted-foreground italic shadow dark:bg-accent/30">
                             <Callout />
                         </div>
                     )}
@@ -56,7 +56,7 @@ export default function ContactShell({
                         <MyLinkedinButton />
                     </div>
                 </div>
-                <Card className="border-accent">
+                <Card className="border-none bg-accent/10 shadow dark:bg-muted">
                     <CardHeader>
                         <CardTitle>Send me a Message</CardTitle>
                     </CardHeader>
@@ -77,20 +77,35 @@ export const ContactForm = ({
 }: React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> & { isSubmitting?: boolean; disabled?: boolean }) => (
     <form {...props} className={cn('space-y-4', className)}>
         <div>
-            <label className="mb-2 block text-sm font-medium">Name</label>
-            <Input disabled={disabled} type="text" name="name" required className="border-accent bg-input" placeholder="Your name" />
+            <label htmlFor="name" className="mb-2 block text-sm font-medium">
+                Name
+            </label>
+            <Input disabled={disabled} type="text" name="name" required className="border-accent bg-background" placeholder="Your name" />
         </div>
         <div>
-            <label className="mb-2 block text-sm font-medium">Email</label>
-            <Input disabled={disabled} type="email" name="email" required className="border-accent bg-input" placeholder="your.email@example.com" />
+            <label htmlFor="email" className="mb-2 block text-sm font-medium">
+                Email
+            </label>
+            <Input
+                disabled={disabled}
+                type="email"
+                name="email"
+                required
+                className="border-accent bg-background"
+                placeholder="your.email@example.com"
+            />
         </div>
         <div>
-            <label className="mb-2 block text-sm font-medium">Subject</label>
-            <Input disabled={disabled} type="text" name="subject" className="border-accent bg-input" placeholder="Subject" />
+            <label htmlFor="subject" className="mb-2 block text-sm font-medium">
+                Subject
+            </label>
+            <Input disabled={disabled} type="text" name="subject" className="border-accent bg-background" placeholder="Subject" />
         </div>
         <div>
-            <label className="mb-2 block text-sm font-medium">Message</label>
-            <Textarea disabled={disabled} rows={4} name="message" required className="border-accent bg-input" placeholder="Your message..." />
+            <label htmlFor="message" className="mb-2 block text-sm font-medium">
+                Message
+            </label>
+            <Textarea disabled={disabled} rows={4} name="message" required className="border-accent bg-background" placeholder="Your message..." />
         </div>
         <Button
             type="submit"
