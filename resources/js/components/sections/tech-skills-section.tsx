@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tags } from '@/types/models';
 import IconComponent from '../icon-component';
-import IconList from './icon-list';
+import IconList from '../portfolio/icon-list';
 
 export default function TechSkillsSection({ tags }: { tags: Tags }) {
     const frontend = tags.filter((tag) => tag.category === 'frontend');

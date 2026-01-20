@@ -1,10 +1,10 @@
 import Footer from '@/components/portfolio/footer';
 import Navigation from '@/components/portfolio/navigation';
-import ProjectsSection from '@/components/portfolio/projects-section';
-import TechSkillsSection from '@/components/portfolio/tech-skills-section';
+import ProjectsSection from '@/components/sections/projects-section';
 import AboutSection from '@/components/sections/show-about';
 import ShowContact from '@/components/sections/show-contact';
 import ShowIntro from '@/components/sections/show-intro';
+import TechSkillsSection from '@/components/sections/tech-skills-section';
 import AboveTheFold from '@/layouts/above-the-fold';
 import { Projects, Tags } from '@/types/models';
 import { SiteTexts } from '@/types/site-texts';
