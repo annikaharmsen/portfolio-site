@@ -34,7 +34,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     return (
         <Card
             onClick={hasProjectPage ? () => router.get(`/projects/${project.id}`) : mainLink ? (e) => openLink(mainLink, e) : undefined}
-            className={cn('group h-fit border-secondary transition-all', isClickable && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
+            className={cn('group h-auto border-secondary transition-all', isClickable && 'cursor-pointer hover:scale-101 hover:shadow-lg')}
         >
             <CardHeader>
                 <div className="flex items-start justify-between">
@@ -63,8 +63,11 @@ export default function ProjectCard({ project }: { project: Project }) {
                 </div>
             </CardHeader>
             <CardContent className="mx-6">
+                {/* subtitle */}
+                <p className="mb-8 leading-relaxed whitespace-pre-wrap">{project.subtitle}</p>
+
                 {/* description */}
-                <p className="mb-8 leading-relaxed whitespace-pre-wrap">{project.description}</p>
+                {/* <p className="mb-8 leading-relaxed whitespace-pre-wrap">{project.description}</p> */}
 
                 {/* skill badges */}
                 {!!skills?.length && (
