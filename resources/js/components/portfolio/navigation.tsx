@@ -12,7 +12,7 @@ export default function Navigation({ mobile = false, hide = [] }: { mobile?: boo
             className={cn(
                 'whitespace-nowrap text-foreground transition-colors duration-300',
                 hover_color === 'accent' && 'hover:text-accent',
-                hover_color === 'secondary' && 'hover:text-secondary'
+                hover_color === 'secondary' && 'hover:text-secondary',
             )}
         >
             {link.toUpperCase()}
@@ -28,7 +28,7 @@ export default function Navigation({ mobile = false, hide = [] }: { mobile?: boo
                     <div className="*: flex space-x-8 font-sans text-sm tracking-wider sm:space-x-12">
                         {links.map((link) => {
                             const hover_color = links.indexOf(link) % 2 ? 'accent' : 'secondary';
-                            return <NavLink link={link} hover_color={hover_color} />;
+                            return <NavLink key={link} link={link} hover_color={hover_color} />;
                         })}
                     </div>
                 </nav>

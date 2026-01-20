@@ -10,7 +10,7 @@ export default function ShowAbout({ texts }: { texts: AboutTexts }) {
             Cards={() => (
                 <>
                     {Object.keys(texts.cards || {}).map((key) => (
-                        <Card>
+                        <Card key={key}>
                             <CardHeader>
                                 <CardTitle>
                                     <Markdown>{texts.cards?.[key].heading}</Markdown>

@@ -74,7 +74,9 @@ export default function ProjectCard({ project }: { project: Project }) {
                     <>
                         <div className="mb-4 flex flex-wrap gap-2">
                             {skills.map((skill) => (
-                                <Badge variant="secondary">{skill.name}</Badge>
+                                <Badge key={`${skill.id}-${skill.name}`} variant="secondary">
+                                    {skill.name}
+                                </Badge>
                             ))}
                         </div>
                     </>

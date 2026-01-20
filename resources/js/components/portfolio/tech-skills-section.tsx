@@ -32,7 +32,7 @@ export default function TechSkillsSection({ tags }: { tags: Tags }) {
                         <h2 className="mb-12 text-center text-4xl uppercase">Technical Skills</h2>
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3">
                             {tech.map((category) => (
-                                <>
+                                <div key={category.name}>
                                     {!!category.items.length && (
                                         <Card className="border-accent">
                                             <CardHeader>
@@ -41,7 +41,7 @@ export default function TechSkillsSection({ tags }: { tags: Tags }) {
                                             <CardContent>
                                                 <div className="flex min-w-0 flex-wrap gap-2">
                                                     {category.items.map((tech) => (
-                                                        <Badge className="text-sm" variant="accent">
+                                                        <Badge key={tech.name} className="text-sm" variant="accent">
                                                             <IconComponent icon_name={tech.icon_name} />
                                                             {tech.name}
                                                         </Badge>
@@ -50,7 +50,7 @@ export default function TechSkillsSection({ tags }: { tags: Tags }) {
                                             </CardContent>
                                         </Card>
                                     )}
-                                </>
+                                </div>
                             ))}
                         </div>
                         {!!skills.length && (
