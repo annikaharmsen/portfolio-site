@@ -43,8 +43,8 @@ export const LinkButton = ({ href, children, ...props }: { href?: string } & Com
 
 const hoverBaseStyles = 'border-foreground bg-transparent transition-all duration-300';
 const hoverVariants = {
-    secondary: 'hover:border-secondary hover:bg-secondary hover:text-secondary-foreground',
-    accent: 'hover:border-accent hover:bg-accent hover:text-accent-foreground',
+    secondary: 'hover:border-secondary hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-secondary',
+    accent: 'hover:border-accent hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent',
 };
 
 type HoverButton<B extends typeof Button = typeof Button> = { hoverVariant?: keyof typeof hoverVariants } & ComponentProps<B>;
