@@ -12,6 +12,7 @@ Route::get('/', function () {
         'texts' => SiteText::getAll(),
         'tags' => Tag::whereNotNull('category')->orderBy('created_at', 'desc')->get(),
         'projects' => Project::with(['tags', 'hero_sections'])
+                        ->where('hidden', false)
                         ->orderBy('featured', 'desc')
                         ->orderBy('date', 'desc')
                         ->get()

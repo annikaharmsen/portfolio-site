@@ -17,7 +17,8 @@ class Project extends Model
         'repo_link',
         'demo_link',
         'featured',
-        'date'
+        'date',
+        'hidden'
     ];
 
     public function scopeOrdered($query) {

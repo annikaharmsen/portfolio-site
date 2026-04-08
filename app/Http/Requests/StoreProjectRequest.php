@@ -32,6 +32,7 @@ class StoreProjectRequest extends FormRequest
             'repo_link' => 'nullable|url',
             'demo_link' => 'nullable|url',
             'featured' => 'boolean',
+            'hidden' => 'boolean',
             'date' => 'nullable|date',
             'tags' => 'array|distinct|exists:tags,id'
         ];
