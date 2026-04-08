@@ -40,6 +40,7 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
         demo_link: project?.demo_link || '',
         date: project?.date || '',
         featured: project?.featured || false,
+        hidden: project?.hidden || false,
         tags: project?.tags?.map((tag) => tag.id) || [],
         description: project?.description || '',
     });
@@ -148,6 +149,11 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
                     <div className="col-span-1/2 mt-4 flex items-center space-x-2">
                         <Checkbox id="featured" checked={data.featured} onCheckedChange={(checked) => setData('featured', !!checked)} />
                         <Label htmlFor="featured">Featured Project</Label>
+                    </div>
+
+                    <div className="col-span-1/2 mt-4 flex items-center space-x-2">
+                        <Checkbox id="hidden" checked={data.hidden} onCheckedChange={(checked) => setData('hidden', !!checked)} />
+                        <Label htmlFor="hidden">Hidden</Label>
                     </div>
 
                     <div className="md:col-span-full">

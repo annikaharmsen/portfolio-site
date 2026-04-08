@@ -11,6 +11,7 @@ export type Project = {
     repo_link?: string;
     demo_link?: string;
     featured: boolean;
+    hidden: boolean;
     date?: string;
     // relations
     tags?: Tags;
