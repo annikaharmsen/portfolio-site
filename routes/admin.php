@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectHeroSectionsController;
@@ -58,6 +59,16 @@ Route::middleware('auth')->group(function () {
 
     Route::put('text', [SiteTextController::class, 'update'])
         ->name('text.update');
+
+    // Experience routes
+    Route::get('experiences', [ExperienceController::class, 'index'])
+        ->name('experiences.index');
+    Route::post('experiences', [ExperienceController::class, 'store'])
+        ->name('experiences.store');
+    Route::put('experiences/{experience}', [ExperienceController::class, 'update'])
+        ->name('experiences.update');
+    Route::delete('experiences/{experience}', [ExperienceController::class, 'destroy'])
+        ->name('experiences.destroy');
 });
 
 require __DIR__.'/settings.php';
