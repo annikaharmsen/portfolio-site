@@ -29,7 +29,7 @@ function ExperienceCard({
         sort_order: experience?.sort_order ?? 0,
     });
 
-    const updateField = (field: string, value: string | number) => {
+    const updateField = (field: keyof typeof form, value: string | number) => {
         setForm((prev) => ({ ...prev, [field]: value }));
     };
 
@@ -44,6 +44,7 @@ function ExperienceCard({
 
     const handleDelete = () => {
         if (experience?.id) {
+            if (!confirm('Are you sure you want to delete this experience?')) return;
             router.delete(`/experiences/${experience.id}`);
         } else {
             onDelete?.();

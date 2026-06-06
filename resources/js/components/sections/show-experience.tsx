@@ -4,7 +4,8 @@ import { MapPin } from 'lucide-react';
 import Markdown from '../markdown';
 
 function formatDate(dateStr: string): string {
-    const date = new Date(dateStr);
+    const [year, month] = dateStr.split('-').map(Number);
+    const date = new Date(year, month - 1);
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
 
