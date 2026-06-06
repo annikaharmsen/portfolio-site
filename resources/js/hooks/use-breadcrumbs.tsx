@@ -60,11 +60,14 @@ export const breadcrumbTree = {
         href: '/images',
         parent: breadcrumbTree.edit_project({ project }),
     }),
-    edit_section: ({ section }: { section: TextSection }) => ({
-        title: `Edit ${section.toTitleCase()} Section`,
-        href: `/sections/${section}/edit`,
-        parent: breadcrumbTree.dashboard(),
-    }),
+    edit_section: ({ section }: { section: TextSection }) => {
+        if (section === 'experience') return breadcrumbTree.experience_index();
+        return {
+            title: `Edit ${section.toTitleCase()} Section`,
+            href: `/sections/${section}/edit`,
+            parent: breadcrumbTree.dashboard(),
+        };
+    },
     experience_index: () => ({
         title: 'Edit Experience Section',
         href: '/experiences',

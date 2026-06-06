@@ -57,8 +57,7 @@ const mainNav: NavGroup[] = [
                 icon: MessageCircle,
             },
             {
-                title: 'Edit Experience Section',
-                href: '/experiences',
+                ...breadcrumbTree.experience_index(),
                 icon: Briefcase,
             },
         ],

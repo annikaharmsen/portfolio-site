@@ -5,8 +5,6 @@ type SiteTextSlot = {
 
 export type SiteTextPath = `${TextSection}.${string}`;
 
-export type SectionTexts = IntroTexts | AboutTexts | ContactTexts;
-
 export type ExperienceTexts = Record<string, never>;
 
 export type SiteTexts = {
