@@ -1,4 +1,4 @@
-export type TextSection = 'intro' | 'about' | 'contact';
+export type TextSection = 'intro' | 'about' | 'contact' | 'experience';
 type SiteTextSlot = {
     [key: string]: SiteTextSlot | string;
 };
@@ -7,10 +7,13 @@ export type SiteTextPath = `${TextSection}.${string}`;
 
 export type SectionTexts = IntroTexts | AboutTexts | ContactTexts;
 
+export type ExperienceTexts = Record<string, never>;
+
 export type SiteTexts = {
     intro?: IntroTexts;
     about?: AboutTexts;
     contact?: ContactTexts;
+    experience?: ExperienceTexts;
 };
 
 export type SectionTexts = SiteTexts[keyof SiteTexts];
@@ -40,4 +43,12 @@ export type ContactTexts = {
     callout?: string;
 };
 
-export type TextSectionComponent<T extends SectionTexts = SectionTexts> = ({ texts }: { texts?: T }) => ReactElement;
+import { Experience } from '@/types/models';
+
+export type TextSectionComponent<T extends SectionTexts = SectionTexts> = ({
+    texts,
+    experiences,
+}: {
+    texts?: T;
+    experiences?: Experience[];
+}) => ReactElement;

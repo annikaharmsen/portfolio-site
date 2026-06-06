@@ -4,12 +4,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { textAreaStyles } from '@/components/ui/textarea';
 import { SectionConfigs } from '@/config/config';
 import { cn } from '@/lib/utils';
+import { Experience } from '@/types/models';
 import { SiteTextPath, SiteTexts, TextSection } from '@/types/site-texts';
 import { router } from '@inertiajs/react';
 import { ComponentProps, FocusEventHandler } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
-export default function Edit({ section = 'intro', texts }: { section?: TextSection; texts: SiteTexts }) {
+export default function Edit({ section = 'intro', texts, experiences = [] }: { section?: TextSection; texts: SiteTexts; experiences?: Experience[] }) {
     const { EditComponent, ShowComponent } = SectionConfigs[section];
 
     const handleTabChange = () => {
@@ -29,14 +30,14 @@ export default function Edit({ section = 'intro', texts }: { section?: TextSecti
                 <TabsContent value={'edit'}>
                     <Card>
                         <CardContent>
-                            <EditComponent texts={texts[section]} />
+                            <EditComponent texts={texts[section]} experiences={experiences} />
                         </CardContent>
                     </Card>
                 </TabsContent>
                 <TabsContent value={'show'}>
                     <Card>
                         <CardContent>
-                            <ShowComponent texts={texts[section] || {}} />
+                            <ShowComponent texts={texts[section] || {}} experiences={experiences} />
                         </CardContent>
                     </Card>
                 </TabsContent>

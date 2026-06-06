@@ -78,3 +78,16 @@ export type User = {
     notifications_exists: boolean;
 };
 export type Users = User[];
+
+export interface Experience {
+    id: number;
+    title: string;
+    company: string;
+    location: string | null;
+    start_date: string;
+    end_date: string | null;
+    details: string | null;
+    sort_order: number;
+}
+
+export type Experiences = Experience[];

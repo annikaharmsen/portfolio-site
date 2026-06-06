@@ -65,6 +65,11 @@ export const breadcrumbTree = {
         href: `/sections/${section}/edit`,
         parent: breadcrumbTree.dashboard(),
     }),
+    experience_index: () => ({
+        title: 'Edit Experience Section',
+        href: '/experiences',
+        parent: breadcrumbTree.dashboard(),
+    }),
 };
 
 const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
