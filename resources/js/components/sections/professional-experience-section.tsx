@@ -1,18 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Experience, Experiences } from '@/types/models';
-import Markdown from '../markdown';
-
-function formatDate(dateStr: string): string {
-    const [year, month] = dateStr.split('-').map(Number);
-    const date = new Date(year, month - 1);
-    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-}
 
 function ExperienceCard({ experience }: { experience: Experience }) {
-    const dateRange = `${formatDate(experience.start_date)} - ${
-        experience.end_date ? formatDate(experience.end_date) : 'Present'
-    }`;
-
     return (
         <Card className="border-none bg-background shadow">
             <CardHeader>
@@ -20,12 +9,16 @@ function ExperienceCard({ experience }: { experience: Experience }) {
                     {experience.title} - {experience.company}
                 </CardTitle>
                 <CardDescription>
-                    {experience.location && `${experience.location} | `}{dateRange}
+                    {experience.location && `${experience.location} | `}{experience.formatted_date_ranges}
                 </CardDescription>
             </CardHeader>
-            {experience.details && (
+            {experience.bullets && experience.bullets.length > 0 && (
                 <CardContent className="text-sm">
-                    <Markdown headingLevelOffset={3}>{experience.details}</Markdown>
+                    <ul className="list-disc space-y-1 pl-4">
+                        {experience.bullets.map((bullet, i) => (
+                            <li key={i}>{bullet}</li>
+                        ))}
+                    </ul>
                 </CardContent>
             )}
         </Card>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\SiteText;
@@ -17,6 +18,7 @@ Route::get('/', function () {
                         ->orderBy('date', 'desc')
                         ->get(),
         'experiences' => Experience::ordered()->get(),
+        'educations' => Education::ordered()->get(),
     ]);
 })->name('portfolio');
 

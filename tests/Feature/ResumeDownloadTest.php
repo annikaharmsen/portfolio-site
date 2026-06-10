@@ -5,7 +5,8 @@ namespace Tests\Feature;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\SkillGroup;
-use App\Models\SiteText;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,31 +18,37 @@ class ResumeDownloadTest extends TestCase
     {
         parent::setUp();
 
-        SiteText::create(['path' => 'resume.name', 'text' => 'Test User']);
-        SiteText::create(['path' => 'resume.location', 'text' => 'Test City']);
-        SiteText::create(['path' => 'resume.phone', 'text' => '555-0100']);
-        SiteText::create(['path' => 'resume.website', 'text' => 'https://example.com']);
-        SiteText::create(['path' => 'resume.summary', 'text' => 'A summary.']);
+        User::factory()->create([
+            'name' => 'Test User',
+            'location' => 'Test City',
+            'phone' => '555-0100',
+            'summary' => 'A summary.',
+        ]);
 
         Education::create([
-            'degree' => 'BS in CS',
+            'title' => 'BS in CS',
             'institution' => 'Test University',
             'graduation_date' => '2025-05-01',
             'sort_order' => 1,
         ]);
 
-        SkillGroup::create([
+        $group = SkillGroup::create([
             'name' => 'Languages',
-            'skills' => 'PHP, JS',
             'sort_order' => 1,
+        ]);
+
+        Tag::withoutGlobalScopes()->create([
+            'name' => 'PHP',
+            'category' => 'skill',
+            'skill_group_id' => $group->id,
         ]);
 
         Experience::create([
             'title' => 'Developer',
             'company' => 'Test Corp',
             'location' => 'Remote',
-            'start_date' => '2024-01-01',
-            'resume_bullets' => ['Built things'],
+            'date_ranges' => [['start' => '2024-01-01', 'end' => null]],
+            'bullets' => ['Built things'],
             'sort_order' => 1,
         ]);
     }

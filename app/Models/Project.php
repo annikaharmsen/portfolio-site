@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Artisan;
 
 class Project extends Model
 {
@@ -14,24 +13,28 @@ class Project extends Model
         'title',
         'subtitle',
         'description',
+        'bullets',
+        'category',
+        'label',
         'repo_link',
         'demo_link',
         'featured',
         'date',
         'hidden',
-        'resume_description',
-        'resume_tech_stack',
-        'resume_bullets',
-        'show_on_resume',
     ];
 
     protected $casts = [
-        'resume_bullets' => 'array',
-        'show_on_resume' => 'boolean',
+        'bullets' => 'array',
     ];
 
-    public function scopeOrdered($query) {
+    public function scopeOrdered($query)
+    {
         return $query->orderBy('featured', 'desc')->orderBy('date', 'desc');
+    }
+
+    public function scopeForCategory($query, string $category)
+    {
+        return $query->where('category', $category)->orderBy('date', 'desc');
     }
 
     public function tags() {

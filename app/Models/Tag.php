@@ -11,7 +11,8 @@ class Tag extends Model
     protected $fillable = [
         'icon_name',
         'name',
-        'category'
+        'category',
+        'skill_group_id',
     ];
 
     protected static function booted()
@@ -31,5 +32,10 @@ class Tag extends Model
 
     public function projects() {
         return $this->belongsToMany(Project::class, 'project_tags');
+    }
+
+    public function skillGroup()
+    {
+        return $this->belongsTo(SkillGroup::class);
     }
 }

@@ -11,9 +11,13 @@ class SkillGroup extends Model
 
     protected $fillable = [
         'name',
-        'skills',
         'sort_order',
     ];
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
 
     public function scopeOrdered($query)
     {

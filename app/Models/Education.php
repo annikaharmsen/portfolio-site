@@ -12,17 +12,17 @@ class Education extends Model
     protected $table = 'educations';
 
     protected $fillable = [
-        'degree',
+        'title',
         'institution',
         'graduation_date',
         'gpa',
-        'honors',
+        'bullets',
         'sort_order',
     ];
 
     protected $casts = [
         'graduation_date' => 'date',
-        'honors' => 'array',
+        'bullets' => 'array',
     ];
 
     public function scopeOrdered($query)

@@ -43,7 +43,6 @@
             font-size: 11pt;
             margin-top: 10pt;
             margin-bottom: 4pt;
-            border-bottom: none;
         }
 
         .summary {
@@ -55,7 +54,7 @@
             margin-bottom: 4pt;
         }
 
-        .education-entry .degree {
+        .education-entry .institution {
             font-weight: bold;
         }
 
@@ -88,12 +87,8 @@
             font-weight: bold;
         }
 
-        .project-entry .project-status {
-            font-weight: bold;
-        }
-
-        .project-entry .tech-stack {
-            font-size: 11pt;
+        .project-entry p {
+            margin: 2pt 0;
         }
 
         .experience-entry {
@@ -104,13 +99,8 @@
             font-weight: bold;
         }
 
-        ul {
-            margin: 2pt 0 4pt 18pt;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 1pt;
+        .experience-entry p {
+            margin: 2pt 0;
         }
     </style>
 </head>
@@ -129,49 +119,52 @@
     <div class="section-heading">Education</div>
     @foreach ($resume['educations'] as $edu)
         <div class="education-entry">
-            <span class="degree">{{ $edu->degree }} (GPA: {{ $edu->gpa }})</span>
-            <span class="date">{{ $edu->graduation_date->format('F Y') }}</span>
+            <span class="institution">{{ $edu->institution }}</span>
             <br>
-            {{ $edu->institution }}
-            @if ($edu->honors)
-                <ul>
-                    @foreach ($edu->honors as $honor)
-                        <li>{{ $honor }}</li>
-                    @endforeach
-                </ul>
+            {{ $edu->title }} – {{ $edu->gpa }} GPA
+            <span class="date">{{ $edu->graduation_date->format('F Y') }}</span>
+            @if ($edu->bullets)
+                <br>
+                {{ implode(', ', $edu->bullets) }}
             @endif
         </div>
     @endforeach
-
-    <div class="section-heading">Technical Skills</div>
-    <table class="skills-table">
-        @foreach ($resume['skill_groups'] as $group)
-            <tr>
-                <td class="label">{{ $group->name }}</td>
-                <td>{{ $group->skills }}</td>
-            </tr>
-        @endforeach
-    </table>
 
     <div class="section-heading">Projects</div>
     @foreach ($resume['projects'] as $project)
         <div class="project-entry">
             <span class="project-title">{{ $project->title }}</span>
-            @if ($project->resume_tech_stack)
-                <span class="project-status"> (In Progress)</span>
+            @if ($project->subtitle)
+                — {{ $project->subtitle }}
             @endif
-            <br>
-            {{ $project->resume_description }}
-            @if ($project->resume_tech_stack)
-                <br>
-                <span class="tech-stack">({{ $project->resume_tech_stack }})</span>
+            @if ($project->description)
+                <p>{{ $project->description }}</p>
             @endif
-            @if ($project->resume_bullets)
-                <ul>
-                    @foreach ($project->resume_bullets as $bullet)
-                        <li>{{ $bullet }}</li>
-                    @endforeach
-                </ul>
+            @if ($project->bullets)
+                @foreach ($project->bullets as $bullet)
+                    <p>{{ $bullet }}</p>
+                @endforeach
+            @endif
+        </div>
+    @endforeach
+
+    <div class="section-heading">Personal Projects</div>
+    @foreach ($resume['personal_projects'] as $project)
+        <div class="project-entry">
+            <span class="project-title">{{ $project->title }}</span>
+            @if ($project->subtitle)
+                — {{ $project->subtitle }}
+            @endif
+            @if ($project->label)
+                ({{ $project->label }})
+            @endif
+            @if ($project->description)
+                <p>{{ $project->description }}</p>
+            @endif
+            @if ($project->bullets)
+                @foreach ($project->bullets as $bullet)
+                    <p>{{ $bullet }}</p>
+                @endforeach
             @endif
         </div>
     @endforeach
@@ -181,17 +174,23 @@
         <div class="experience-entry">
             <span class="job-title">{{ $exp->title }}</span>
             <br>
-            {{ $exp->company }} | {{ $exp->location }}
-            <br>
-            {{ $exp->start_date->format('m/Y') }} - {{ $exp->end_date ? $exp->end_date->format('m/Y') : 'Present' }}
-            @if ($exp->resume_bullets)
-                <ul>
-                    @foreach ($exp->resume_bullets as $bullet)
-                        <li>{{ $bullet }}</li>
-                    @endforeach
-                </ul>
+            {{ $exp->company }} | {{ $exp->location }}  —  {{ $exp->formatted_date_ranges }}
+            @if ($exp->bullets)
+                @foreach ($exp->bullets as $bullet)
+                    <p>{{ $bullet }}</p>
+                @endforeach
             @endif
         </div>
     @endforeach
+
+    <div class="section-heading">Technical Skills</div>
+    <table class="skills-table">
+        @foreach ($resume['skill_groups'] as $group)
+            <tr>
+                <td class="label">{{ $group->name }}</td>
+                <td>{{ $group->tags->pluck('name')->join(', ') }}</td>
+            </tr>
+        @endforeach
+    </table>
 </body>
 </html>
