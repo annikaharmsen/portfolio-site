@@ -17,6 +17,7 @@ class ResumeSeeder extends Seeder
         $this->seedEducation();
         $this->seedSkillGroups();
         $this->seedProjectResumeData();
+        $this->seedProjectTags();
     }
 
     private function seedUserContactInfo(): void
@@ -223,6 +224,23 @@ class ResumeSeeder extends Seeder
                 ['title' => $data['title']],
                 $data
             );
+        }
+    }
+
+    private function seedProjectTags(): void
+    {
+        $associations = [
+            'E-Commerce Systems' => ['PHP', 'HTML/CSS'],
+        ];
+
+        foreach ($associations as $projectTitle => $tagNames) {
+            $project = Project::where('title', $projectTitle)->first();
+            if (! $project) {
+                continue;
+            }
+
+            $tagIds = Tag::whereIn('name', $tagNames)->pluck('id');
+            $project->tags()->syncWithoutDetaching($tagIds);
         }
     }
 }
