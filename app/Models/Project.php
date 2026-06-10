@@ -18,7 +18,16 @@ class Project extends Model
         'demo_link',
         'featured',
         'date',
-        'hidden'
+        'hidden',
+        'resume_description',
+        'resume_tech_stack',
+        'resume_bullets',
+        'show_on_resume',
+    ];
+
+    protected $casts = [
+        'resume_bullets' => 'array',
+        'show_on_resume' => 'boolean',
     ];
 
     public function scopeOrdered($query) {
