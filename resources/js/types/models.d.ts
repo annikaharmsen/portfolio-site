@@ -13,6 +13,9 @@ export type Project = {
     featured: boolean;
     hidden: boolean;
     date?: string;
+    bullets?: string[] | null;
+    category?: 'projects' | 'personal' | null;
+    label?: string | null;
     // relations
     tags?: Tags;
     hero_sections?: ProjectHeroSections;
@@ -84,9 +87,9 @@ export interface Experience {
     title: string;
     company: string;
     location: string | null;
-    start_date: string;
-    end_date: string | null;
-    details: string | null;
+    date_ranges: { start: string; end: string | null }[];
+    bullets: string[] | null;
+    formatted_date_ranges: string;
     sort_order: number;
 }
 
