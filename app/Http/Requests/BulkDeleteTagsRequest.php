@@ -8,7 +8,7 @@ class BulkDeleteTagsRequest extends CmsRequest
     {
         return [
             'ids' => 'required|array|min:1',
-            'ids.*' => 'integer|exists:tags,id'
+            'ids.*' => 'integer|exists:tags,id',
         ];
     }
 

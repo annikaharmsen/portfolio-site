@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Skill extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'icon_name',
-        'name'
+        'name',
     ];
 
-    public function projects() {
+    public function projects()
+    {
         return $this->belongsToMany(Project::class, 'project_skills');
     }
 }

@@ -8,7 +8,7 @@ class StoreImageRequest extends CmsRequest
     {
         return [
             'image' => 'required|image|max:10240', // max 10MB
-            'alt' => 'nullable|string'
+            'alt' => 'nullable|string',
         ];
     }
 

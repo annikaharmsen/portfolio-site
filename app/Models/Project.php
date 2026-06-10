@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Project extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'icon_name',
         'title',
@@ -37,11 +38,13 @@ class Project extends Model
         return $query->where('category', $category)->orderBy('date', 'desc');
     }
 
-    public function tags() {
+    public function tags()
+    {
         return $this->belongsToMany(Tag::class, 'project_tags');
     }
 
-    public function hero_sections() {
+    public function hero_sections()
+    {
         return $this->hasMany(ProjectHeroSection::class)->ordered();
     }
 }

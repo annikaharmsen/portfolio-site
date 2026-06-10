@@ -9,7 +9,7 @@ class UpdateSiteTextRequest extends CmsRequest
 
         return [
             'path' => ['required', 'regex:/^(intro|about|skills|projects|contact)\.[a-z0-9_]+(\.[a-z0-9_]+)*$/'],
-           'text' => 'nullable|string',
+            'text' => 'nullable|string',
         ];
     }
 

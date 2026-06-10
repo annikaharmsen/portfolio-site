@@ -30,7 +30,7 @@ return new class extends Migration
 
         foreach ($groupMap as $category => $groupName) {
             $exists = DB::table('skill_groups')->where('name', $groupName)->exists();
-            if (!$exists) {
+            if (! $exists) {
                 DB::table('skill_groups')->insert([
                     'name' => $groupName,
                     'sort_order' => 0,

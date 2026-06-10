@@ -29,12 +29,12 @@ Route::middleware('auth')->group(function () {
 
     // Project hero section routes
     Route::prefix('projects/{project}/hero-sections')
-      ->name('projects.hero-sections.')
-      ->controller(ProjectHeroSectionsController::class)
-      ->group(function () {
-          Route::get('/', 'edit')->name('edit');
-          Route::put('/', 'update')->name('update');
-      });
+        ->name('projects.hero-sections.')
+        ->controller(ProjectHeroSectionsController::class)
+        ->group(function () {
+            Route::get('/', 'edit')->name('edit');
+            Route::put('/', 'update')->name('update');
+        });
 
     // Image routes
     Route::resource('images', ImageController::class)

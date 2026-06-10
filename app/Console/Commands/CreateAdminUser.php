@@ -38,8 +38,9 @@ class CreateAdminUser extends Command
         $passwordConfirmed = false;
 
         // Get password confirmation
-        while (!$passwordConfirmed)
+        while (! $passwordConfirmed) {
             $passwordConfirmed = $this->secret('Confirm Password') === $password;
+        }
 
         // Validate input
         $validator = Validator::make([
@@ -56,6 +57,7 @@ class CreateAdminUser extends Command
             foreach ($validator->errors()->all() as $error) {
                 $this->error($error);
             }
+
             return Command::FAILURE;
         }
 
@@ -70,12 +72,13 @@ class CreateAdminUser extends Command
 
             $this->info("Admin user '{$user->name}' created successfully!");
             $this->line("Email: {$user->email}");
-            $this->line("You can now log in with these credentials.");
+            $this->line('You can now log in with these credentials.');
 
             return Command::SUCCESS;
 
         } catch (\Exception $e) {
-            $this->error('Failed to create user: ' . $e->getMessage());
+            $this->error('Failed to create user: '.$e->getMessage());
+
             return Command::FAILURE;
         }
     }

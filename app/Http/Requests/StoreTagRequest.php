@@ -14,7 +14,7 @@ class StoreTagRequest extends CmsRequest
             'icon_name' => ['required', Rule::enum(LucideIcon::class)],
             'name' => 'required|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id',
-            'category' => Rule::enum(TagCategory::class)
+            'category' => Rule::enum(TagCategory::class),
         ];
     }
 
@@ -26,7 +26,7 @@ class StoreTagRequest extends CmsRequest
             'name.required' => 'Name is required.',
             'name.min' => 'Name cannot be empty.',
             'projects' => 'Invalid projects selection.',
-            'category' => 'Invalid category selected.'
+            'category' => 'Invalid category selected.',
         ];
     }
 }

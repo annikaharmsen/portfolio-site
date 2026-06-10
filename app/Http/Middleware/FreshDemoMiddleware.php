@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FreshDemoMiddleware
 {
-    public function __construct(private DemoService $demoService)
-    {
-    }
+    public function __construct(private DemoService $demoService) {}
 
     /**
      * Handle an incoming request.
@@ -23,7 +21,7 @@ class FreshDemoMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (config('demo.enabled') ){
+        if (config('demo.enabled')) {
             if (config('demo.reset_on_new_session')) {
                 $this->handleSessionReset();
             }
@@ -46,21 +44,21 @@ class FreshDemoMiddleware
         if ($lastResetSession !== $sessionId) {
             try {
                 Log::info('Demo: Detected new session start.', [
-                    'session_id' => $sessionId
+                    'session_id' => $sessionId,
                 ]);
 
                 $this->demoService->reset();
 
                 // Update last reset time and session in cache
-                Cache::put( config('demo.reset_time_cache_key'), now());
-                Cache::put( config('demo.reset_session_cache_key'), $sessionId, now()->addHours(24));
+                Cache::put(config('demo.reset_time_cache_key'), now());
+                Cache::put(config('demo.reset_session_cache_key'), $sessionId, now()->addHours(24));
 
                 Log::info('Demo: New session successfully initialized.');
 
             } catch (\Exception $e) {
                 Log::error('Demo: Database new session reset failed.', [
                     'error' => $e->getMessage(),
-                    'session_id' => $sessionId
+                    'session_id' => $sessionId,
                 ]);
             }
         }
@@ -77,20 +75,20 @@ class FreshDemoMiddleware
         if ($lastResetTime->lt($todayMidnight)) {
             try {
                 Log::info('Demo: Detected new day.', [
-                    'last_reset_at' => $lastResetTime
+                    'last_reset_at' => $lastResetTime,
                 ]);
 
                 $this->demoService->reset();
 
                 // Update last reset time and session in cache
-                Cache::put( config('demo.reset_time_cache_key'), now());
-                Cache::delete( config('demo.reset_session_cache_key'));
+                Cache::put(config('demo.reset_time_cache_key'), now());
+                Cache::delete(config('demo.reset_session_cache_key'));
 
                 Log::info('Demo: New day successfully initialized.');
 
             } catch (\Exception $e) {
                 Log::error('Demo: Database new day reset failed.', [
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ]);
             }
         }

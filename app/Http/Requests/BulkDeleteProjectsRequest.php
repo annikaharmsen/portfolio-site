@@ -8,7 +8,7 @@ class BulkDeleteProjectsRequest extends CmsRequest
     {
         return [
             'ids' => 'required|array|min:1',
-            'ids.*' => 'integer|exists:projects,id'
+            'ids.*' => 'integer|exists:projects,id',
         ];
     }
 

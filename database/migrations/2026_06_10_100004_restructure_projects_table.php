@@ -23,7 +23,7 @@ return new class extends Migration
             $category = $project->show_on_resume ? 'projects' : null;
 
             DB::table('projects')->where('id', $project->id)->update([
-                'bullets' => !empty($merged) ? json_encode($merged) : null,
+                'bullets' => ! empty($merged) ? json_encode($merged) : null,
                 'category' => $category,
             ]);
         });
@@ -44,12 +44,12 @@ return new class extends Migration
 
         DB::table('projects')->get()->each(function ($project) {
             $bullets = json_decode($project->bullets ?? '[]', true);
-            $desc = !empty($bullets) ? array_shift($bullets) : null;
+            $desc = ! empty($bullets) ? array_shift($bullets) : null;
 
             DB::table('projects')->where('id', $project->id)->update([
                 'resume_description' => $desc,
-                'resume_bullets' => !empty($bullets) ? json_encode($bullets) : null,
-                'show_on_resume' => !is_null($project->category),
+                'resume_bullets' => ! empty($bullets) ? json_encode($bullets) : null,
+                'show_on_resume' => ! is_null($project->category),
             ]);
         });
 

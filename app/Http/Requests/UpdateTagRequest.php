@@ -14,7 +14,7 @@ class UpdateTagRequest extends CmsRequest
             'icon_name' => ['nullable', Rule::enum(LucideIcon::class)],
             'name' => 'nullable|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id',
-            'category' => Rule::enum(TagCategory::class)
+            'category' => Rule::enum(TagCategory::class),
         ];
     }
 
@@ -25,7 +25,7 @@ class UpdateTagRequest extends CmsRequest
             'name.required' => 'Tag name is required.',
             'name.min' => 'Tag name cannot be empty.',
             'projects' => 'Invalid project selection.',
-            'category' => 'Invalid category selected'
+            'category' => 'Invalid category selected',
         ];
     }
 }

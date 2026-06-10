@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 class StoreExperienceRequest extends CmsRequest
 {
-
     public function rules(): array
     {
         return [

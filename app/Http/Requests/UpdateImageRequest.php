@@ -9,7 +9,7 @@ class UpdateImageRequest extends CmsRequest
         return [
             'id' => 'required|integer|min:0',
             'url' => 'required|string|min:1',
-            'alt' => 'nullable|string'
+            'alt' => 'nullable|string',
         ];
     }
 

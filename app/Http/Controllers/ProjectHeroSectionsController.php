@@ -9,13 +9,15 @@ use Inertia\Inertia;
 
 class ProjectHeroSectionsController extends Controller
 {
-    public function edit(Project $project) {
+    public function edit(Project $project)
+    {
         return Inertia::render('admin/projects/hero-sections/edit', [
-            'project' => $project->load( ['hero_sections', 'hero_sections.image'])
+            'project' => $project->load(['hero_sections', 'hero_sections.image']),
         ]);
     }
 
-    public function update(UpdateProjectHeroSectionsRequest $request, Project $project) {
+    public function update(UpdateProjectHeroSectionsRequest $request, Project $project)
+    {
         $validated = $request->validated();
 
         $submittedIDs = [];
@@ -26,7 +28,7 @@ class ProjectHeroSectionsController extends Controller
             $section->save();
 
             $submittedIDs[] = $section->id;
-        };
+        }
 
         // Delete sections not in submission
         $project->hero_sections()->whereNotIn('id', $submittedIDs)->delete();
