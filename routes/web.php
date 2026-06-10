@@ -4,14 +4,16 @@ use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\SiteText;
-use App\Models\Tag;
+use App\Models\SkillGroup;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('portfolio', [
         'texts' => SiteText::getAll(),
-        'tags' => Tag::whereNotNull('category')->orderBy('created_at', 'desc')->get(),
+        'skillGroups' => SkillGroup::with('tags')->ordered()->get(),
+        'user' => User::first(),
         'projects' => Project::with(['tags', 'hero_sections'])
                         ->where('hidden', false)
                         ->orderBy('featured', 'desc')
