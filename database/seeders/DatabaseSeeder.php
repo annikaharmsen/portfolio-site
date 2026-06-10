@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Run demo seeder for demo database
-        $this->call(DemoSeeder::class);
+        $this->call([
+            ExperienceSeeder::class,
+        ]);
     }
 }
