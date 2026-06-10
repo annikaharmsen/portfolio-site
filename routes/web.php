@@ -4,7 +4,6 @@ use App\Models\Experience;
 use App\Models\Project;
 use App\Models\SiteText;
 use App\Models\Tag;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -36,20 +35,5 @@ Route::get('/flush-opcache', function () {
     return 'OPcache not available';
 });
 
-Route::get('/resume', function () {
-    $filename = config('portfolio.resume.filename');
-
-    if (!$filename) {
-        Log::error('Resume file name not defined');
-        abort(404, 'File name not found');
-    }
-
-    $filePath = storage_path('app/public/' . $filename);
-
-    if (!file_exists($filePath)) {
-        Log::error('Resume file not found at: ' . $filePath);
-        abort(404, 'File not found');
-    }
-
-    return response()->download($filePath, $filename);
-})->name('resume.download');
+Route::get('/resume', [\App\Http\Controllers\ResumeController::class, 'download'])
+    ->name('resume.download');
