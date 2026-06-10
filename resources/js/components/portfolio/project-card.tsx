@@ -66,11 +66,19 @@ export default function ProjectCard({ project }: { project: Project }) {
                 </div>
             </CardHeader>
             <CardContent className="mx-6">
-                {/* subtitle */}
-                <p className="mb-8 leading-relaxed whitespace-pre-wrap">{project.subtitle}</p>
-
                 {/* description */}
-                {/* <p className="mb-8 leading-relaxed whitespace-pre-wrap">{project.description}</p> */}
+                {project.description && (
+                    <p className="mb-4 leading-relaxed whitespace-pre-wrap">{project.description}</p>
+                )}
+
+                {/* bullets */}
+                {project.bullets && project.bullets.length > 0 && (
+                    <ul className="mb-8 list-disc space-y-1 pl-4 text-sm">
+                        {project.bullets.map((bullet, i) => (
+                            <li key={i}>{bullet}</li>
+                        ))}
+                    </ul>
+                )}
 
                 {/* skill badges */}
                 {!!skills?.length && (

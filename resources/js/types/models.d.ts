@@ -94,3 +94,15 @@ export interface Experience {
 }
 
 export type Experiences = Experience[];
+
+export interface Education {
+    id: number;
+    title: string;
+    institution: string;
+    graduation_date: string;
+    gpa: string | null;
+    bullets: string[] | null;
+    sort_order: number;
+}
+
+export type Educations = Education[];
