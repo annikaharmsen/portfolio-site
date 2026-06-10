@@ -1,3 +1,4 @@
+import { User } from '@/types/models';
 import { ContactTexts } from '@/types/site-texts';
 import type React from 'react';
 import { useState } from 'react';
@@ -5,7 +6,7 @@ import { GitHubButton, LinkedinButton } from '../app-buttons';
 import ContactShell, { ContactForm } from '../contact-shell';
 import Markdown from '../markdown';
 
-export default function ShowContact({ texts }: { texts: ContactTexts }) {
+export default function ShowContact({ texts, user }: { texts: ContactTexts; user: User }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -49,7 +50,7 @@ export default function ShowContact({ texts }: { texts: ContactTexts }) {
         <section id="contact" className="py-16">
             <ContactShell
                 MainBody={() => <Markdown>{texts.main}</Markdown>}
-                Email={() => <span>{texts.email}</span>}
+                Email={() => <span>{user.email}</span>}
                 Location={() => <span>{texts.location}</span>}
                 Callout={() => <Markdown className="m-4">{texts.callout}</Markdown>}
                 MyGitHubButton={() => (

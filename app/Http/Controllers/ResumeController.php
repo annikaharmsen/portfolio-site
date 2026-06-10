@@ -19,6 +19,7 @@ class ResumeController extends Controller
             'name' => $user->name,
             'location' => $user->location,
             'phone' => $user->phone,
+            'email' => $user->email,
             'website' => config('app.url'),
             'summary' => $user->summary,
             'educations' => Education::ordered()->get(),

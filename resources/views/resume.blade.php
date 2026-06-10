@@ -108,7 +108,7 @@
     <div class="header">
         <div class="name">{{ $resume['name'] }}</div>
         <div class="contact">
-            {{ $resume['location'] }} | {{ $resume['phone'] }} |
+            {{ $resume['location'] }} | {{ $resume['phone'] }} | {{ $resume['email'] }} |
             <a href="{{ $resume['website'] }}">{{ $resume['website'] }}</a>
         </div>
     </div>
