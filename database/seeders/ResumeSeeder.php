@@ -158,7 +158,9 @@ class ResumeSeeder extends Seeder
     {
         $projects = [
             [
-                'title' => 'Leucite — Manufacturing Data & Prediction Platform',
+                'title' => 'Leucite',
+                'icon_name' => 'Factory',
+                'subtitle' => 'Manufacturing Data & Prediction Platform',
                 'category' => 'projects',
                 'label' => null,
                 'description' => 'A multi-tenant platform that turns manufacturers\' production data into quality predictions and process recommendations.',
@@ -170,9 +172,10 @@ class ResumeSeeder extends Seeder
             ],
             [
                 'title' => 'Jobster',
+                'icon_name' => 'Search',
+                'subtitle' => 'Job Search Automation Platform',
                 'category' => 'projects',
                 'label' => null,
-                'subtitle' => 'Job Search Automation Platform',
                 'description' => 'A "set and forget" system that discovers, researches, and drafts applications for matching jobs — delivered through email.',
                 'bullets' => [
                     'Automatically finds jobs matching a user\'s criteria, researches each role, and drafts tailored applications, all delivered straight to their inbox.',
@@ -182,9 +185,10 @@ class ResumeSeeder extends Seeder
             ],
             [
                 'title' => 'Shifty',
+                'icon_name' => 'Calendar',
+                'subtitle' => 'Automated Hospitality Scheduling Software',
                 'category' => 'personal',
                 'label' => 'In Progress',
-                'subtitle' => 'Automated Hospitality Scheduling Software',
                 'description' => 'Automatically builds employee schedules, assigning shifts around availability, role requirements, and weekly hour limits — eliminating the back-and-forth of building schedules by hand.',
                 'bullets' => [
                     'Includes a custom drag-and-drop calendar so managers can review and adjust generated schedules easily.',
@@ -192,6 +196,8 @@ class ResumeSeeder extends Seeder
             ],
             [
                 'title' => 'Portfolio Website & CMS',
+                'icon_name' => 'PanelLeft',
+                'subtitle' => null,
                 'category' => 'personal',
                 'label' => '2025',
                 'description' => 'Lets me manage projects, tags, and hero content through a clean admin interface instead of touching code on every update.',
@@ -201,6 +207,8 @@ class ResumeSeeder extends Seeder
             ],
             [
                 'title' => 'E-Commerce Systems',
+                'icon_name' => 'ShoppingCart',
+                'subtitle' => null,
                 'category' => 'personal',
                 'label' => '2025',
                 'description' => 'Built a vanilla PHP version from first principles without a framework, implementing routing, authentication, and cart logic by hand to prove out the fundamentals.',
@@ -211,10 +219,10 @@ class ResumeSeeder extends Seeder
         ];
 
         foreach ($projects as $data) {
-            $project = Project::withTrashed()->where('title', $data['title'])->first();
-            if ($project) {
-                $project->update($data);
-            }
+            Project::withTrashed()->updateOrCreate(
+                ['title' => $data['title']],
+                $data
+            );
         }
     }
 }
