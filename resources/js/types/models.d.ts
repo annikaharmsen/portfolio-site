@@ -19,12 +19,6 @@ export type Project = {
     // relations
     tags?: Tags;
     hero_sections?: ProjectHeroSections;
-    // counts
-    skills_count: number;
-    technologies_count: number;
-    // exists
-    skills_exists: boolean;
-    technologies_exists: boolean;
 };
 export type Projects = Project[];
 
