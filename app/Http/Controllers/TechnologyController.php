@@ -98,7 +98,7 @@ class TechnologyController extends Controller
 
     public function bulkDelete(BulkDeleteTagsRequest $request)
     {
-        $deletedCount = Tag::destroy($request->getTechnologyIds());
+        Tag::destroy($request->getIds());
 
         return back();
     }

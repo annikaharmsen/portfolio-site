@@ -72,7 +72,7 @@ class ProjectController extends Controller
 
     public function bulkDelete(BulkDeleteProjectsRequest $request)
     {
-        $deletedCount = Project::destroy($request->getProjectIds());
+        Project::destroy($request->getIds());
 
         return redirect('/projects');
     }

@@ -94,7 +94,7 @@ class SkillController extends Controller
 
     public function bulkDelete(BulkDeleteTagsRequest $request)
     {
-        $deletedCount = Tag::destroy($request->getSkillIds());
+        Tag::destroy($request->getIds());
 
         return back();
     }

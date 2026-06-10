@@ -12,7 +12,7 @@ class BulkDeleteTagsRequest extends CmsRequest
         ];
     }
 
-    public function getTagIds()
+    public function getIds(): array
     {
         return $this->validated()['ids'];
     }

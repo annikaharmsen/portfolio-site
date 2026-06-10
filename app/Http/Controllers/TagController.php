@@ -93,7 +93,7 @@ class TagController extends Controller
 
     public function bulkDelete(BulkDeleteTagsRequest $request)
     {
-        $deletedCount = Tag::destroy($request->getTagIds());
+        Tag::destroy($request->getIds());
 
         return back();
     }

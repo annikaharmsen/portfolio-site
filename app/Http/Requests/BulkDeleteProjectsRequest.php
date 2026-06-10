@@ -12,7 +12,7 @@ class BulkDeleteProjectsRequest extends CmsRequest
         ];
     }
 
-    public function getProjectIds()
+    public function getIds(): array
     {
         return $this->validated()['ids'];
     }
