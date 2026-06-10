@@ -34,7 +34,11 @@ class StoreProjectRequest extends FormRequest
             'featured' => 'boolean',
             'hidden' => 'boolean',
             'date' => 'nullable|date',
-            'tags' => 'array|distinct|exists:tags,id'
+            'tags' => 'array|distinct|exists:tags,id',
+            'bullets' => 'nullable|array',
+            'bullets.*' => 'string',
+            'category' => 'nullable|string|in:projects,personal',
+            'label' => 'nullable|string|max:255',
         ];
     }
 
