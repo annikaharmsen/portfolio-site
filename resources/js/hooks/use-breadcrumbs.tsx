@@ -1,4 +1,5 @@
 import { TagConfig, TagConfigInterface } from '@/config/config';
+import { pluralize, titleCase } from '@/lib/utils';
 import { BreadcrumbItem } from '@/types';
 import { Project, Tag } from '@/types/models';
 import { TextSection } from '@/types/site-texts';
@@ -41,12 +42,12 @@ export const breadcrumbTree = {
         parent: breadcrumbTree.show_project({ project }),
     }),
     tag_index: ({ tagConfig = TagConfig }: { tagConfig?: TagConfigInterface }) => ({
-        title: tagConfig.TYPE.toPlural().toTitleCase(),
+        title: titleCase(pluralize(tagConfig.TYPE)),
         href: tagConfig.BASE_URI,
         parent: breadcrumbTree.dashboard(),
     }),
     create_tag: ({ tagConfig = TagConfig }: { tagConfig?: TagConfigInterface }) => ({
-        title: `Add ${tagConfig.TYPE.toTitleCase()}`,
+        title: `Add ${titleCase(tagConfig.TYPE)}`,
         href: `${tagConfig.BASE_URI}/create`,
         parent: breadcrumbTree.tag_index({ tagConfig }),
     }),
@@ -63,7 +64,7 @@ export const breadcrumbTree = {
     edit_section: ({ section }: { section: TextSection }) => {
         if (section === 'experience') return breadcrumbTree.experience_index();
         return {
-            title: `Edit ${section.toTitleCase()} Section`,
+            title: `Edit ${titleCase(section)} Section`,
             href: `/sections/${section}/edit`,
             parent: breadcrumbTree.dashboard(),
         };

@@ -5,19 +5,12 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-declare global {
-    interface String {
-        toTitleCase(): string;
-        toPlural(): string;
-    }
+export function titleCase(str: string): string {
+    return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
 }
 
-String.prototype.toTitleCase = function (this: string) {
-    return this.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
-};
-
-String.prototype.toPlural = function (this: string) {
-    const plural: Record<string, string> = {
+export function pluralize(str: string): string {
+    const rules: Record<string, string> = {
         '(quiz)$': '$1zes',
         '^(ox)$': '$1en',
         '([m|l])ouse$': '$1ice',
@@ -51,25 +44,20 @@ String.prototype.toPlural = function (this: string) {
 
     const uncountable = ['sheep', 'fish', 'deer', 'moose', 'series', 'species', 'money', 'rice', 'information', 'equipment'];
 
-    // save some time in the case that singular and plural are the same
-    if (uncountable.indexOf(this.toLowerCase()) >= 0) return this;
+    if (uncountable.includes(str.toLowerCase())) return str;
 
-    // check for irregular forms
     for (const word in irregular) {
         const pattern = new RegExp(word + '$', 'i');
-        const replace = irregular[word];
-        if (pattern.test(this)) return this.replace(pattern, replace);
+        if (pattern.test(str)) return str.replace(pattern, irregular[word]);
     }
 
-    // check for matches using regular expressions
-    for (const reg in plural) {
+    for (const reg in rules) {
         const pattern = new RegExp(reg, 'i');
-
-        if (pattern.test(this)) return this.replace(pattern, plural[reg]);
+        if (pattern.test(str)) return str.replace(pattern, rules[reg]);
     }
 
-    return this;
-};
+    return str;
+}
 
 export const openLink = (link: string, e?: React.MouseEvent) => {
     e?.stopPropagation();

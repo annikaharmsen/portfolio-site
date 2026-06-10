@@ -16,13 +16,15 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::domain('admin.' . env('APP_DOMAIN'))
+            Route::domain('admin.'.env('APP_DOMAIN'))
                 ->middleware('web')
                 ->group(base_path('routes/admin.php'));
 
-            if (config('demo.enabled')) Route::domain('admin-demo.' . env('APP_DOMAIN'))
-                ->middleware([SetDemoDatabase::class, 'web', FreshDemoMiddleware::class, ShareDemoConfig::class])
-                ->group(base_path('routes/admin-demo.php'));
+            if (config('demo.enabled')) {
+                Route::domain('admin-demo.'.env('APP_DOMAIN'))
+                    ->middleware([SetDemoDatabase::class, 'web', FreshDemoMiddleware::class, ShareDemoConfig::class])
+                    ->group(base_path('routes/admin-demo.php'));
+            }
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

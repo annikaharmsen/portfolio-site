@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { ModelConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useSelection from '@/hooks/use-selection';
-import { cn } from '@/lib/utils';
+import { cn, pluralize } from '@/lib/utils';
 import { ReactNode, useState } from 'react';
 import { DeleteButton } from './app-buttons';
 
@@ -116,7 +116,7 @@ export default function ModelList<T extends { id: number }>({
                             })
                         ) : (
                             <tr className="h-24 border-b text-center text-muted-foreground">
-                                <td colSpan={columns.length + 1}>No {modelType.toLowerCase().toPlural()} found.</td>
+                                <td colSpan={columns.length + 1}>No {pluralize(modelType.toLowerCase())} found.</td>
                             </tr>
                         )}
                         <tr onClick={() => handle.create()} className="h-12 w-full text-center hover:bg-accent/50">

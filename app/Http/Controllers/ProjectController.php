@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\BulkDeleteProjectsRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -17,11 +16,12 @@ class ProjectController extends Controller
         $projects = Project::ordered()->get();
 
         return Inertia::render('admin/projects/index', [
-            'projects' => $projects
+            'projects' => $projects,
         ]);
     }
 
-    public function create() {
+    public function create()
+    {
         return Inertia::render('admin/projects/create', [
             'tags' => Tag::all(),
         ]);
@@ -41,11 +41,12 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return Inertia::render('admin/projects/show', [
-            'project' => $project->load('tags')
+            'project' => $project->load('tags'),
         ]);
     }
 
-    public function edit(Project $project) {
+    public function edit(Project $project)
+    {
         return Inertia::render('admin/projects/edit', [
             'project' => $project->load('tags'),
             'tags' => Tag::all(),
@@ -58,7 +59,9 @@ class ProjectController extends Controller
 
         $project->update($validated);
 
-        if (isset($validated['tags'])) $project->tags()->sync($validated['tags']);
+        if (isset($validated['tags'])) {
+            $project->tags()->sync($validated['tags']);
+        }
 
         return redirect("/projects/{$project->id}");
     }
@@ -72,7 +75,7 @@ class ProjectController extends Controller
 
     public function bulkDelete(BulkDeleteProjectsRequest $request)
     {
-        $deletedCount = Project::destroy($request->getProjectIds());
+        Project::destroy($request->getIds());
 
         return redirect('/projects');
     }

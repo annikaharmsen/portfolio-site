@@ -3,25 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Enums\LucideIcon;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreProjectRequest extends FormRequest
+class StoreProjectRequest extends CmsRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        // Allow access if using demo database or if authenticated
-        return config('database.default') === 'demo' || auth()->check();
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [

@@ -39,7 +39,7 @@ return new class extends Migration
 
         DB::table('experiences')->whereNotNull('date_ranges')->get()->each(function ($exp) {
             $ranges = json_decode($exp->date_ranges, true);
-            if (!empty($ranges)) {
+            if (! empty($ranges)) {
                 DB::table('experiences')->where('id', $exp->id)->update([
                     'start_date' => $ranges[0]['start'],
                     'end_date' => $ranges[0]['end'],

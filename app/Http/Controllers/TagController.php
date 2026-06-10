@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BulkDeleteTagsRequest;
-use App\Http\Requests\StoreTagRequest;
+use App\Http\Controllers\Concerns\HandlesTagCrud;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\Project;
 use App\Models\Tag;
@@ -11,90 +10,44 @@ use Inertia\Inertia;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use HandlesTagCrud;
+
     public function index()
     {
-
         return Inertia::render('admin/tags/index', [
-            'tags' => Tag::all()
+            'tags' => Tag::all(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('admin/tags/create', [
-            'projects' => Project::all()
+            'projects' => Project::all(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreTagRequest $request)
-    {
-        $validated = $request->validated();
-
-        $tag = Tag::create($request->validated());
-
-        $tag->projects()->sync($validated['projects']);
-
-        return Inertia::render('loading');
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Tag $tag)
     {
         return Inertia::render('admin/tags/show', [
-            'tag' => $tag
+            'tag' => $tag,
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Tag $tag)
     {
         return Inertia::render('admin/tags/edit', [
             'tag' => $tag->load('projects'),
-            'projects' => Project::all()
+            'projects' => Project::all(),
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateTagRequest $request, Tag $tag)
     {
-        $validated = $request->validated();
-
-        $tag->update($validated);
-
-        if (isset($validated['projects'])) $tag->projects()->sync($validated['projects']);
-
-        return back();
+        return $this->updateTag($request, $tag);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Tag $tag)
     {
-        $tag->delete();
-
-        return Inertia::render('loading');
-    }
-
-    public function bulkDelete(BulkDeleteTagsRequest $request)
-    {
-        $deletedCount = Tag::destroy($request->getTagIds());
-
-        return back();
+        return $this->destroyTag($tag);
     }
 }

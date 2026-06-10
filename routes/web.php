@@ -15,10 +15,10 @@ Route::get('/', function () {
         'skillGroups' => SkillGroup::with('tags')->ordered()->get(),
         'user' => User::first(),
         'projects' => Project::with(['tags', 'hero_sections'])
-                        ->where('hidden', false)
-                        ->orderBy('featured', 'desc')
-                        ->orderBy('date', 'desc')
-                        ->get(),
+            ->where('hidden', false)
+            ->orderBy('featured', 'desc')
+            ->orderBy('date', 'desc')
+            ->get(),
         'experiences' => Experience::ordered()->get(),
         'educations' => Education::ordered()->get(),
     ]);
@@ -26,7 +26,7 @@ Route::get('/', function () {
 
 Route::get('/projects/{project}', function (Project $project) {
     return Inertia::render('project-page', [
-        'project' => $project->load(['hero_sections', 'hero_sections.image'])
+        'project' => $project->load(['hero_sections', 'hero_sections.image']),
     ]);
 });
 
@@ -34,8 +34,10 @@ Route::get('/projects/{project}', function (Project $project) {
 Route::get('/flush-opcache', function () {
     if (function_exists('opcache_reset')) {
         opcache_reset();
+
         return 'OPcache flushed';
     }
+
     return 'OPcache not available';
 });
 

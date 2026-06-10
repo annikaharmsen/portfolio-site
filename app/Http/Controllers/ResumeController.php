@@ -32,7 +32,7 @@ class ResumeController extends Controller
         $pdf = Pdf::loadView('resume', compact('resume'))
             ->setPaper('letter');
 
-        $filename = str_replace(' ', '_', strtolower($resume['name'])) . '_resume.pdf';
+        $filename = str_replace(' ', '_', strtolower($resume['name'])).'_resume.pdf';
 
         return $pdf->download($filename);
     }

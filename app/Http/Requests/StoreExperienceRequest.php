@@ -2,15 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreExperienceRequest extends FormRequest
+class StoreExperienceRequest extends CmsRequest
 {
-    public function authorize(): bool
-    {
-        return config('database.default') === 'demo' || auth()->check();
-    }
-
     public function rules(): array
     {
         return [

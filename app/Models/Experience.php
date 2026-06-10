@@ -29,7 +29,7 @@ class Experience extends Model
     protected function formattedDateRanges(): Attribute
     {
         return Attribute::get(function () {
-            if (!$this->date_ranges) {
+            if (! $this->date_ranges) {
                 return '';
             }
 
@@ -37,6 +37,7 @@ class Experience extends Model
                 ->map(function (array $range) {
                     $start = date('m/Y', strtotime($range['start']));
                     $end = $range['end'] ? date('m/Y', strtotime($range['end'])) : 'Present';
+
                     return "{$start} – {$end}";
                 })
                 ->join(', ');
