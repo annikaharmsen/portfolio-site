@@ -10,27 +10,28 @@ class SkillGroupTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // clear groups seeded by migration so scope tests start clean
+        SkillGroup::query()->forceDelete();
+    }
+
     public function test_can_create_skill_group(): void
     {
         $group = SkillGroup::create([
-            'name' => 'Languages & Runtimes',
-            'skills' => 'JavaScript/TypeScript, PHP, Java, HTML/CSS',
+            'name' => 'Languages',
             'sort_order' => 1,
         ]);
 
-        $this->assertDatabaseHas('skill_groups', [
-            'name' => 'Languages & Runtimes',
-            'skills' => 'JavaScript/TypeScript, PHP, Java, HTML/CSS',
-        ]);
+        $this->assertDatabaseHas('skill_groups', ['name' => 'Languages']);
     }
 
     public function test_ordered_scope(): void
     {
-        SkillGroup::create(['name' => 'Second', 'skills' => 'B', 'sort_order' => 2]);
-        SkillGroup::create(['name' => 'First', 'skills' => 'A', 'sort_order' => 1]);
+        SkillGroup::create(['name' => 'Second', 'sort_order' => 2]);
+        SkillGroup::create(['name' => 'First', 'sort_order' => 1]);
 
-        $ordered = SkillGroup::ordered()->get();
-
-        $this->assertEquals('First', $ordered->first()->name);
+        $this->assertEquals('First', SkillGroup::ordered()->first()->name);
     }
 }
