@@ -12,11 +12,6 @@ class StoreImageRequest extends CmsRequest
         ];
     }
 
-    /**
-     * Get custom error messages for validation rules.
-     *
-     * @return array<string, string>
-     */
     public function messages(): array
     {
         return [

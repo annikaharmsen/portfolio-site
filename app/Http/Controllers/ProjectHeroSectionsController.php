@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateProjectHeroSectionsRequest;
 use App\Models\Project;
 use App\Models\ProjectHeroSection;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProjectHeroSectionsController extends Controller
