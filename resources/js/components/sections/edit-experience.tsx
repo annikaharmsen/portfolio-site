@@ -10,13 +10,7 @@ import { Plus, Save, Trash2 } from 'lucide-react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
-function ExperienceCard({
-    experience,
-    onDelete,
-}: {
-    experience?: Experience;
-    onDelete?: () => void;
-}) {
+function ExperienceCard({ experience, onDelete }: { experience?: Experience; onDelete?: () => void }) {
     const isNew = !experience?.id;
 
     const [form, setForm] = useState({
@@ -53,7 +47,7 @@ function ExperienceCard({
 
     return (
         <Card>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <CardHeader>
                     <CardTitle className="font-sans text-lg">
                         {isNew ? 'New Experience' : `${form.title || 'Untitled'} - ${form.company || 'Company'}`}
@@ -108,11 +102,9 @@ function ExperienceCard({
                                 id={`end-${experience?.id ?? 'new'}`}
                                 type="month"
                                 value={form.end_date?.slice(0, 7) ?? ''}
-                                onChange={(e) =>
-                                    updateField('end_date', e.target.value ? e.target.value + '-01' : '')
-                                }
+                                onChange={(e) => updateField('end_date', e.target.value ? e.target.value + '-01' : '')}
                             />
-                            <p className="text-muted-foreground text-xs">leave empty for current position</p>
+                            <p className="text-xs text-muted-foreground">leave empty for current position</p>
                         </div>
                     </div>
                     <div className="space-y-2">
