@@ -55,7 +55,9 @@ function ExperienceCard({
         <Card>
             <form onSubmit={handleSubmit}>
                 <CardHeader>
-                    <CardTitle>{isNew ? 'New Experience' : form.title || 'Untitled'}</CardTitle>
+                    <CardTitle className="font-sans text-lg">
+                        {isNew ? 'New Experience' : `${form.title || 'Untitled'} - ${form.company || 'Company'}`}
+                    </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
