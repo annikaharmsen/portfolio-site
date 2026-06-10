@@ -7,10 +7,10 @@ import ShowContact from '@/components/sections/show-contact';
 import ShowIntro from '@/components/sections/show-intro';
 import TechSkillsSection from '@/components/sections/tech-skills-section';
 import AboveTheFold from '@/layouts/above-the-fold';
-import { Projects, Tags } from '@/types/models';
+import { Experiences, Projects, Tags } from '@/types/models';
 import { SiteTexts } from '@/types/site-texts';
 
-export default function Portfolio({ texts, tags, projects }: { texts: SiteTexts; tags: Tags; projects: Projects }) {
+export default function Portfolio({ texts, tags, projects, experiences }: { texts: SiteTexts; tags: Tags; projects: Projects; experiences: Experiences }) {
     return (
         <>
             <Navigation />
@@ -27,7 +27,7 @@ export default function Portfolio({ texts, tags, projects }: { texts: SiteTexts;
                 </section>
                 <TechSkillsSection tags={tags} />
                 {projects && projects.length > 0 && <ProjectsSection projects={projects} />}
-                <ProfessionalExperienceSection />
+                {experiences && experiences.length > 0 && <ProfessionalExperienceSection experiences={experiences} />}
                 <ShowContact texts={texts.contact || {}} />
 
                 <Footer />
