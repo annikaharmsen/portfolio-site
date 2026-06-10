@@ -6,28 +6,26 @@ use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\SkillGroup;
-use App\Models\SiteText;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ResumeController extends Controller
 {
     public function download()
     {
-        $resumeTexts = SiteText::where('path', 'like', 'resume.%')->get()
-            ->pluck('text', 'path');
+        $user = User::first();
 
         $resume = [
-            'name' => $resumeTexts->get('resume.name', ''),
-            'location' => $resumeTexts->get('resume.location', ''),
-            'phone' => $resumeTexts->get('resume.phone', ''),
-            'website' => $resumeTexts->get('resume.website', ''),
-            'summary' => $resumeTexts->get('resume.summary', ''),
+            'name' => $user->name,
+            'location' => $user->location,
+            'phone' => $user->phone,
+            'website' => config('app.url'),
+            'summary' => $user->summary,
             'educations' => Education::ordered()->get(),
-            'skill_groups' => SkillGroup::ordered()->get(),
-            'projects' => Project::where('show_on_resume', true)
-                ->orderBy('date', 'desc')
-                ->get(),
+            'projects' => Project::forCategory('projects')->get(),
+            'personal_projects' => Project::forCategory('personal')->get(),
             'experiences' => Experience::ordered()->get(),
+            'skill_groups' => SkillGroup::with('tags')->ordered()->get(),
         ];
 
         $pdf = Pdf::loadView('resume', compact('resume'))
