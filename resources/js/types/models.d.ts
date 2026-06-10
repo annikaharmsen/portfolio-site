@@ -54,14 +54,25 @@ export type Tag = {
     icon_name: IconName;
     name: string;
     category?: TagCategory;
+    skill_group_id?: number | null;
     // relations
     projects?: Projects;
+    skill_group?: SkillGroup;
     // counts
     projects_count: number;
     // exists
     projects_exists: boolean;
 };
 export type Tags = Tag[];
+
+export interface SkillGroup {
+    id: number;
+    name: string;
+    sort_order: number;
+    tags?: Tags;
+}
+
+export type SkillGroups = SkillGroup[];
 
 export type User = {
     // columns
