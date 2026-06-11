@@ -14,16 +14,16 @@ import InputError from '../input-error';
 import { store } from '../store';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 interface TagFormProps {
     tagConfig: TagConfigInterface;
     projects: Projects;
     tag?: Tag;
     className?: string;
+    categories: string[];
 }
 
-export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI: baseURI }, projects, tag, className }: TagFormProps) {
+export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, tag, className, categories }: TagFormProps) {
     const controller = useController(baseURI);
     const { reroute } = useReroute();
     const { errors } = usePage().props;
@@ -35,7 +35,7 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         icon_name: (!!tag && tag.icon_name) || null,
         name: (!!tag && tag.name) || '',
         projects: (!!tag && tag.projects?.map((project) => project.id)) || [],
-        category: (!!tag && tag.category) || categories.length === 1 ? categories[0] : undefined,
+        category: tag?.category ?? null,
     });
     useUnsavedWarning(isDirty && !processing && !deleting);
 
@@ -95,7 +95,7 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
                     <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="name" />
                     <InputError>{errors.name}</InputError>
                 </>
-                <div className={!categories.length ? 'col-span-full' : ''}>
+                <div>
                     <Label htmlFor="projects" className="block">
                         Projects
                     </Label>
@@ -104,24 +104,22 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
                 </div>
 
                 <>
-                    {categories.length > 1 && (
-                        <>
-                            <Label htmlFor="category">Category</Label>
-                            <Select defaultValue={data.category} onValueChange={(value) => setData('category', value as typeof data.category)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {categories.map((category) => (
-                                        <SelectItem key={category} value={category}>
-                                            {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <InputError>{errors.category}</InputError>
-                        </>
-                    )}
+                    <Label htmlFor="category">Category</Label>
+                    <div className="relative">
+                        <Input
+                            id="category"
+                            list="tag-category-options"
+                            value={data.category ?? ''}
+                            onChange={(e) => setData('category', e.target.value || null)}
+                            placeholder="select or type a category"
+                        />
+                        <datalist id="tag-category-options">
+                            {categories.map((cat) => (
+                                <option key={cat} value={cat} />
+                            ))}
+                        </datalist>
+                    </div>
+                    <InputError>{errors.category}</InputError>
                 </>
             </FormGridLayout>
 
