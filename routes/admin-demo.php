@@ -13,8 +13,8 @@ use App\Services\DemoService;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-if (config('demo.allow_manual_reset')){
-    Route::post('/reset', function(DemoService $demoService) {
+if (config('demo.allow_manual_reset')) {
+    Route::post('/reset', function (DemoService $demoService) {
         $demoService->reset();
     })->name('demo.reset');
 }
@@ -58,9 +58,8 @@ Route::resource('technologies', TechnologyController::class)->names('demo.techno
 
 // Site text routes
 Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])
-        ->name('demo.section.edit')
-        ->whereIn('section', ['intro', 'about', 'contact']);
+    ->name('demo.section.edit')
+    ->whereIn('section', ['intro', 'about', 'contact']);
 
 Route::put('text', [SiteTextController::class, 'update'])
     ->name('demo.text.update');
-

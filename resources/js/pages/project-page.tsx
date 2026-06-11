@@ -44,7 +44,7 @@ export default function ProjectPage({ project }: { project: Project }) {
             </Button>
             <div className="m-8 flex flex-col items-center text-center md:m-16">
                 <H1>{project.title}</H1>
-                <span>{project.subtitle}</span>
+                {project.subtitle && <span>{project.subtitle}</span>}
             </div>
             <div className="w-full max-w-300 px-8 md:px-16">
                 {project.hero_sections?.map((section, index) => (

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class DemoService
@@ -15,18 +14,18 @@ class DemoService
     {
         try {
             Log::info('Demo: Resetting database', [
-                'session_id' => session()->getId()
+                'session_id' => session()->getId(),
             ]);
 
             // Reset the demo database
             Artisan::call('migrate:fresh', [
                 '--database' => 'demo',
-                '--force' => true
+                '--force' => true,
             ]);
 
             Artisan::call('db:seed', [
                 '--database' => 'demo',
-                '--force' => true
+                '--force' => true,
             ]);
 
             Log::info('Demo: Database reset completed successfully');
@@ -35,7 +34,7 @@ class DemoService
 
         } catch (\Exception $e) {
             Log::error('Demo: Database reset failed', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
             return false;

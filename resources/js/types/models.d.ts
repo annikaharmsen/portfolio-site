@@ -6,22 +6,19 @@ export type Project = {
     id: number;
     icon_name: IconName;
     title: string;
-    subtitle: string;
-    description: string;
+    subtitle: string | null;
+    description: string | null;
     repo_link?: string;
     demo_link?: string;
     featured: boolean;
     hidden: boolean;
     date?: string;
+    bullets?: string[] | null;
+    category?: 'projects' | 'personal' | null;
+    label?: string | null;
     // relations
     tags?: Tags;
     hero_sections?: ProjectHeroSections;
-    // counts
-    skills_count: number;
-    technologies_count: number;
-    // exists
-    skills_exists: boolean;
-    technologies_exists: boolean;
 };
 export type Projects = Project[];
 
@@ -51,8 +48,10 @@ export type Tag = {
     icon_name: IconName;
     name: string;
     category?: TagCategory;
+    skill_group_id?: number | null;
     // relations
     projects?: Projects;
+    skill_group?: SkillGroup;
     // counts
     projects_count: number;
     // exists
@@ -60,10 +59,20 @@ export type Tag = {
 };
 export type Tags = Tag[];
 
+export interface SkillGroup {
+    id: number;
+    name: string;
+    sort_order: number;
+    tags?: Tags;
+}
+
+export type SkillGroups = SkillGroup[];
+
 export type User = {
     // columns
     id: number;
-    name: string;
+    first_name: string;
+    last_name: string;
     email: string;
     email_verified_at: string | null;
     password?: string;
@@ -84,10 +93,22 @@ export interface Experience {
     title: string;
     company: string;
     location: string | null;
-    start_date: string;
-    end_date: string | null;
-    details: string | null;
+    date_ranges: { start: string; end: string | null }[];
+    bullets: string[] | null;
+    formatted_date_ranges: string;
     sort_order: number;
 }
 
 export type Experiences = Experience[];
+
+export interface Education {
+    id: number;
+    title: string;
+    institution: string;
+    graduation_date: string;
+    gpa: string | null;
+    bullets: string[] | null;
+    sort_order: number;
+}
+
+export type Educations = Education[];

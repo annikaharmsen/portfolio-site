@@ -3,16 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Image extends Model
 {
     protected $fillable = [
         'url',
-        'alt'
+        'alt',
     ];
 
-    public function projectHeroSection() {
+    public function projectHeroSection()
+    {
         return $this->belongsToMany(ProjectHeroSection::class);
     }
 }

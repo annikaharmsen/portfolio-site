@@ -8,14 +8,16 @@ use Inertia\Inertia;
 
 class SiteTextController extends Controller
 {
-    public function edit(string $section) {
+    public function edit(string $section)
+    {
         return Inertia::render('admin/sections/edit', [
             'section' => $section,
-            'texts' => SiteText::getSection($section)
+            'texts' => SiteText::getSection($section),
         ]);
     }
 
-    public function update(UpdateSiteTextRequest $request) {
+    public function update(UpdateSiteTextRequest $request)
+    {
         $validated = $request->validated();
 
         $path = $validated['path'];
@@ -25,7 +27,9 @@ class SiteTextController extends Controller
         SiteText::where('path', $path)->delete();
 
         // create new record if text is not nullish
-        if ($text) SiteText::create($validated);
+        if ($text) {
+            SiteText::create($validated);
+        }
 
         $section = explode('.', $path, 2)[0];
 

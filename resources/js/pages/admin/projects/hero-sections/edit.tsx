@@ -222,7 +222,7 @@ export default function EditHeroSections({ project }: EditHeroSectionsProps) {
             <Head title={project.title} />
             <CenteredContent>
                 <H1>{project.title}</H1>
-                <span>{project.subtitle}</span>
+                {project.subtitle && <span>{project.subtitle}</span>}
                 <hr className="my-12" />
                 <Form
                     method="put"

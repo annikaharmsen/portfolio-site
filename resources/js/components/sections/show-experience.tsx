@@ -1,6 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Experience } from '@/types/models';
-import { MapPin } from 'lucide-react';
 import Markdown from '../markdown';
 
 function formatDate(dateStr: string): string {
@@ -10,28 +9,23 @@ function formatDate(dateStr: string): string {
 }
 
 function ExperiencePreviewCard({ experience }: { experience: Experience }) {
-    const dateRange = `${formatDate(experience.start_date)} — ${
+    const dateRange = `${formatDate(experience.start_date)} - ${
         experience.end_date ? formatDate(experience.end_date) : 'Present'
     }`;
 
     return (
-        <Card className="border-none bg-background">
+        <Card className="border-none bg-background shadow">
             <CardHeader>
-                <CardTitle>{experience.title}</CardTitle>
-                <CardDescription className="flex flex-col gap-1 text-sm">
-                    <span>{experience.company}</span>
-                    <span>{dateRange}</span>
-                    {experience.location && (
-                        <span className="flex items-center gap-1">
-                            <MapPin className="size-3" />
-                            {experience.location}
-                        </span>
-                    )}
+                <CardTitle className="font-sans text-lg">
+                    {experience.title} - {experience.company}
+                </CardTitle>
+                <CardDescription>
+                    {experience.location && `${experience.location} | `}{dateRange}
                 </CardDescription>
             </CardHeader>
             {experience.details && (
-                <CardContent>
-                    <Markdown>{experience.details}</Markdown>
+                <CardContent className="text-sm">
+                    <Markdown headingLevelOffset={3}>{experience.details}</Markdown>
                 </CardContent>
             )}
         </Card>
