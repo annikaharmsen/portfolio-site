@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('admin/dashboard', [
             'projects' => Project::ordered()->get(),
             'tags' => Tag::get(),
+            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     })->name('home');
 
