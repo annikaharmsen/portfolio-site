@@ -16,7 +16,8 @@ class ResumeController extends Controller
         $resume = $this->resumeData();
 
         $pdf = Pdf::loadView('resume', compact('resume'))
-            ->setPaper('letter');
+            ->setPaper('letter')
+            ->setOption('defaultMediaType', 'print');
 
         $fullName = trim("{$resume['first_name']} {$resume['last_name']}");
         $filename = str_replace(' ', '_', strtolower($fullName)).'_resume.pdf';

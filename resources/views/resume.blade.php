@@ -8,48 +8,48 @@
             margin: 72px 72px 72px 72px;
         }
 
-        /* preflight */
-        * { font-family: 'Times New Roman', Times, serif; font-size: 11pt; margin: 0; padding: 0; }
-        h1, h2 { font-weight: bold; text-align: center; margin-top: 4pt; }
-        h3 { font-weight: bold; margin-top: 4pt; }
-        ul { padding-left: 20pt; }
+        /* preflight — scoped to .page to avoid clobbering @page margins */
+        .page * { font-family: 'Times New Roman', Times, serif; font-size: 11pt; margin: 0; padding: 0; }
+        .page h1, .page h2 { font-weight: bold; text-align: center; margin-top: 4pt; }
+        .page h3 { font-weight: bold; margin-top: 4pt; }
+        .page ul { padding-left: 20pt; }
 
         /* base */
         body { line-height: 1.3; color: #000; }
-        a { color: #1155cc; text-decoration: none; }
+        .page a { color: #1155cc; text-decoration: none; }
 
         /* browser preview */
         @media screen {
-            body { background: #e5e5e5; padding: 40px 0; }
-            .page { width: 8.5in; min-height: 11in; margin: 0 auto; padding: 1in; background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); box-sizing: border-box; }
+            body { background: #e5e5e5; }
+            .page { max-width: 8.5in; min-height: 11in; margin: 0 auto; padding: 1in; background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); box-sizing: border-box; }
         }
 
         /* utilities */
-        .text-center { text-align: center; }
-        .text-left { text-align: left; }
-        .text-right { text-align: right; }
-        .font-bold { font-weight: bold; }
-        .float-right { float: right; }
-        .whitespace-nowrap { white-space: nowrap; }
-        .w-full { width: 100%; }
-        .align-top { vertical-align: top; }
-        .border-collapse { border-collapse: collapse; }
-        .indent { text-indent: 1.27cm; }
-        .inline { display: inline; }
+        .page .text-center { text-align: center; }
+        .page .text-left { text-align: left; }
+        .page .text-right { text-align: right; }
+        .page .font-bold { font-weight: bold; }
+        .page .float-right { float: right; }
+        .page .whitespace-nowrap { white-space: nowrap; }
+        .page .w-full { width: 100%; }
+        .page .align-top { vertical-align: top; }
+        .page .border-collapse { border-collapse: collapse; }
+        .page .indent { text-indent: 1.27cm; }
+        .page .inline { display: inline; }
 
         /* spacing */
-        .mb-2 { margin-bottom: 2pt; }
-        .mb-4 { margin-bottom: 4pt; }
-        .mb-6 { margin-bottom: 6pt; }
-        .mb-8 { margin-bottom: 8pt; }
-        .mt-10 { margin-top: 10pt; }
-        .my-2 { margin-top: 2pt; margin-bottom: 2pt; }
-        .py-2 { padding-top: 2pt; padding-bottom: 2pt; }
-        .pr-8 { padding-right: 8pt; }
+        .page .mb-2 { margin-bottom: 2pt; }
+        .page .mb-4 { margin-bottom: 4pt; }
+        .page .mb-6 { margin-bottom: 6pt; }
+        .page .mb-8 { margin-bottom: 8pt; }
+        .page .mt-10 { margin-top: 10pt; }
+        .page .my-2 { margin-top: 2pt; margin-bottom: 2pt; }
+        .page .py-2 { padding-top: 2pt; padding-bottom: 2pt; }
+        .page .pr-8 { padding-right: 8pt; }
 
         /* page-break control */
-        h1, h2, h3 { page-break-after: avoid; }
-        .entry { page-break-inside: avoid; }
+        .page h1, .page h2, .page h3 { page-break-after: avoid; }
+        .page .entry { page-break-inside: avoid; }
     </style>
 </head>
 <body>
