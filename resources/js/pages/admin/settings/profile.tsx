@@ -8,7 +8,11 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { textAreaStyles } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 import SettingsLayout from '@/layouts/settings/layout';
+import { ChangeEvent } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
     const { auth } = usePage<SharedData>().props;
@@ -78,6 +82,56 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                     />
 
                                     <InputError className="mt-2" message={errors.email} />
+                                </div>
+
+                                <div className="border-t pt-4">
+                                    <HeadingSmall title="Resume contact info" description="Shown on generated resumes" />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="phone">Phone</Label>
+
+                                    <Input
+                                        id="phone"
+                                        type="tel"
+                                        className="mt-1 block w-full"
+                                        defaultValue={auth.user.phone ?? ''}
+                                        name="phone"
+                                        autoComplete="tel"
+                                        placeholder="e.g. (617) 555-0123"
+                                    />
+
+                                    <InputError className="mt-2" message={errors.phone} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="location">Location</Label>
+
+                                    <Input
+                                        id="location"
+                                        className="mt-1 block w-full"
+                                        defaultValue={auth.user.location ?? ''}
+                                        name="location"
+                                        placeholder="e.g. Boston, MA"
+                                    />
+
+                                    <InputError className="mt-2" message={errors.location} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="summary">Professional Summary</Label>
+
+                                    <TextareaAutosize
+                                        id="summary"
+                                        defaultValue={auth.user.summary ?? ''}
+                                        name="summary"
+                                        placeholder="a short paragraph describing your professional background"
+                                        className={cn(textAreaStyles, 'w-full resize-none')}
+                                        onChange={(_e: ChangeEvent<HTMLTextAreaElement>) => {}}
+                                        minRows={3}
+                                    />
+
+                                    <InputError className="mt-2" message={errors.summary} />
                                 </div>
 
                                 {mustVerifyEmail && auth.user.email_verified_at === null && (
