@@ -1,5 +1,6 @@
 /.phpunit.cache
 /bootstrap/ssr
+/docs/
 /node_modules
 /public/build
 /public/hot
@@ -25,7 +26,7 @@ yarn-error.log
 /.vscode
 /.zed
 claude.md
-.gitignore
 .claudeignore
 description.txt
 .worktrees/
+settings.local.json

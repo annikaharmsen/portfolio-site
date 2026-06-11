@@ -48,6 +48,9 @@ class ResumeSeeder extends Seeder
 
     private function seedSkillGroups(): void
     {
+        // rename tags that changed between site versions
+        Tag::where('name', 'React 19')->update(['name' => 'React.js']);
+
         SkillGroup::whereNotIn('name', [
             'Languages', 'Frontend', 'Backend', 'AI & ML',
             'Data & Async', 'Validation & Testing', 'Integrations & Tools',
@@ -69,7 +72,7 @@ class ResumeSeeder extends Seeder
                 'name' => 'Frontend',
                 'sort_order' => 2,
                 'tags' => [
-                    ['name' => 'React 19', 'category' => 'frontend', 'icon_name' => 'Atom'],
+                    ['name' => 'React.js', 'category' => 'frontend', 'icon_name' => 'Atom'],
                     ['name' => 'Redux Toolkit', 'category' => 'frontend', 'icon_name' => 'Layers'],
                     ['name' => 'TanStack Query/Router', 'category' => 'frontend', 'icon_name' => 'Route'],
                     ['name' => 'Tailwind CSS', 'category' => 'frontend', 'icon_name' => 'Paintbrush'],
@@ -164,6 +167,10 @@ class ResumeSeeder extends Seeder
                 'category' => 'projects',
                 'label' => null,
                 'description' => 'A multi-tenant platform that turns manufacturers\' production data into quality predictions and process recommendations.',
+                'repo_link' => null,
+                'demo_link' => null,
+                'featured' => true,
+                'date' => '2026-06-01',
                 'bullets' => [
                     'Gives manufacturers one place to pull in production data, track every run through its process stages, and predict quality outcomes before a part is finished — turning raw shop-floor data into decisions.',
                     'Recommends the input settings most likely to hit a target spec, so engineers can dial in a process instead of guessing, and flags in-progress runs that are trending out of spec before they become scrap.',
@@ -172,11 +179,15 @@ class ResumeSeeder extends Seeder
             ],
             [
                 'title' => 'Jobster',
-                'icon_name' => 'Search',
-                'subtitle' => 'Job Search Automation Platform',
+                'icon_name' => 'BriefcaseBusiness',
+                'subtitle' => 'Job Search Automation System',
                 'category' => 'projects',
                 'label' => null,
-                'description' => 'A "set and forget" system that discovers, researches, and drafts applications for matching jobs — delivered through email.',
+                'description' => 'A "set and forget" job search automation platform that discovers, researches, and drafts applications for matching jobs — delivered entirely through email.',
+                'repo_link' => null,
+                'demo_link' => 'https://jobster.annikaharmsen.com',
+                'featured' => true,
+                'date' => '2026-04-08',
                 'bullets' => [
                     'Automatically finds jobs matching a user\'s criteria, researches each role, and drafts tailored applications, all delivered straight to their inbox.',
                     'Replaces the manual grind of job hunting: users set preferences once, then receive ready-to-send applications by email with one-click action links instead of managing a dashboard.',
@@ -184,36 +195,48 @@ class ResumeSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Shifty',
-                'icon_name' => 'Calendar',
-                'subtitle' => 'Automated Hospitality Scheduling Software',
-                'category' => 'personal',
-                'label' => 'In Progress',
-                'description' => 'Automatically builds employee schedules, assigning shifts around availability, role requirements, and weekly hour limits — eliminating the back-and-forth of building schedules by hand.',
+                'title' => 'Shifty Auto Scheduling',
+                'icon_name' => 'Utensils',
+                'subtitle' => 'An intelligent scheduling system for restaurants with constraint-based algorithms, weekly hours optimization, and automated shift assignment',
+                'category' => 'projects',
+                'label' => null,
+                'description' => 'Shifty is an employee scheduling system I am building to solve the problem of creating fair, efficient weekly schedules in hospitality establishments. Using Laravel and PHP, I implemented a constraint-based backtracking algorithm that automatically assigns shifts while respecting employee availability, role requirements, and target weekly hours.',
+                'repo_link' => 'https://github.com/annikaharmsen/shifty',
+                'demo_link' => null,
+                'featured' => true,
+                'date' => '2025-12-07',
                 'bullets' => [
                     'Includes a custom drag-and-drop calendar so managers can review and adjust generated schedules easily.',
                 ],
             ],
             [
-                'title' => 'Portfolio Website & CMS',
-                'icon_name' => 'PanelLeft',
-                'subtitle' => 'Full-Stack Portfolio with Admin CMS',
-                'category' => 'personal',
-                'label' => '2025',
-                'description' => 'Lets me manage projects, tags, and hero content through a clean admin interface instead of touching code on every update.',
+                'title' => 'Portfolio Website CMS',
+                'icon_name' => 'Blocks',
+                'subtitle' => 'An admin interface to manage projects displayed on my portfolio',
+                'category' => 'projects',
+                'label' => null,
+                'description' => 'After putting together my public-facing personal portfolio webpage, I quickly realized the pain it would be to have to manually add and update the projects section with new programs in the future. So, I decided to make my next project a corresponding CMS.',
+                'repo_link' => 'https://github.com/annikaharmsen/portfolio-site',
+                'demo_link' => 'https://admin-demo.annikaharmsen.com',
+                'featured' => false,
+                'date' => '2025-09-27',
                 'bullets' => [
                     'Architected to stay reliable as it grows, keeping the backend and frontend automatically in sync.',
                 ],
             ],
             [
-                'title' => 'E-Commerce Systems',
-                'icon_name' => 'ShoppingCart',
-                'subtitle' => 'Vanilla PHP & Laravel Storefront',
-                'category' => 'personal',
-                'label' => '2025',
-                'description' => 'Built a vanilla PHP version from first principles without a framework, implementing routing, authentication, and cart logic by hand to prove out the fundamentals.',
+                'title' => 'Photography E-Commerce API',
+                'icon_name' => 'Aperture',
+                'subtitle' => 'A REST API for a photography e-commerce platform with shopping cart, payment processing, and image management.',
+                'category' => 'projects',
+                'label' => null,
+                'description' => 'This system is designed to manage customer interactions with photos taken and uploaded by a photography business. Built on vanilla PHP, it was my first "full-scale" program and greatly deepened my understanding of front and back-end in web development.',
+                'repo_link' => 'https://github.com/annikaharmsen/photoview-api',
+                'demo_link' => 'https://photoview.annikaharmsen.com',
+                'featured' => false,
+                'date' => '2025-05-06',
                 'bullets' => [
-                    'Designed secure, normalized data models for users, products, payments, and orders across both projects.',
+                    'Designed secure, normalized data models for users, products, payments, and orders.',
                 ],
             ],
         ];
@@ -228,8 +251,58 @@ class ResumeSeeder extends Seeder
 
     private function seedProjectTags(): void
     {
+        // tags that exist on the live site but not in skill groups — keyed by group name
+        $extraTagsByGroup = [
+            'Backend' => [
+                ['name' => 'Bull Queues', 'category' => 'backend', 'icon_name' => 'ListTodo'],
+                ['name' => 'Prisma', 'category' => 'backend', 'icon_name' => 'Database'],
+                ['name' => 'Vercel AI SDK', 'category' => 'backend', 'icon_name' => 'Brain'],
+            ],
+            'Frontend' => [
+                ['name' => 'JavaScript', 'category' => 'frontend', 'icon_name' => 'FileCode2'],
+                ['name' => 'Lucide', 'category' => 'frontend', 'icon_name' => 'Sparkles'],
+                ['name' => 'Tailwind', 'category' => 'frontend', 'icon_name' => 'Paintbrush'],
+            ],
+            'Integrations & Tools' => [
+                ['name' => 'Claude Code', 'category' => 'tool', 'icon_name' => 'Terminal'],
+                ['name' => 'AI Integration', 'category' => 'skill', 'icon_name' => 'Brain'],
+                ['name' => 'Microservice Architecture', 'category' => 'skill', 'icon_name' => 'Network'],
+                ['name' => 'Queues', 'category' => 'skill', 'icon_name' => 'ListTodo'],
+                ['name' => 'Web Scraping', 'category' => 'skill', 'icon_name' => 'Bug'],
+                ['name' => 'Database Design', 'category' => 'skill', 'icon_name' => 'Database'],
+                ['name' => 'UI/UX Design', 'category' => 'skill', 'icon_name' => 'Palette'],
+                ['name' => 'Test Driven Development', 'category' => 'skill', 'icon_name' => 'FlaskConical'],
+                ['name' => 'RESTful API Development', 'category' => 'skill', 'icon_name' => 'Plug'],
+            ],
+        ];
+
+        foreach ($extraTagsByGroup as $groupName => $tags) {
+            $groupId = SkillGroup::where('name', $groupName)->value('id');
+            foreach ($tags as $tagData) {
+                Tag::firstOrCreate(
+                    ['name' => $tagData['name']],
+                    array_merge($tagData, ['skill_group_id' => $groupId])
+                );
+            }
+        }
+
         $associations = [
-            'E-Commerce Systems' => ['PHP', 'HTML/CSS'],
+            'Jobster' => [
+                'React.js', 'Bull Queues', 'Fastify', 'Node.js', 'PostgreSQL',
+                'Prisma', 'Redis', 'Vercel AI SDK', 'AI Integration',
+                'Microservice Architecture', 'Queues', 'Web Scraping',
+            ],
+            'Shifty Auto Scheduling' => [
+                'Laravel', 'MySQL', 'PHP', 'Inertia.js', 'Test Driven Development',
+            ],
+            'Portfolio Website CMS' => [
+                'JavaScript', 'Lucide', 'React.js', 'shadcn/ui', 'Tailwind',
+                'Laravel', 'MySQL', 'PHP', 'Claude Code', 'Inertia.js',
+                'Database Design', 'UI/UX Design',
+            ],
+            'Photography E-Commerce API' => [
+                'MySQL', 'PHP', 'Database Design', 'RESTful API Development',
+            ],
         ];
 
         foreach ($associations as $projectTitle => $tagNames) {
