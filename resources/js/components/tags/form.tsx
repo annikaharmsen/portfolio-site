@@ -12,6 +12,7 @@ import BadgeSelectInput from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
 import { store } from '../store';
+import CreatableSelect from '../creatable-select';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
@@ -105,20 +106,12 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
 
                 <>
                     <Label htmlFor="category">Category</Label>
-                    <div className="relative">
-                        <Input
-                            id="category"
-                            list="tag-category-options"
-                            value={data.category ?? ''}
-                            onChange={(e) => setData('category', e.target.value || null)}
-                            placeholder="select or type a category"
-                        />
-                        <datalist id="tag-category-options">
-                            {categories.map((cat) => (
-                                <option key={cat} value={cat} />
-                            ))}
-                        </datalist>
-                    </div>
+                    <CreatableSelect
+                        id="category"
+                        value={data.category}
+                        onChange={(val) => setData('category', val)}
+                        options={categories}
+                    />
                     <InputError>{errors.category}</InputError>
                 </>
             </FormGridLayout>
