@@ -6,10 +6,8 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectHeroSectionsController;
 use App\Http\Controllers\SiteTextController;
-use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SkillGroupController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\TechnologyController;
 use App\Models\Project;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
@@ -46,14 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('tags/bulk-delete', [TagController::class, 'bulkDelete'])
         ->name('tags.bulk-delete');
     Route::resource('tags', TagController::class);
-
-    Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])
-        ->name('skills.bulk-delete');
-    Route::resource('skills', SkillController::class);
-
-    Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])
-        ->name('technologies.bulk-delete');
-    Route::resource('technologies', TechnologyController::class);
 
     Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])
         ->name('section.edit')
