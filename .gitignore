@@ -28,3 +28,4 @@ claude.md
 .gitignore
 .claudeignore
 description.txt
+.worktrees/

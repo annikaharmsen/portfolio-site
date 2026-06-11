@@ -60,7 +60,7 @@ class ResumeSeeder extends Seeder
                 'tags' => [
                     ['name' => 'JavaScript/TypeScript', 'category' => 'skill', 'icon_name' => 'FileCode2'],
                     ['name' => 'Python', 'category' => 'skill', 'icon_name' => 'Code'],
-                    ['name' => 'PHP', 'category' => 'skill', 'icon_name' => 'Code2'],
+                    ['name' => 'PHP', 'category' => 'skill', 'icon_name' => 'CodeXml'],
                     ['name' => 'Java', 'category' => 'skill', 'icon_name' => 'Coffee'],
                     ['name' => 'HTML/CSS', 'category' => 'skill', 'icon_name' => 'Globe'],
                 ],
@@ -95,7 +95,6 @@ class ResumeSeeder extends Seeder
                 'tags' => [
                     ['name' => 'Vercel AI SDK (Anthropic)', 'category' => 'tool', 'icon_name' => 'Brain'],
                     ['name' => 'ML prediction pipelines', 'category' => 'tool', 'icon_name' => 'TrendingUp'],
-                    ['name' => 'SHAP explainability', 'category' => 'tool', 'icon_name' => 'BarChart3'],
                 ],
             ],
             [
@@ -198,7 +197,7 @@ class ResumeSeeder extends Seeder
             [
                 'title' => 'Portfolio Website & CMS',
                 'icon_name' => 'PanelLeft',
-                'subtitle' => null,
+                'subtitle' => 'Full-Stack Portfolio with Admin CMS',
                 'category' => 'personal',
                 'label' => '2025',
                 'description' => 'Lets me manage projects, tags, and hero content through a clean admin interface instead of touching code on every update.',
@@ -209,7 +208,7 @@ class ResumeSeeder extends Seeder
             [
                 'title' => 'E-Commerce Systems',
                 'icon_name' => 'ShoppingCart',
-                'subtitle' => null,
+                'subtitle' => 'Vanilla PHP & Laravel Storefront',
                 'category' => 'personal',
                 'label' => '2025',
                 'description' => 'Built a vanilla PHP version from first principles without a framework, implementing routing, authentication, and cart logic by hand to prove out the fundamentals.',
