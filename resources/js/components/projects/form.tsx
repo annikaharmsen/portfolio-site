@@ -23,9 +23,10 @@ import { textAreaStyles } from '@/components/ui/textarea';
 interface ProjectFormProps {
     project?: Project;
     tags: Tags;
+    categories: string[];
 }
 
-export default function ProjectForm({ project, tags }: ProjectFormProps) {
+export default function ProjectForm({ project, tags, categories }: ProjectFormProps) {
     const { errors } = usePage().props;
     const controller = useController(ProjectConfig.BASE_URI);
 
@@ -197,16 +198,20 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
 
                     <>
                         <Label htmlFor="category">Resume Category</Label>
-                        <select
-                            id="category"
-                            value={data.category ?? ''}
-                            onChange={(e) => setData('category', e.target.value as 'projects' | 'personal' | null || null)}
-                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
-                        >
-                            <option value="">— not on resume —</option>
-                            <option value="projects">Projects</option>
-                            <option value="personal">Personal Projects</option>
-                        </select>
+                        <div className="relative">
+                            <Input
+                                id="category"
+                                list="category-options"
+                                value={data.category ?? ''}
+                                onChange={(e) => setData('category', e.target.value || null)}
+                                placeholder="not on resume"
+                            />
+                            <datalist id="category-options">
+                                {categories.map((cat) => (
+                                    <option key={cat} value={cat} />
+                                ))}
+                            </datalist>
+                        </div>
                         {errors.category && <InputError message={errors.category} />}
                     </>
 
