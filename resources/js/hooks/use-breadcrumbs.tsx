@@ -74,6 +74,11 @@ export const breadcrumbTree = {
         href: '/experiences',
         parent: breadcrumbTree.dashboard(),
     }),
+    education_index: () => ({
+        title: 'Edit Education Section',
+        href: '/educations',
+        parent: breadcrumbTree.dashboard(),
+    }),
 };
 
 const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
@@ -94,6 +99,7 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/technologies/edit': 'edit_tag',
     'admin/images': 'select_image',
     'admin/sections/edit': 'edit_section',
+    'admin/education/index': 'education_index',
 };
 
 type BreadcrumbProps<C extends keyof typeof breadcrumbMap> = Parameters<(typeof breadcrumbTree)[(typeof breadcrumbMap)[C]]>[0];
