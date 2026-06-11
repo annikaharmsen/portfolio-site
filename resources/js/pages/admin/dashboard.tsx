@@ -3,16 +3,16 @@ import { ProjectTableColumns } from '@/components/projects/table-columns';
 import TagList from '@/components/tags/tag-list';
 import { Card, CardContent } from '@/components/ui/card';
 import { ProjectConfig } from '@/config/config';
-import { Project, Projects, Tags } from '@/types/models';
+import { Project, Projects, SkillGroups, Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
 interface DashboardProps {
     projects: Projects;
     tags: Tags;
-    tagCategories: string[];
+    skillGroups: SkillGroups;
 }
 
-export default function Dashboard({ projects, tags, tagCategories }: DashboardProps) {
+export default function Dashboard({ projects, tags, skillGroups }: DashboardProps) {
     return (
         <>
             <Head title="Dashboard" />
@@ -24,7 +24,7 @@ export default function Dashboard({ projects, tags, tagCategories }: DashboardPr
                 </Card>
                 <Card className="max-w-full overflow-x-auto">
                     <CardContent>
-                        <TagList tags={tags} categories={tagCategories} accordion />
+                        <TagList tags={tags} skillGroups={skillGroups} accordion />
                     </CardContent>
                 </Card>
             </div>
