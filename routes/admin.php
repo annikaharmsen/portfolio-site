@@ -21,12 +21,15 @@ Route::middleware('auth')->group(function () {
             'projects' => Project::ordered()->get(),
             'tags' => Tag::with('skillGroup')->get(),
             'skillGroups' => SkillGroup::ordered()->get(),
+            'projectCategories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     })->name('home');
 
     // Project routes
     Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])
         ->name('projects.bulk-delete');
+    Route::patch('projects/bulk-update-category', [ProjectController::class, 'bulkUpdateCategory'])
+        ->name('projects.bulk-update-category');
     Route::resource('projects', ProjectController::class);
 
     // Project hero section routes
@@ -45,6 +48,8 @@ Route::middleware('auth')->group(function () {
     // Tag routes
     Route::delete('tags/bulk-delete', [TagController::class, 'bulkDelete'])
         ->name('tags.bulk-delete');
+    Route::patch('tags/bulk-update-category', [TagController::class, 'bulkUpdateCategory'])
+        ->name('tags.bulk-update-category');
     Route::resource('tags', TagController::class);
 
     Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])

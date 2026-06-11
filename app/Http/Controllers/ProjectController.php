@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BulkDeleteProjectsRequest;
+use App\Http\Requests\BulkUpdateProjectCategoryRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
@@ -13,10 +14,9 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::ordered()->get();
-
         return Inertia::render('admin/projects/index', [
-            'projects' => $projects,
+            'projects' => Project::ordered()->get(),
+            'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
@@ -78,6 +78,14 @@ class ProjectController extends Controller
     public function bulkDelete(BulkDeleteProjectsRequest $request)
     {
         Project::destroy($request->getIds());
+
+        return redirect('/projects');
+    }
+
+    public function bulkUpdateCategory(BulkUpdateProjectCategoryRequest $request)
+    {
+        Project::whereIn('id', $request->getIds())
+            ->update(['category' => $request->validated()['category']]);
 
         return redirect('/projects');
     }

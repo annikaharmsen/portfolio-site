@@ -1,3 +1,4 @@
+import CategoryReassignDropdown from '@/components/category-reassign-dropdown';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -28,6 +29,11 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
 
     const [editingGroup, setEditingGroup] = useState<number | null>(null);
     const [editForm, setEditForm] = useState({ name: '', sort_order: 0 });
+
+    const tagCategories = useMemo(
+        () => [...new Set(tags.map((t) => t.category).filter((c): c is string => !!c))].sort(),
+        [tags],
+    );
 
     const filteredTags = useMemo(
         () => tags.filter((tag) => tag.name.toLowerCase().includes(searchTerm.toLowerCase())),
@@ -80,6 +86,11 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
 
     const handleBulkDelete = () => {
         controller.bulk_delete(modelSelection.selected);
+        modelSelection.clear();
+    };
+
+    const handleBulkUpdateCategory = (category: string) => {
+        controller.bulk_update_category(modelSelection.selected, category);
         modelSelection.clear();
     };
 
@@ -172,6 +183,11 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="h-9 w-full min-w-min"
+                />
+                <CategoryReassignDropdown
+                    categories={tagCategories}
+                    disabled={modelSelection.selected.length === 0}
+                    onSelect={handleBulkUpdateCategory}
                 />
                 <DeleteButton className="h-9" disabled={modelSelection.selected.length === 0} onClick={handleBulkDelete} showIcon>
                     Delete {modelSelection.selected.length}
