@@ -45,6 +45,10 @@
         .my-2 { margin-top: 2pt; margin-bottom: 2pt; }
         .py-2 { padding-top: 2pt; padding-bottom: 2pt; }
         .pr-8 { padding-right: 8pt; }
+
+        /* page-break control */
+        h1, h2, h3 { page-break-after: avoid; }
+        .entry { page-break-inside: avoid; }
     </style>
 </head>
 <body>
@@ -62,7 +66,7 @@
 
     <h2 class="text-center">Education</h2>
     @foreach ($resume['educations'] as $edu)
-        <div>
+        <div class="entry">
             <h3>{{ $edu->institution }} — {{ $edu->title }} – {{ $edu->gpa }} GPA — {{ $edu->graduation_date->format('F Y') }}</h3>
             @if ($edu->bullets)
                 <ul>
@@ -76,7 +80,7 @@
 
     <h2 class="text-center">Projects</h2>
     @foreach ($resume['projects'] as $project)
-        <div>
+        <div class="entry">
             <h3>{{ $project->title }}@if ($project->subtitle) — {{ $project->subtitle }}@endif</h3>
             @if ($project->description)
                 <p>{{ $project->description }}</p>
@@ -93,7 +97,7 @@
 
     <h2 class="text-center">Personal Projects</h2>
     @foreach ($resume['personal_projects'] as $project)
-        <div>
+        <div class="entry">
             <h3>{{ $project->title }}@if ($project->subtitle) — {{ $project->subtitle }}@endif @if ($project->label)({{ $project->label }})@endif</h3>
             @if ($project->description)
                 <p>{{ $project->description }}</p>
@@ -110,7 +114,7 @@
 
     <h2 class="text-center">Professional Experience</h2>
     @foreach ($resume['experiences'] as $exp)
-        <div>
+        <div class="entry">
             <h3>{{ $exp->title }} — {{ $exp->company }} | {{ $exp->location }} — {{ $exp->formatted_date_ranges }}</h3>
             @if ($exp->bullets)
                 <ul>
