@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TechConfig } from '@/config/config';
 import { cn, openLink } from '@/lib/utils';
 import { Project } from '@/types/models';
 import { Link, router } from '@inertiajs/react';
@@ -15,7 +14,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     const hasProjectPage = !!project.hero_sections?.length;
     const isClickable = hasProjectPage || mainLink;
 
-    const tech = project.tags?.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category)) || [];
+    const tech = project.tags?.filter((tag) => tag.category && ['frontend', 'backend', 'tool'].includes(tag.category)) || [];
     const skills = project.tags?.filter((tag) => tag.category === 'skill') || [];
 
     const DateEl = () => (
