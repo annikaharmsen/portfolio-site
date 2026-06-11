@@ -17,6 +17,13 @@ export const ProjectTableColumns = [
         dataComponent: (project: Project) => <td className="p-2">{project.title}</td>,
     },
     {
+        name: 'Category',
+        headingComponent: <th className="p-2 text-right whitespace-nowrap">Category</th>,
+        dataComponent: (project: Project) => (
+            <td className="p-2 text-right text-muted-foreground">{project.category}</td>
+        ),
+    },
+    {
         name: 'Featured',
         dataComponent: (project: Project) => (
             <td className="p-2">
