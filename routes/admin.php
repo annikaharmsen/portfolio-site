@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
             'projects' => Project::ordered()->get(),
             'tags' => Tag::with('skillGroup')->get(),
             'skillGroups' => SkillGroup::ordered()->get(),
+            'projectCategories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     })->name('home');
 

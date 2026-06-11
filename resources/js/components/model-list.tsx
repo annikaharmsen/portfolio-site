@@ -1,3 +1,4 @@
+import CategoryReassignDropdown from '@/components/category-reassign-dropdown';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { ModelConfigInterface } from '@/config/config';
@@ -14,6 +15,7 @@ interface ModelListProps<T extends { id: number }> {
     searchBy: keyof T;
     className?: string;
     rowClickBehavior?: 'select' | 'show' | 'edit';
+    categories?: string[];
 }
 
 export default function ModelList<T extends { id: number }>({
@@ -23,6 +25,7 @@ export default function ModelList<T extends { id: number }>({
     searchBy,
     className,
     rowClickBehavior = 'show',
+    categories,
 }: ModelListProps<T>) {
     // SEARCHING
     // state var
@@ -48,6 +51,10 @@ export default function ModelList<T extends { id: number }>({
             modelController.bulk_delete(modelSelection.selected);
             modelSelection.clear();
         },
+        bulk_update_category: (category: string) => {
+            modelController.bulk_update_category(modelSelection.selected, category);
+            modelSelection.clear();
+        },
     };
 
     return (
@@ -60,6 +67,13 @@ export default function ModelList<T extends { id: number }>({
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="h-9 w-full min-w-min"
                 />
+                {categories !== undefined && (
+                    <CategoryReassignDropdown
+                        categories={categories}
+                        disabled={modelSelection.selected.length === 0}
+                        onSelect={handle.bulk_update_category}
+                    />
+                )}
                 <DeleteButton className="h-9" disabled={modelSelection.selected.length == 0} onClick={handle.bulk_delete} showIcon>
                     Delete {modelSelection.selected.length}
                 </DeleteButton>

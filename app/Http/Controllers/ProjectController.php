@@ -14,10 +14,9 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::ordered()->get();
-
         return Inertia::render('admin/projects/index', [
-            'projects' => $projects,
+            'projects' => Project::ordered()->get(),
+            'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
