@@ -36,7 +36,6 @@ export type AboutTexts = {
 
 export type ContactTexts = {
     main?: string;
-    email?: string;
     location?: string;
     callout?: string;
 };

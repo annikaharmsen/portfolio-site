@@ -2,6 +2,7 @@ import { H1 } from '@/components/headings';
 import ModelList from '@/components/model-list';
 import { TagTableColumns } from '@/components/tags/table-columns';
 import { TagConfig, TagConfigInterface } from '@/config/config';
+import { pluralize } from '@/lib/utils';
 import { Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
@@ -11,7 +12,7 @@ interface TagIndexProps {
 }
 
 export default function TagIndex({ tags, tagConfig = TagConfig }: TagIndexProps) {
-    const title = tagConfig.TYPE.toPlural();
+    const title = pluralize(tagConfig.TYPE);
 
     return (
         <>

@@ -19,8 +19,8 @@ class SetDemoDatabase
         Config::set('database.default', 'demo');
         DB::purge('demo');
 
-        Log::info('Current DB connection: ' . config('database.default'));
-        Log::info('Demo DB connection config: ' . json_encode(config('database.connections.demo')));
+        Log::info('Current DB connection: '.config('database.default'));
+        Log::info('Demo DB connection config: '.json_encode(config('database.connections.demo')));
 
         return $next($request);
     }

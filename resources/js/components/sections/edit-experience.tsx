@@ -6,9 +6,11 @@ import { textAreaStyles } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { Experience } from '@/types/models';
 import { router } from '@inertiajs/react';
-import { Plus, Save, Trash2 } from 'lucide-react';
+import { Plus, Save, Trash2, X } from 'lucide-react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+
+type DateRange = { start: string; end: string | null };
 
 function ExperienceCard({ experience, onDelete }: { experience?: Experience; onDelete?: () => void }) {
     const isNew = !experience?.id;
@@ -17,22 +19,42 @@ function ExperienceCard({ experience, onDelete }: { experience?: Experience; onD
         title: experience?.title ?? '',
         company: experience?.company ?? '',
         location: experience?.location ?? '',
-        start_date: experience?.start_date?.slice(0, 10) ?? '',
-        end_date: experience?.end_date?.slice(0, 10) ?? '',
-        details: experience?.details ?? '',
+        date_ranges: (experience?.date_ranges ?? [{ start: '', end: null }]) as DateRange[],
+        bullets: experience?.bullets?.join('\n') ?? '',
         sort_order: experience?.sort_order ?? 0,
     });
 
-    const updateField = (field: keyof typeof form, value: string | number) => {
+    const updateField = (field: keyof typeof form, value: string | number | DateRange[]) => {
         setForm((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const updateDateRange = (index: number, field: 'start' | 'end', value: string) => {
+        const ranges = [...form.date_ranges];
+        ranges[index] = { ...ranges[index], [field]: value ? value + '-01' : null };
+        updateField('date_ranges', ranges);
+    };
+
+    const addDateRange = () => {
+        updateField('date_ranges', [...form.date_ranges, { start: '', end: null }]);
+    };
+
+    const removeDateRange = (index: number) => {
+        const ranges = form.date_ranges.filter((_, i) => i !== index);
+        updateField('date_ranges', ranges.length ? ranges : [{ start: '', end: null }]);
     };
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+        const payload = {
+            ...form,
+            bullets: form.bullets
+                ? form.bullets.split('\n').filter((line: string) => line.trim())
+                : null,
+        };
         if (isNew) {
-            router.post('/experiences', form);
+            router.post('/experiences', payload);
         } else {
-            router.put(`/experiences/${experience.id}`, form);
+            router.put(`/experiences/${experience.id}`, payload);
         }
     };
 
@@ -85,35 +107,48 @@ function ExperienceCard({ experience, onDelete }: { experience?: Experience; onD
                             placeholder="e.g. San Francisco, CA"
                         />
                     </div>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="space-y-2">
-                            <Label htmlFor={`start-${experience?.id ?? 'new'}`}>Start Date</Label>
-                            <Input
-                                id={`start-${experience?.id ?? 'new'}`}
-                                type="month"
-                                value={form.start_date?.slice(0, 7)}
-                                onChange={(e) => updateField('start_date', e.target.value + '-01')}
-                                required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor={`end-${experience?.id ?? 'new'}`}>End Date</Label>
-                            <Input
-                                id={`end-${experience?.id ?? 'new'}`}
-                                type="month"
-                                value={form.end_date?.slice(0, 7) ?? ''}
-                                onChange={(e) => updateField('end_date', e.target.value ? e.target.value + '-01' : '')}
-                            />
-                            <p className="text-xs text-muted-foreground">leave empty for current position</p>
-                        </div>
+
+                    <div className="space-y-3">
+                        <Label>Date Ranges</Label>
+                        {form.date_ranges.map((range, index) => (
+                            <div key={index} className="flex items-end gap-2">
+                                <div className="flex-1 space-y-1">
+                                    <Label className="text-xs text-muted-foreground">Start</Label>
+                                    <Input
+                                        type="month"
+                                        value={range.start?.slice(0, 7) ?? ''}
+                                        onChange={(e) => updateDateRange(index, 'start', e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="flex-1 space-y-1">
+                                    <Label className="text-xs text-muted-foreground">End</Label>
+                                    <Input
+                                        type="month"
+                                        value={range.end?.slice(0, 7) ?? ''}
+                                        onChange={(e) => updateDateRange(index, 'end', e.target.value)}
+                                    />
+                                    <p className="text-xs text-muted-foreground">empty = present</p>
+                                </div>
+                                {form.date_ranges.length > 1 && (
+                                    <Button type="button" variant="ghost" size="icon" onClick={() => removeDateRange(index)}>
+                                        <X className="size-4" />
+                                    </Button>
+                                )}
+                            </div>
+                        ))}
+                        <Button type="button" variant="outline" size="sm" onClick={addDateRange}>
+                            <Plus className="mr-1 size-3" /> Add date range
+                        </Button>
                     </div>
+
                     <div className="space-y-2">
-                        <Label htmlFor={`details-${experience?.id ?? 'new'}`}>Details (Markdown)</Label>
+                        <Label htmlFor={`bullets-${experience?.id ?? 'new'}`}>Bullets — one per line</Label>
                         <TextareaAutosize
-                            id={`details-${experience?.id ?? 'new'}`}
-                            value={form.details}
-                            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => updateField('details', e.target.value)}
-                            placeholder="describe your responsibilities, achievements, etc."
+                            id={`bullets-${experience?.id ?? 'new'}`}
+                            value={form.bullets}
+                            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => updateField('bullets', e.target.value)}
+                            placeholder="each line becomes a bullet point"
                             className={cn(textAreaStyles, 'w-full resize-none')}
                             minRows={3}
                         />

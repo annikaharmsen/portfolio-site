@@ -16,6 +16,9 @@ import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import { store } from '../store';
+import TextareaAutosize from 'react-textarea-autosize';
+import { cn } from '@/lib/utils';
+import { textAreaStyles } from '@/components/ui/textarea';
 
 interface ProjectFormProps {
     project?: Project;
@@ -32,6 +35,8 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
     const skills = tags.filter((tag) => tag.category && SkillConfig.CATEGORIES.includes(tag.category));
     const technologies = tags.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category));
 
+    const [bulletsText, setBulletsText] = useState<string>(project?.bullets?.join('\n') ?? '');
+
     const { data, setData, isDirty } = useForm({
         icon_name: (project?.icon_name as IconName | null) || null,
         title: project?.title || '',
@@ -43,6 +48,9 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
         hidden: project?.hidden || false,
         tags: project?.tags?.map((tag) => tag.id) || [],
         description: project?.description || '',
+        bullets: project?.bullets ?? null,
+        category: project?.category ?? null,
+        label: project?.label ?? '',
     });
     useUnsavedWarning(isDirty && !processing && !deleting);
 
@@ -59,10 +67,16 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setProcessing(true);
+        const payload = {
+            ...data,
+            bullets: bulletsText
+                ? bulletsText.split('\n').filter((line) => line.trim())
+                : null,
+        };
         if (project) {
-            controller.update(project, data, { onFinish: () => setProcessing(false) });
+            controller.update(project, payload, { onFinish: () => setProcessing(false) });
         } else {
-            controller.store(data, { onFinish: () => setProcessing(false) });
+            controller.store(payload, { onFinish: () => setProcessing(false) });
         }
     };
 
@@ -168,6 +182,44 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
                         />
                         {errors.description && <InputError message={errors.description} />}
                     </div>
+
+                    <div className="md:col-span-full">
+                        <Label htmlFor="bullets">Bullets — one per line</Label>
+                        <TextareaAutosize
+                            id="bullets"
+                            value={bulletsText}
+                            onChange={(e) => setBulletsText(e.target.value)}
+                            placeholder="each line becomes a resume bullet point"
+                            className={cn(textAreaStyles, 'w-full resize-none')}
+                            minRows={3}
+                        />
+                    </div>
+
+                    <>
+                        <Label htmlFor="category">Resume Category</Label>
+                        <select
+                            id="category"
+                            value={data.category ?? ''}
+                            onChange={(e) => setData('category', e.target.value as 'projects' | 'personal' | null || null)}
+                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
+                        >
+                            <option value="">— not on resume —</option>
+                            <option value="projects">Projects</option>
+                            <option value="personal">Personal Projects</option>
+                        </select>
+                        {errors.category && <InputError message={errors.category} />}
+                    </>
+
+                    <>
+                        <Label htmlFor="label">Label</Label>
+                        <Input
+                            id="label"
+                            value={data.label ?? ''}
+                            onChange={(e) => setData('label', e.target.value)}
+                            placeholder="e.g. 2025 or In Progress"
+                        />
+                        {errors.label && <InputError message={errors.label} />}
+                    </>
 
                     <>
                         <Label htmlFor="skills" className="w-full">

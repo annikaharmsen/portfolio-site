@@ -1,29 +1,32 @@
 <?php
 
+use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\SiteText;
-use App\Models\Tag;
-use Illuminate\Support\Facades\Log;
+use App\Models\SkillGroup;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('portfolio', [
         'texts' => SiteText::getAll(),
-        'tags' => Tag::whereNotNull('category')->orderBy('created_at', 'desc')->get(),
+        'skillGroups' => SkillGroup::with('tags')->ordered()->get(),
+        'user' => User::first(),
         'projects' => Project::with(['tags', 'hero_sections'])
-                        ->where('hidden', false)
-                        ->orderBy('featured', 'desc')
-                        ->orderBy('date', 'desc')
-                        ->get(),
+            ->where('hidden', false)
+            ->orderBy('featured', 'desc')
+            ->orderBy('date', 'desc')
+            ->get(),
         'experiences' => Experience::ordered()->get(),
+        'educations' => Education::ordered()->get(),
     ]);
 })->name('portfolio');
 
 Route::get('/projects/{project}', function (Project $project) {
     return Inertia::render('project-page', [
-        'project' => $project->load(['hero_sections', 'hero_sections.image'])
+        'project' => $project->load(['hero_sections', 'hero_sections.image']),
     ]);
 });
 
@@ -31,25 +34,17 @@ Route::get('/projects/{project}', function (Project $project) {
 Route::get('/flush-opcache', function () {
     if (function_exists('opcache_reset')) {
         opcache_reset();
+
         return 'OPcache flushed';
     }
+
     return 'OPcache not available';
 });
 
-Route::get('/resume', function () {
-    $filename = config('portfolio.resume.filename');
+Route::get('/resume', [\App\Http\Controllers\ResumeController::class, 'download'])
+    ->name('resume.download');
 
-    if (!$filename) {
-        Log::error('Resume file name not defined');
-        abort(404, 'File name not found');
-    }
-
-    $filePath = storage_path('app/public/' . $filename);
-
-    if (!file_exists($filePath)) {
-        Log::error('Resume file not found at: ' . $filePath);
-        abort(404, 'File not found');
-    }
-
-    return response()->download($filePath, $filename);
-})->name('resume.download');
+if (app()->environment('local')) {
+    Route::get('/resume/preview', [\App\Http\Controllers\ResumeController::class, 'preview'])
+        ->name('resume.preview');
+}

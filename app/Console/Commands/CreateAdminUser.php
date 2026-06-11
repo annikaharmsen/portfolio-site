@@ -15,7 +15,7 @@ class CreateAdminUser extends Command
      *
      * @var string
      */
-    protected $signature = 'admin:create {--name=} {--email=} {--password=}';
+    protected $signature = 'admin:create {--first_name=} {--last_name=} {--email=} {--password=}';
 
     /**
      * The console command description.
@@ -31,23 +31,25 @@ class CreateAdminUser extends Command
     {
         $this->info('Creating a new admin user...');
 
-        // Get user input
-        $name = $this->option('name') ?? $this->ask('Name');
+        $firstName = $this->option('first_name') ?? $this->ask('First name');
+        $lastName = $this->option('last_name') ?? $this->ask('Last name');
         $email = $this->option('email') ?? $this->ask('Email');
         $password = $this->option('password') ?? $this->secret('Password');
         $passwordConfirmed = false;
 
         // Get password confirmation
-        while (!$passwordConfirmed)
+        while (! $passwordConfirmed) {
             $passwordConfirmed = $this->secret('Confirm Password') === $password;
+        }
 
-        // Validate input
         $validator = Validator::make([
-            'name' => $name,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'email' => $email,
             'password' => $password,
         ], [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', Password::defaults()],
         ]);
@@ -56,26 +58,28 @@ class CreateAdminUser extends Command
             foreach ($validator->errors()->all() as $error) {
                 $this->error($error);
             }
+
             return Command::FAILURE;
         }
 
-        // Create the user
         try {
             $user = User::create([
-                'name' => $name,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
                 'email' => $email,
                 'password' => Hash::make($password),
-                'email_verified_at' => now(), // Auto-verify admin users
+                'email_verified_at' => now(),
             ]);
 
-            $this->info("Admin user '{$user->name}' created successfully!");
+            $this->info("Admin user '{$user->first_name} {$user->last_name}' created successfully!");
             $this->line("Email: {$user->email}");
-            $this->line("You can now log in with these credentials.");
+            $this->line('You can now log in with these credentials.');
 
             return Command::SUCCESS;
 
         } catch (\Exception $e) {
-            $this->error('Failed to create user: ' . $e->getMessage());
+            $this->error('Failed to create user: '.$e->getMessage());
+
             return Command::FAILURE;
         }
     }

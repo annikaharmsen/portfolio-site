@@ -8,23 +8,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProjectHeroSection extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'project_id',
         'image_id',
         'index',
         'heading',
-        'text'
+        'text',
     ];
 
-    public function scopeOrdered($query) {
+    public function scopeOrdered($query)
+    {
         return $query->orderBy('index');
     }
 
-    public function project() {
+    public function project()
+    {
         return $this->belongsTo(Project::class);
     }
 
-    public function image() {
+    public function image()
+    {
         return $this->belongsTo(Image::class);
     }
 }

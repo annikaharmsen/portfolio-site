@@ -90,10 +90,10 @@ $mainConnection = env('DB_CONNECTION', 'sqlite');
 $baseConnection = $connections[$mainConnection] ?? $connections['sqlite'];
 
 $connections['demo'] = array_merge($baseConnection, [
-    'database' => match($mainConnection) {
+    'database' => match ($mainConnection) {
         'sqlite' => database_path('demo.sqlite'),
-        'mysql' => env('DB_DATABASE', 'laravel') . '_demo',
-        'pgsql' => env('DB_DATABASE', 'laravel') . '_demo',
+        'mysql' => env('DB_DATABASE', 'laravel').'_demo',
+        'pgsql' => env('DB_DATABASE', 'laravel').'_demo',
         default => database_path('demo.sqlite'),
     },
 ]);
