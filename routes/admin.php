@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
@@ -59,6 +60,16 @@ Route::middleware('auth')->group(function () {
 
     Route::put('text', [SiteTextController::class, 'update'])
         ->name('text.update');
+
+    // Education routes
+    Route::get('educations', [EducationController::class, 'index'])
+        ->name('educations.index');
+    Route::post('educations', [EducationController::class, 'store'])
+        ->name('educations.store');
+    Route::put('educations/{education}', [EducationController::class, 'update'])
+        ->name('educations.update');
+    Route::delete('educations/{education}', [EducationController::class, 'destroy'])
+        ->name('educations.destroy');
 
     // Experience routes
     Route::get('experiences', [ExperienceController::class, 'index'])
