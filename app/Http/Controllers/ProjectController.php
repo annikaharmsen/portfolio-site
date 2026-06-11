@@ -24,6 +24,7 @@ class ProjectController extends Controller
     {
         return Inertia::render('admin/projects/create', [
             'tags' => Tag::all(),
+            'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
@@ -50,6 +51,7 @@ class ProjectController extends Controller
         return Inertia::render('admin/projects/edit', [
             'project' => $project->load('tags'),
             'tags' => Tag::all(),
+            'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 

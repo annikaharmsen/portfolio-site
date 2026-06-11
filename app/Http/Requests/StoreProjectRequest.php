@@ -22,7 +22,7 @@ class StoreProjectRequest extends CmsRequest
             'tags' => 'array|distinct|exists:tags,id',
             'bullets' => 'nullable|array',
             'bullets.*' => 'string',
-            'category' => 'nullable|string|in:projects,personal',
+            'category' => 'nullable|string|max:255',
             'label' => 'nullable|string|max:255',
         ];
     }
