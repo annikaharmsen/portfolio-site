@@ -23,6 +23,7 @@ class TagController extends Controller
     {
         return Inertia::render('admin/tags/create', [
             'projects' => Project::all(),
+            'categories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
@@ -38,6 +39,7 @@ class TagController extends Controller
         return Inertia::render('admin/tags/edit', [
             'tag' => $tag->load('projects'),
             'projects' => Project::all(),
+            'categories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
