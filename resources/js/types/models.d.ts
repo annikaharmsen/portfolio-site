@@ -1,5 +1,4 @@
 import { IconName } from '@/components/icon-selector-dropdown';
-import { TagCategory } from '@/config/config';
 
 export type Project = {
     //columns
@@ -47,7 +46,7 @@ export type Tag = {
     id: number;
     icon_name: IconName;
     name: string;
-    category?: TagCategory;
+    category?: string | null;
     skill_group_id?: number | null;
     // relations
     projects?: Projects;
