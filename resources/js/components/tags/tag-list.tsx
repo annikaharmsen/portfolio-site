@@ -7,13 +7,12 @@ import useController from '@/hooks/use-controller';
 import useSelection from '@/hooks/use-selection';
 import { cn } from '@/lib/utils';
 import { SkillGroup, SkillGroups, Tag, Tags } from '@/types/models';
-import { ChevronDown } from 'lucide-react';
+import { Check, ChevronDown, Pencil, Trash2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { DeleteButton } from '../app-buttons';
 import IconComponent from '../icon-component';
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
-import { Check, Pencil, Trash2, X } from 'lucide-react';
 
 interface TagListProps {
     tags: Tags;
