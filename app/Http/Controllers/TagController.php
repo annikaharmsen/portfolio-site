@@ -16,6 +16,7 @@ class TagController extends Controller
     {
         return Inertia::render('admin/tags/index', [
             'tags' => Tag::all(),
+            'categories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 

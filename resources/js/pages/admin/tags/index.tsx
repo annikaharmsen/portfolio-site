@@ -1,24 +1,19 @@
 import { H1 } from '@/components/headings';
-import ModelList from '@/components/model-list';
-import { TagTableColumns } from '@/components/tags/table-columns';
-import { TagConfig, TagConfigInterface } from '@/config/config';
-import { pluralize } from '@/lib/utils';
+import TagList from '@/components/tags/tag-list';
 import { Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
 interface TagIndexProps {
     tags: Tags;
-    tagConfig: TagConfigInterface;
+    categories: string[];
 }
 
-export default function TagIndex({ tags, tagConfig = TagConfig }: TagIndexProps) {
-    const title = pluralize(tagConfig.TYPE);
-
+export default function TagIndex({ tags, categories }: TagIndexProps) {
     return (
         <>
-            <Head title={title} />
-            <H1 className="mb-6">{title}</H1>
-            <ModelList models={tags} modelConfig={tagConfig} searchBy="name" columns={TagTableColumns(tagConfig)} rowClickBehavior="edit" />
+            <Head title="Tags" />
+            <H1 className="mb-6">Tags</H1>
+            <TagList tags={tags} categories={categories} />
         </>
     );
 }
