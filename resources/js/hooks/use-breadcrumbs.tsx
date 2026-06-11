@@ -76,11 +76,6 @@ export const breadcrumbTree = {
         href: '/educations',
         parent: breadcrumbTree.dashboard(),
     }),
-    skill_group_index: () => ({
-        title: 'Skill Groups',
-        href: '/skill-groups',
-        parent: breadcrumbTree.dashboard(),
-    }),
 };
 
 const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
@@ -97,7 +92,6 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/sections/edit': 'edit_section',
     'admin/experience/index': 'experience_index',
     'admin/education/index': 'education_index',
-    'admin/skill-groups/index': 'skill_group_index',
 };
 
 type BreadcrumbProps<C extends keyof typeof breadcrumbMap> = Parameters<(typeof breadcrumbTree)[(typeof breadcrumbMap)[C]]>[0];

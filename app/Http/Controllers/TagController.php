@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\HandlesTagCrud;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\Project;
+use App\Models\SkillGroup;
 use App\Models\Tag;
 use Inertia\Inertia;
 
@@ -15,8 +16,8 @@ class TagController extends Controller
     public function index()
     {
         return Inertia::render('admin/tags/index', [
-            'tags' => Tag::all(),
-            'categories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'tags' => Tag::with('skillGroup')->get(),
+            'skillGroups' => SkillGroup::ordered()->get(),
         ]);
     }
 

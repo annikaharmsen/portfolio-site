@@ -9,6 +9,7 @@ use App\Http\Controllers\SiteTextController;
 use App\Http\Controllers\SkillGroupController;
 use App\Http\Controllers\TagController;
 use App\Models\Project;
+use App\Models\SkillGroup;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,8 +19,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return Inertia::render('admin/dashboard', [
             'projects' => Project::ordered()->get(),
-            'tags' => Tag::get(),
-            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'tags' => Tag::with('skillGroup')->get(),
+            'skillGroups' => SkillGroup::ordered()->get(),
         ]);
     })->name('home');
 
@@ -54,8 +55,6 @@ Route::middleware('auth')->group(function () {
         ->name('text.update');
 
     // Skill group routes
-    Route::get('skill-groups', [SkillGroupController::class, 'index'])
-        ->name('skill-groups.index');
     Route::post('skill-groups', [SkillGroupController::class, 'store'])
         ->name('skill-groups.store');
     Route::put('skill-groups/{skill_group}', [SkillGroupController::class, 'update'])
