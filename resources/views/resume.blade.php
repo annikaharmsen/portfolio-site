@@ -99,6 +99,17 @@
                     @endforeach
                     </ul>
                 @endif
+                @if ($project->repo_link || $project->demo_link)
+                    <p>
+                        @if ($project->repo_link)
+                            <a href="{{ $project->repo_link }}">GitHub</a>
+                        @endif
+                        @if ($project->repo_link && $project->demo_link) | @endif
+                        @if ($project->demo_link)
+                            <a href="{{ $project->demo_link }}">Live Demo</a>
+                        @endif
+                    </p>
+                @endif
             </div>
         @endforeach
     @endforeach
