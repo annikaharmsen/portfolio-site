@@ -1,3 +1,4 @@
+import CreatableSelect from '@/components/creatable-select';
 import InputError from '@/components/input-error';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -194,20 +195,13 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
 
                     <>
                         <Label htmlFor="category">Resume Category</Label>
-                        <div className="relative">
-                            <Input
-                                id="category"
-                                list="category-options"
-                                value={data.category ?? ''}
-                                onChange={(e) => setData('category', e.target.value || null)}
-                                placeholder="not on resume"
-                            />
-                            <datalist id="category-options">
-                                {categories.map((cat) => (
-                                    <option key={cat} value={cat} />
-                                ))}
-                            </datalist>
-                        </div>
+                        <CreatableSelect
+                            id="category"
+                            value={data.category}
+                            onChange={(val) => setData('category', val)}
+                            options={categories}
+                            placeholder="not on resume"
+                        />
                         {errors.category && <InputError message={errors.category} />}
                     </>
 
