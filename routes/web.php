@@ -43,3 +43,8 @@ Route::get('/flush-opcache', function () {
 
 Route::get('/resume', [\App\Http\Controllers\ResumeController::class, 'download'])
     ->name('resume.download');
+
+if (app()->environment('local')) {
+    Route::get('/resume/preview', [\App\Http\Controllers\ResumeController::class, 'preview'])
+        ->name('resume.preview');
+}

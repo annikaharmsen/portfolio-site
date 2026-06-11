@@ -8,189 +8,129 @@
             margin: 72px 72px 72px 72px;
         }
 
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 11pt;
-            line-height: 1.3;
-            color: #000;
-            margin: 0;
-            padding: 0;
+        /* preflight */
+        * { font-family: 'Times New Roman', Times, serif; font-size: 11pt; margin: 0; padding: 0; }
+        h1, h2 { font-weight: bold; text-align: center; margin-top: 4pt; }
+        h3 { font-weight: bold; margin-top: 4pt; }
+        ul { padding-left: 20pt; }
+
+        /* base */
+        body { line-height: 1.3; color: #000; }
+        a { color: #1155cc; text-decoration: none; }
+
+        /* browser preview */
+        @media screen {
+            body { background: #e5e5e5; padding: 40px 0; }
+            .page { width: 8.5in; min-height: 11in; margin: 0 auto; padding: 1in; background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); box-sizing: border-box; }
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 8pt;
-        }
+        /* utilities */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .font-bold { font-weight: bold; }
+        .float-right { float: right; }
+        .whitespace-nowrap { white-space: nowrap; }
+        .w-full { width: 100%; }
+        .align-top { vertical-align: top; }
+        .border-collapse { border-collapse: collapse; }
+        .indent { text-indent: 1.27cm; }
 
-        .header .name {
-            font-size: 14pt;
-            font-weight: bold;
-            margin-bottom: 2pt;
-        }
-
-        .header .contact {
-            font-size: 10pt;
-        }
-
-        .header .contact a {
-            color: #1155cc;
-            text-decoration: none;
-        }
-
-        .section-heading {
-            text-align: center;
-            font-weight: bold;
-            font-size: 11pt;
-            margin-top: 10pt;
-            margin-bottom: 4pt;
-        }
-
-        .summary {
-            text-align: left;
-            margin-bottom: 4pt;
-        }
-
-        .education-entry {
-            margin-bottom: 4pt;
-        }
-
-        .education-entry .institution {
-            font-weight: bold;
-        }
-
-        .education-entry .date {
-            float: right;
-        }
-
-        .skills-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 4pt;
-        }
-
-        .skills-table td {
-            padding: 2pt 0;
-            vertical-align: top;
-        }
-
-        .skills-table .label {
-            font-weight: bold;
-            white-space: nowrap;
-            padding-right: 8pt;
-        }
-
-        .project-entry {
-            margin-bottom: 6pt;
-        }
-
-        .project-entry .project-title {
-            font-weight: bold;
-        }
-
-        .project-entry p {
-            margin: 2pt 0;
-        }
-
-        .experience-entry {
-            margin-bottom: 6pt;
-        }
-
-        .experience-entry .job-title {
-            font-weight: bold;
-        }
-
-        .experience-entry p {
-            margin: 2pt 0;
-        }
+        /* spacing */
+        .mb-2 { margin-bottom: 2pt; }
+        .mb-4 { margin-bottom: 4pt; }
+        .mb-6 { margin-bottom: 6pt; }
+        .mb-8 { margin-bottom: 8pt; }
+        .mt-10 { margin-top: 10pt; }
+        .my-2 { margin-top: 2pt; margin-bottom: 2pt; }
+        .py-2 { padding-top: 2pt; padding-bottom: 2pt; }
+        .pr-8 { padding-right: 8pt; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="name">{{ $resume['name'] }}</div>
-        <div class="contact">
-            {{ $resume['location'] }} | {{ $resume['phone'] }} | {{ $resume['email'] }} |
+<div class="page">
+    <div class="text-center">
+        <h1>{{ $resume['first_name'] }} {{ $resume['last_name'] }}</h1>
+        <div>
+            {{ $resume['location'] }} | {{ $resume['phone'] }} |
             <a href="{{ $resume['website'] }}">{{ $resume['website'] }}</a>
         </div>
     </div>
 
-    <div class="section-heading">Professional Summary</div>
-    <div class="summary">{{ $resume['summary'] }}</div>
+    <h2 class="text-center">Professional Summary</h2>
+    <div class="text-left indent">{{ $resume['summary'] }}</div>
 
-    <div class="section-heading">Education</div>
+    <h2 class="text-center">Education</h2>
     @foreach ($resume['educations'] as $edu)
-        <div class="education-entry">
-            <span class="institution">{{ $edu->institution }}</span>
-            <br>
-            {{ $edu->title }} – {{ $edu->gpa }} GPA
-            <span class="date">{{ $edu->graduation_date->format('F Y') }}</span>
+        <div>
+            <h3>{{ $edu->institution }} — {{ $edu->title }} – {{ $edu->gpa }} GPA — {{ $edu->graduation_date->format('F Y') }}</h3>
             @if ($edu->bullets)
-                <br>
-                {{ implode(', ', $edu->bullets) }}
+                <ul>
+                @foreach ($edu->bullets as $bullet)
+                <li>{{ $bullet }}</li>
+                @endforeach
+                </ul>
             @endif
         </div>
     @endforeach
 
-    <div class="section-heading">Projects</div>
+    <h2 class="text-center">Projects</h2>
     @foreach ($resume['projects'] as $project)
-        <div class="project-entry">
-            <span class="project-title">{{ $project->title }}</span>
-            @if ($project->subtitle)
-                — {{ $project->subtitle }}
-            @endif
+        <div>
+            <h3>{{ $project->title }}@if ($project->subtitle) — {{ $project->subtitle }}@endif</h3>
             @if ($project->description)
                 <p>{{ $project->description }}</p>
             @endif
             @if ($project->bullets)
+                <ul>
                 @foreach ($project->bullets as $bullet)
-                    <p>{{ $bullet }}</p>
+                <li>{{ $bullet }}</li>
                 @endforeach
+                </ul>
             @endif
         </div>
     @endforeach
 
-    <div class="section-heading">Personal Projects</div>
+    <h2 class="text-center">Personal Projects</h2>
     @foreach ($resume['personal_projects'] as $project)
-        <div class="project-entry">
-            <span class="project-title">{{ $project->title }}</span>
-            @if ($project->subtitle)
-                — {{ $project->subtitle }}
-            @endif
-            @if ($project->label)
-                ({{ $project->label }})
-            @endif
+        <div>
+            <h3>{{ $project->title }}@if ($project->subtitle) — {{ $project->subtitle }}@endif @if ($project->label)({{ $project->label }})@endif</h3>
             @if ($project->description)
                 <p>{{ $project->description }}</p>
             @endif
             @if ($project->bullets)
+                <ul>
                 @foreach ($project->bullets as $bullet)
-                    <p>{{ $bullet }}</p>
+                <li>{{ $bullet }}</li>
                 @endforeach
+                </ul>
             @endif
         </div>
     @endforeach
 
-    <div class="section-heading">Professional Experience</div>
+    <h2 class="text-center">Professional Experience</h2>
     @foreach ($resume['experiences'] as $exp)
-        <div class="experience-entry">
-            <span class="job-title">{{ $exp->title }}</span>
-            <br>
-            {{ $exp->company }} | {{ $exp->location }}  —  {{ $exp->formatted_date_ranges }}
+        <div>
+            <h3>{{ $exp->title }} — {{ $exp->company }} | {{ $exp->location }} — {{ $exp->formatted_date_ranges }}</h3>
             @if ($exp->bullets)
+                <ul>
                 @foreach ($exp->bullets as $bullet)
-                    <p>{{ $bullet }}</p>
+                <li>{{ $bullet }}</li>
                 @endforeach
+                </ul>
             @endif
         </div>
     @endforeach
 
-    <div class="section-heading">Technical Skills</div>
-    <table class="skills-table">
+    <h2 class="text-center">Technical Skills</h2>
+    <table class="w-full border-collapse">
         @foreach ($resume['skill_groups'] as $group)
             <tr>
-                <td class="label">{{ $group->name }}</td>
-                <td>{{ $group->tags->pluck('name')->join(', ') }}</td>
+                <td class="font-bold whitespace-nowrap align-top text-right pr-8">{{ $group->name }}</td>
+                <td class="align-top">{{ $group->tags->pluck('name')->join(', ') }}</td>
             </tr>
         @endforeach
     </table>
+</div>
 </body>
 </html>
