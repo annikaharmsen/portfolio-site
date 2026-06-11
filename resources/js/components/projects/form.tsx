@@ -3,7 +3,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ProjectConfig, SkillConfig, TechConfig } from '@/config/config';
+import { ProjectConfig, TagConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
@@ -33,9 +33,6 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
     const [processing, setProcessing] = useState<boolean>(false);
     const [deleting, setDeleting] = useState<boolean>(false);
 
-    const skills = tags.filter((tag) => tag.category && SkillConfig.CATEGORIES.includes(tag.category));
-    const technologies = tags.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category));
-
     const [bulletsText, setBulletsText] = useState<string>(project?.bullets?.join('\n') ?? '');
 
     const { data, setData, isDirty } = useForm({
@@ -58,7 +55,7 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
     // reload tag options when returning via history (preserves form state)
     useEffect(() => {
         const handlePopState = () => {
-            router.reload({ only: ['skills', 'technologies'] });
+            router.reload({ only: ['tags'] });
         };
 
         window.addEventListener('popstate', handlePopState);
@@ -90,13 +87,12 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
 
     const handleTagsChange = useCallback(
         (updatedValue: number[]) => {
-            setData('tags', [...new Set([...data.tags, ...updatedValue])]);
+            setData('tags', updatedValue);
         },
         [setData],
     );
 
-    const createTech = useController(TechConfig.BASE_URI).create;
-    const createSkill = useController(SkillConfig.BASE_URI).create;
+    const createTag = useController(TagConfig.BASE_URI).create;
 
     return (
         <>
@@ -227,28 +223,13 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
                     </>
 
                     <>
-                        <Label htmlFor="skills" className="w-full">
-                            Skills
-                        </Label>
+                        <Label htmlFor="tags" className="w-full">Tags</Label>
                         <BadgeSelectInput
-                            value={data.tags.filter((tag) => skills.find((skill) => skill.id === tag))}
+                            value={data.tags}
                             onChange={handleTagsChange}
-                            options={skills}
+                            options={tags}
                             textResource="name"
-                            onClickPlus={createSkill}
-                        />
-                    </>
-
-                    <>
-                        <Label htmlFor="technologies" className="w-full">
-                            Technologies
-                        </Label>
-                        <BadgeSelectInput
-                            value={data.tags.filter((tag) => technologies.find((technology) => technology.id === tag))}
-                            onChange={handleTagsChange}
-                            options={technologies}
-                            textResource="name"
-                            onClickPlus={createTech}
+                            onClickPlus={createTag}
                         />
                     </>
                     <InputError className="col-span-full">{errors.tags}</InputError>
