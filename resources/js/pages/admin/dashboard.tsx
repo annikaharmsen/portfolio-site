@@ -2,7 +2,7 @@ import ModelList from '@/components/model-list';
 import { ProjectTableColumns } from '@/components/projects/table-columns';
 import { TagTableColumns } from '@/components/tags/table-columns';
 import { Card, CardContent } from '@/components/ui/card';
-import { ProjectConfig, SkillConfig, TechConfig } from '@/config/config';
+import { ProjectConfig, TagConfig } from '@/config/config';
 import { Project, Projects, Tag, Tags } from '@/types/models';
 import { Head } from '@inertiajs/react';
 import { ReactNode } from 'react';
@@ -15,16 +15,9 @@ export default function Dashboard({ projects, tags }: DashboardProps) {
     const cards = [
         <ModelList<Project> models={projects} modelConfig={ProjectConfig} columns={ProjectTableColumns} searchBy="title" />,
         <ModelList<Tag>
-            models={tags.filter((tag) => tag.category === 'skill')}
-            modelConfig={SkillConfig}
-            columns={TagTableColumns(SkillConfig)}
-            searchBy="name"
-            rowClickBehavior="edit"
-        />,
-        <ModelList<Tag>
-            models={tags.filter((tag) => tag.category !== 'skill')}
-            modelConfig={TechConfig}
-            columns={TagTableColumns(TechConfig)}
+            models={tags}
+            modelConfig={TagConfig}
+            columns={TagTableColumns(TagConfig)}
             searchBy="name"
             rowClickBehavior="edit"
         />,
