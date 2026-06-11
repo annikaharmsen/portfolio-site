@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectHeroSectionsController;
 use App\Http\Controllers\SiteTextController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SkillGroupController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TechnologyController;
 use App\Models\Project;
@@ -60,6 +61,16 @@ Route::middleware('auth')->group(function () {
 
     Route::put('text', [SiteTextController::class, 'update'])
         ->name('text.update');
+
+    // Skill group routes
+    Route::get('skill-groups', [SkillGroupController::class, 'index'])
+        ->name('skill-groups.index');
+    Route::post('skill-groups', [SkillGroupController::class, 'store'])
+        ->name('skill-groups.store');
+    Route::put('skill-groups/{skill_group}', [SkillGroupController::class, 'update'])
+        ->name('skill-groups.update');
+    Route::delete('skill-groups/{skill_group}', [SkillGroupController::class, 'destroy'])
+        ->name('skill-groups.destroy');
 
     // Education routes
     Route::get('educations', [EducationController::class, 'index'])
