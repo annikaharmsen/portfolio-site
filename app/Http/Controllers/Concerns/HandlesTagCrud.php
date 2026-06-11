@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Concerns;
 
 use App\Http\Requests\BulkDeleteTagsRequest;
+use App\Http\Requests\BulkUpdateTagCategoryRequest;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\Tag;
@@ -43,6 +44,14 @@ trait HandlesTagCrud
     public function bulkDelete(BulkDeleteTagsRequest $request)
     {
         Tag::destroy($request->getIds());
+
+        return back();
+    }
+
+    public function bulkUpdateCategory(BulkUpdateTagCategoryRequest $request)
+    {
+        Tag::whereIn('id', $request->getIds())
+            ->update(['category' => $request->validated()['category']]);
 
         return back();
     }
