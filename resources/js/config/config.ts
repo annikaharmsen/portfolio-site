@@ -1,10 +1,8 @@
 import EditAbout from '@/components/sections/edit-about';
 import EditContact from '@/components/sections/edit-contact';
-import EditExperience from '@/components/sections/edit-experience';
 import EditIntro from '@/components/sections/edit-intro';
 import ShowAbout from '@/components/sections/show-about';
 import ShowContact from '@/components/sections/show-contact';
-import ShowExperience from '@/components/sections/show-experience';
 import ShowIntro from '@/components/sections/show-intro';
 import { SectionTexts, TextSectionComponent } from '@/types/site-texts';
 
@@ -72,9 +70,5 @@ export const SectionConfigs = {
     contact: {
         EditComponent: EditContact,
         ShowComponent: ShowContact,
-    },
-    experience: {
-        EditComponent: EditExperience,
-        ShowComponent: ShowExperience,
     },
 } as const;

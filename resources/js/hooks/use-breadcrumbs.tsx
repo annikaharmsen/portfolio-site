@@ -61,14 +61,11 @@ export const breadcrumbTree = {
         href: '/images',
         parent: breadcrumbTree.edit_project({ project }),
     }),
-    edit_section: ({ section }: { section: TextSection }) => {
-        if (section === 'experience') return breadcrumbTree.experience_index();
-        return {
-            title: `Edit ${titleCase(section)} Section`,
-            href: `/sections/${section}/edit`,
-            parent: breadcrumbTree.dashboard(),
-        };
-    },
+    edit_section: ({ section }: { section: TextSection }) => ({
+        title: `Edit ${titleCase(section)} Section`,
+        href: `/sections/${section}/edit`,
+        parent: breadcrumbTree.dashboard(),
+    }),
     experience_index: () => ({
         title: 'Edit Experience Section',
         href: '/experiences',
@@ -104,6 +101,7 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/technologies/edit': 'edit_tag',
     'admin/images': 'select_image',
     'admin/sections/edit': 'edit_section',
+    'admin/experience/index': 'experience_index',
     'admin/education/index': 'education_index',
     'admin/skill-groups/index': 'skill_group_index',
 };
