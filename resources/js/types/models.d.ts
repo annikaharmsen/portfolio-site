@@ -71,7 +71,8 @@ export type SkillGroups = SkillGroup[];
 export type User = {
     // columns
     id: number;
-    name: string;
+    first_name: string;
+    last_name: string;
     email: string;
     email_verified_at: string | null;
     password?: string;
