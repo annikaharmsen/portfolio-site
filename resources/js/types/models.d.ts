@@ -14,7 +14,7 @@ export type Project = {
     hidden: boolean;
     date?: string;
     bullets?: string[] | null;
-    category?: 'projects' | 'personal' | null;
+    category?: string | null;
     label?: string | null;
     // relations
     tags?: Tags;
