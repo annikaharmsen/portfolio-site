@@ -223,6 +223,7 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
                             onChange={handleTagsChange}
                             options={tags}
                             textResource="name"
+                            groupBy="category"
                             onClickPlus={createTag}
                         />
                     </>
