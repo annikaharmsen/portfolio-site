@@ -35,6 +35,7 @@
         .align-top { vertical-align: top; }
         .border-collapse { border-collapse: collapse; }
         .indent { text-indent: 1.27cm; }
+        .inline { display: inline; }
 
         /* spacing */
         .mb-2 { margin-bottom: 2pt; }
@@ -64,10 +65,13 @@
     <h2 class="text-center">Professional Summary</h2>
     <div class="text-left indent">{{ $resume['summary'] }}</div>
 
+    @if (count($resume['educations']) > 0)
     <h2 class="text-center">Education</h2>
     @foreach ($resume['educations'] as $edu)
         <div class="entry">
-            <h3>{{ $edu->institution }} — {{ $edu->title }} – {{ $edu->gpa }} GPA — {{ $edu->graduation_date->format('F Y') }}</h3>
+            <h3>{{ $edu->institution }}</h3>
+            <p>{{ $edu->title }} – <span class="font-bold">{{ $edu->gpa }} GPA</span></p>
+            <p>{{ $edu->graduation_date->format('F Y') }}</p>
             @if ($edu->bullets)
                 <ul>
                 @foreach ($edu->bullets as $bullet)
@@ -77,45 +81,35 @@
             @endif
         </div>
     @endforeach
+    @endif
 
-    <h2 class="text-center">Projects</h2>
-    @foreach ($resume['projects'] as $project)
-        <div class="entry">
-            <h3>{{ $project->title }}@if ($project->subtitle) — {{ $project->subtitle }}@endif</h3>
-            @if ($project->description)
-                <p>{{ $project->description }}</p>
-            @endif
-            @if ($project->bullets)
-                <ul>
-                @foreach ($project->bullets as $bullet)
-                <li>{{ $bullet }}</li>
-                @endforeach
-                </ul>
-            @endif
-        </div>
+    @if ($resume['projects']->flatten()->isNotEmpty())
+    @foreach ($resume['projects'] as $category => $projects)
+        <h2 class="text-center">{{ $category ?: 'Projects' }}</h2>
+        @foreach ($projects as $project)
+            <div class="entry">
+                <h3>{{ $project->title }}@if ($project->subtitle) — {{ $project->subtitle }}@endif @if ($project->label) ({{ $project->label }})@endif</h3>
+                @if ($project->description)
+                    <p>{{ $project->description }}</p>
+                @endif
+                @if ($project->bullets)
+                    <ul>
+                    @foreach ($project->bullets as $bullet)
+                    <li>{{ $bullet }}</li>
+                    @endforeach
+                    </ul>
+                @endif
+            </div>
+        @endforeach
     @endforeach
+    @endif
 
-    <h2 class="text-center">Personal Projects</h2>
-    @foreach ($resume['personal_projects'] as $project)
-        <div class="entry">
-            <h3>{{ $project->title }}@if ($project->subtitle) — {{ $project->subtitle }}@endif @if ($project->label)({{ $project->label }})@endif</h3>
-            @if ($project->description)
-                <p>{{ $project->description }}</p>
-            @endif
-            @if ($project->bullets)
-                <ul>
-                @foreach ($project->bullets as $bullet)
-                <li>{{ $bullet }}</li>
-                @endforeach
-                </ul>
-            @endif
-        </div>
-    @endforeach
-
+    @if (count($resume['experiences']) > 0)
     <h2 class="text-center">Professional Experience</h2>
     @foreach ($resume['experiences'] as $exp)
         <div class="entry">
-            <h3>{{ $exp->title }} — {{ $exp->company }} | {{ $exp->location }} — {{ $exp->formatted_date_ranges }}</h3>
+            <h3>{{ $exp->title }} — {{ $exp->company }}</h3>
+            <p>{{ $exp->location }} — {{ $exp->formatted_date_ranges }}</p>
             @if ($exp->bullets)
                 <ul>
                 @foreach ($exp->bullets as $bullet)
@@ -125,16 +119,16 @@
             @endif
         </div>
     @endforeach
+    @endif
 
+    @if (count($resume['skill_groups']) > 0)
     <h2 class="text-center">Technical Skills</h2>
-    <table class="w-full border-collapse">
         @foreach ($resume['skill_groups'] as $group)
-            <tr>
-                <td class="font-bold whitespace-nowrap align-top text-right pr-8">{{ $group->name }}</td>
-                <td class="align-top">{{ $group->tags->pluck('name')->join(', ') }}</td>
-            </tr>
+                <div>
+                    <h3 class="inline">{{ $group->name }}</h3>
+                    <p class="inline">{{ $group->tags->pluck('name')->join(', ') }}</p></div>
         @endforeach
-    </table>
+    @endif
 </div>
 </body>
 </html>

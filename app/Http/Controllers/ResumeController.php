@@ -44,8 +44,7 @@ class ResumeController extends Controller
             'website' => config('app.url'),
             'summary' => $user->summary,
             'educations' => Education::ordered()->get(),
-            'projects' => Project::forCategory('projects')->get(),
-            'personal_projects' => Project::forCategory('personal')->get(),
+            'projects' => Project::orderByDesc('date')->get()->groupBy('category'),
             'experiences' => Experience::ordered()->get(),
             'skill_groups' => SkillGroup::with('tags')->ordered()->get(),
         ];

@@ -6,8 +6,8 @@ export type Project = {
     id: number;
     icon_name: IconName;
     title: string;
-    subtitle: string;
-    description: string;
+    subtitle: string | null;
+    description: string | null;
     repo_link?: string;
     demo_link?: string;
     featured: boolean;

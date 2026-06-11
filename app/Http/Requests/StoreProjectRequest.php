@@ -12,8 +12,8 @@ class StoreProjectRequest extends CmsRequest
         return [
             'icon_name' => ['required', Rule::enum(LucideIcon::class)],
             'title' => 'required|string|min:1|max:255',
-            'subtitle' => 'required|string|max:255',
-            'description' => 'required|string',
+            'subtitle' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
             'repo_link' => 'nullable|url',
             'demo_link' => 'nullable|url',
             'featured' => 'boolean',

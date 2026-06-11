@@ -33,7 +33,7 @@ class Project extends Model
         return $query->orderBy('featured', 'desc')->orderBy('date', 'desc');
     }
 
-    public function scopeForCategory($query, string $category)
+    public function scopeForCategory($query, ?string $category)
     {
         return $query->where('category', $category)->orderBy('date', 'desc');
     }

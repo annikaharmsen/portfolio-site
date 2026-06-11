@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Education;
+use App\Models\Experience;
 use App\Models\Project;
 use App\Models\SkillGroup;
 use App\Models\Tag;
@@ -14,6 +15,7 @@ class ResumeSeeder extends Seeder
     public function run(): void
     {
         $this->seedUserContactInfo();
+        $this->seedExperience();
         $this->seedEducation();
         $this->seedSkillGroups();
         $this->seedProjectResumeData();
@@ -30,6 +32,54 @@ class ResumeSeeder extends Seeder
                 'summary' => 'Forward-deployed full-stack developer who embeds with stakeholders, turns ambiguous requirements into shipped, tailored software. Owns the full arc — discovery, architecture, implementation, and delivery — across backend and frontend. Recent work spans a multi-tenant manufacturing data platform built directly for process engineers, AI-integrated job-search automation, and constraint-based scheduling software. Builds for production from day one with rigorous validation, security, and reliability, and acquires fluency in unfamiliar technologies fast by pairing structured learning with direct implementation.',
             ]);
         }
+    }
+
+    private function seedExperience(): void
+    {
+        Experience::updateOrCreate(
+            ['title' => 'Software Engineer', 'company' => 'Leucite'],
+            [
+                'location' => 'Remote',
+                'date_ranges' => [['start' => '2026-06-01', 'end' => null]],
+                'bullets' => [
+                    'Embedded directly with the client to learn how their process engineers work, gather requirements, and translate domain needs into a concrete platform design.',
+                    'Owned the full delivery cycle independently — discovery, architecture, implementation, and delivery — across backend, frontend, and ML infrastructure, communicating progress and trade-offs directly with the client.',
+                    'Migrated the client off their legacy system, modeling their existing data and processes into the new platform so they could keep operating without disruption.',
+                    'Designed the platform to adapt to each organization\'s own fields, processes, and quality specs rather than forcing a one-size-fits-all structure, and selected technologies to fit the problem instead of defaulting to a familiar stack.',
+                ],
+                'sort_order' => 1,
+            ]
+        );
+
+        Experience::updateOrCreate(
+            ['title' => 'Front-of-House Generalist', 'company' => 'Tavern in the Square'],
+            [
+                'location' => 'Framingham, MA',
+                'date_ranges' => [
+                    ['start' => '2023-07-01', 'end' => '2024-11-01'],
+                    ['start' => '2025-09-01', 'end' => null],
+                ],
+                'bullets' => [
+                    'Rapidly mastered and was promoted through multiple roles — busser, host, server, barback, utility, and bartender — consistently adapting to high-volume service demands.',
+                    'Earned increased responsibility and cross-trained peers based on demonstrated reliability, professionalism, and rapid skill acquisition.',
+                    'Delivered detail-oriented, team-centered guest experiences that drew consistent praise from management and patrons alike.',
+                ],
+                'sort_order' => 2,
+            ]
+        );
+
+        Experience::updateOrCreate(
+            ['title' => 'Barkeeper & Service', 'company' => 'Neo Bar & Restaurant'],
+            [
+                'location' => 'Heidelberg, Germany',
+                'date_ranges' => [['start' => '2024-12-01', 'end' => '2025-07-01']],
+                'bullets' => [
+                    'Adapted quickly to a new cultural and linguistic environment, supporting a fast-paced hospitality team entirely in German.',
+                    'Efficiently adjusted from a large-team environment to running shifts with one to two bartenders.',
+                ],
+                'sort_order' => 3,
+            ]
+        );
     }
 
     private function seedEducation(): void
@@ -159,12 +209,14 @@ class ResumeSeeder extends Seeder
 
     private function seedProjectResumeData(): void
     {
+        Project::query()->forceDelete();
+
         $projects = [
             [
                 'title' => 'Leucite',
                 'icon_name' => 'Factory',
                 'subtitle' => 'Manufacturing Data & Prediction Platform',
-                'category' => 'projects',
+                'category' => 'Professional Projects',
                 'label' => null,
                 'description' => 'A multi-tenant platform that turns manufacturers\' production data into quality predictions and process recommendations.',
                 'repo_link' => null,
@@ -181,7 +233,7 @@ class ResumeSeeder extends Seeder
                 'title' => 'Jobster',
                 'icon_name' => 'BriefcaseBusiness',
                 'subtitle' => 'Job Search Automation System',
-                'category' => 'projects',
+                'category' => 'Professional Projects',
                 'label' => null,
                 'description' => 'A "set and forget" job search automation platform that discovers, researches, and drafts applications for matching jobs — delivered entirely through email.',
                 'repo_link' => null,
@@ -195,47 +247,50 @@ class ResumeSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Shifty Auto Scheduling',
+                'title' => 'Shifty',
                 'icon_name' => 'Utensils',
-                'subtitle' => 'An intelligent scheduling system for restaurants with constraint-based algorithms, weekly hours optimization, and automated shift assignment',
-                'category' => 'projects',
-                'label' => null,
-                'description' => 'Shifty is an employee scheduling system I am building to solve the problem of creating fair, efficient weekly schedules in hospitality establishments. Using Laravel and PHP, I implemented a constraint-based backtracking algorithm that automatically assigns shifts while respecting employee availability, role requirements, and target weekly hours.',
+                'subtitle' => 'Automated Hospitality Scheduling Software',
+                'category' => 'Personal Projects',
+                'label' => 'In Progress',
+                'description' => null,
                 'repo_link' => 'https://github.com/annikaharmsen/shifty',
                 'demo_link' => null,
-                'featured' => true,
+                'featured' => false,
                 'date' => '2025-12-07',
                 'bullets' => [
+                    'Automatically builds employee schedules, assigning shifts around availability, role requirements, and weekly hour limits — eliminating the back-and-forth of building schedules by hand.',
                     'Includes a custom drag-and-drop calendar so managers can review and adjust generated schedules easily.',
                 ],
             ],
             [
-                'title' => 'Portfolio Website CMS',
+                'title' => 'Portfolio Website & CMS',
                 'icon_name' => 'Blocks',
-                'subtitle' => 'An admin interface to manage projects displayed on my portfolio',
-                'category' => 'projects',
+                'subtitle' => null,
+                'category' => 'Personal Projects',
                 'label' => null,
-                'description' => 'After putting together my public-facing personal portfolio webpage, I quickly realized the pain it would be to have to manually add and update the projects section with new programs in the future. So, I decided to make my next project a corresponding CMS.',
+                'description' => null,
                 'repo_link' => 'https://github.com/annikaharmsen/portfolio-site',
                 'demo_link' => 'https://admin-demo.annikaharmsen.com',
                 'featured' => false,
                 'date' => '2025-09-27',
                 'bullets' => [
+                    'Lets me manage projects, tags, and hero content through a clean admin interface instead of touching code on every update.',
                     'Architected to stay reliable as it grows, keeping the backend and frontend automatically in sync.',
                 ],
             ],
             [
-                'title' => 'Photography E-Commerce API',
+                'title' => 'E-Commerce Systems',
                 'icon_name' => 'Aperture',
-                'subtitle' => 'A REST API for a photography e-commerce platform with shopping cart, payment processing, and image management.',
-                'category' => 'projects',
+                'subtitle' => null,
+                'category' => 'Educational Projects',
                 'label' => null,
-                'description' => 'This system is designed to manage customer interactions with photos taken and uploaded by a photography business. Built on vanilla PHP, it was my first "full-scale" program and greatly deepened my understanding of front and back-end in web development.',
+                'description' => null,
                 'repo_link' => 'https://github.com/annikaharmsen/photoview-api',
                 'demo_link' => 'https://photoview.annikaharmsen.com',
                 'featured' => false,
                 'date' => '2025-05-06',
                 'bullets' => [
+                    'Built a vanilla PHP version from first principles without a framework, implementing routing, authentication, and cart logic by hand to prove out the fundamentals.',
                     'Designed secure, normalized data models for users, products, payments, and orders.',
                 ],
             ],
@@ -292,15 +347,15 @@ class ResumeSeeder extends Seeder
                 'Prisma', 'Redis', 'Vercel AI SDK', 'AI Integration',
                 'Microservice Architecture', 'Queues', 'Web Scraping',
             ],
-            'Shifty Auto Scheduling' => [
+            'Shifty' => [
                 'Laravel', 'MySQL', 'PHP', 'Inertia.js', 'Test Driven Development',
             ],
-            'Portfolio Website CMS' => [
+            'Portfolio Website & CMS' => [
                 'JavaScript', 'Lucide', 'React.js', 'shadcn/ui', 'Tailwind',
                 'Laravel', 'MySQL', 'PHP', 'Claude Code', 'Inertia.js',
                 'Database Design', 'UI/UX Design',
             ],
-            'Photography E-Commerce API' => [
+            'E-Commerce Systems' => [
                 'MySQL', 'PHP', 'Database Design', 'RESTful API Development',
             ],
         ];
