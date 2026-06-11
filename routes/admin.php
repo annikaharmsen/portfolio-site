@@ -55,8 +55,6 @@ Route::middleware('auth')->group(function () {
         ->name('text.update');
 
     // Skill group routes
-    Route::get('skill-groups', [SkillGroupController::class, 'index'])
-        ->name('skill-groups.index');
     Route::post('skill-groups', [SkillGroupController::class, 'store'])
         ->name('skill-groups.store');
     Route::put('skill-groups/{skill_group}', [SkillGroupController::class, 'update'])
