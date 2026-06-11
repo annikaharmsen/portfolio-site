@@ -4,7 +4,7 @@ import { ModelConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useSelection from '@/hooks/use-selection';
 import { cn, pluralize } from '@/lib/utils';
-import { ReactNode, useState } from 'react';
+import { Fragment, ReactNode, useState } from 'react';
 import { DeleteButton } from './app-buttons';
 
 interface ModelListProps<T extends { id: number }> {
@@ -84,13 +84,12 @@ export default function ModelList<T extends { id: number }>({
                                         onCheckedChange={handle.select_all}
                                     />
                                 </th>
-                                {columns.map(
-                                    (column) =>
-                                        column.headingComponent && (
-                                            <th key={column.name} className="p-2 whitespace-nowrap">
-                                                {column.name}
-                                            </th>
-                                        ),
+                                {columns.map((column) =>
+                                    column.headingComponent ? (
+                                        <Fragment key={column.name}>{column.headingComponent}</Fragment>
+                                    ) : (
+                                        <th key={column.name} className="p-2 whitespace-nowrap" />
+                                    ),
                                 )}
                             </tr>
                         )}
