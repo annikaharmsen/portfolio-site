@@ -41,5 +41,11 @@ export default function useController<T extends { id: number }>(baseURI: BaseURI
                 });
             }
         },
+        bulk_update_category: (modelIDs: number[], category: string) => {
+            router.patch(`${baseURI}/bulk-update-category`, {
+                ids: modelIDs,
+                category,
+            });
+        },
     };
 }
