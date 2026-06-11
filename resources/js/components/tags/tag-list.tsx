@@ -1,5 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { TagConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
@@ -14,10 +15,11 @@ import IconComponent from '../icon-component';
 interface TagListProps {
     tags: Tags;
     categories: string[];
+    accordion?: boolean;
     className?: string;
 }
 
-export default function TagList({ tags, categories, className }: TagListProps) {
+export default function TagList({ tags, categories, accordion = false, className }: TagListProps) {
     const [searchTerm, setSearchTerm] = useState('');
     const modelSelection = useSelection<number>([]);
     const controller = useController(TagConfig.BASE_URI);
@@ -50,6 +52,37 @@ export default function TagList({ tags, categories, className }: TagListProps) {
         modelSelection.clear();
     };
 
+    const renderTagRows = (groupTags: Tag[]) =>
+        groupTags.map((tag) => {
+            const isSelected = modelSelection.isSelected(tag.id);
+            return (
+                <tr
+                    key={tag.id}
+                    className="border-t hover:bg-muted/50"
+                    onClick={() => controller.edit(tag)}
+                >
+                    <td className="w-10 p-2">
+                        <Checkbox
+                            checked={isSelected}
+                            onClick={(e) => e.stopPropagation()}
+                            onCheckedChange={() => modelSelection.select(tag.id)}
+                        />
+                    </td>
+                    <td className="w-10 p-2">
+                        <IconComponent icon_name={tag.icon_name} className="mx-auto" />
+                    </td>
+                    <td className="p-2">{tag.name}</td>
+                </tr>
+            );
+        });
+
+    const renderGroupLabel = (group: { label: string; tags: Tag[] }) => (
+        <>
+            {group.label}{' '}
+            <span className="text-muted-foreground">({group.tags.length})</span>
+        </>
+    );
+
     return (
         <div className={cn('relative w-full space-y-4', className)}>
             <div className="flex justify-between gap-2">
@@ -64,49 +97,38 @@ export default function TagList({ tags, categories, className }: TagListProps) {
                 </DeleteButton>
             </div>
 
-            <div className="space-y-2">
-                {grouped.map((group) => (
-                    <Collapsible key={group.label} defaultOpen>
-                        <div className="rounded-md border">
-                            <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-2 text-sm font-medium hover:bg-muted/50">
-                                <span>
-                                    {group.label}{' '}
-                                    <span className="text-muted-foreground">({group.tags.length})</span>
-                                </span>
-                                <ChevronDown className="h-4 w-4 transition-transform [[data-state=closed]_&]:rotate-(-90)" />
-                            </CollapsibleTrigger>
-                            <CollapsibleContent>
+            {accordion ? (
+                <Accordion type="single" collapsible defaultValue={grouped[0]?.label} className="rounded-md border">
+                    {grouped.map((group) => (
+                        <AccordionItem key={group.label} value={group.label}>
+                            <AccordionTrigger>{renderGroupLabel(group)}</AccordionTrigger>
+                            <AccordionContent>
                                 <table className="w-max min-w-full">
-                                    <tbody>
-                                        {group.tags.map((tag) => {
-                                            const isSelected = modelSelection.isSelected(tag.id);
-                                            return (
-                                                <tr
-                                                    key={tag.id}
-                                                    className="border-t hover:bg-muted/50"
-                                                    onClick={() => controller.edit(tag)}
-                                                >
-                                                    <td className="w-10 p-2">
-                                                        <Checkbox
-                                                            checked={isSelected}
-                                                            onClick={(e) => e.stopPropagation()}
-                                                            onCheckedChange={() => modelSelection.select(tag.id)}
-                                                        />
-                                                    </td>
-                                                    <td className="w-10 p-2">
-                                                        <IconComponent icon_name={tag.icon_name} className="mx-auto" />
-                                                    </td>
-                                                    <td className="p-2">{tag.name}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
+                                    <tbody>{renderTagRows(group.tags)}</tbody>
                                 </table>
-                            </CollapsibleContent>
-                        </div>
-                    </Collapsible>
-                ))}
-            </div>
+                            </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
+            ) : (
+                <div className="space-y-2">
+                    {grouped.map((group) => (
+                        <Collapsible key={group.label} defaultOpen>
+                            <div className="rounded-md border">
+                                <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-2 text-sm font-medium hover:bg-muted/50">
+                                    <span>{renderGroupLabel(group)}</span>
+                                    <ChevronDown className="h-4 w-4 transition-transform [[data-state=closed]_&]:rotate-(-90)" />
+                                </CollapsibleTrigger>
+                                <CollapsibleContent>
+                                    <table className="w-max min-w-full">
+                                        <tbody>{renderTagRows(group.tags)}</tbody>
+                                    </table>
+                                </CollapsibleContent>
+                            </div>
+                        </Collapsible>
+                    ))}
+                </div>
+            )}
 
             <div
                 onClick={() => controller.create()}
