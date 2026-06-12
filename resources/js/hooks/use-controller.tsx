@@ -37,7 +37,6 @@ export default function useController<T extends { id: number }>(baseURI: BaseURI
             if (quantity > 0 && confirm(`Are you sure you want to delete ${quantity} entr${quantity === 1 ? 'y' : 'ies'}?`)) {
                 router.delete(`${baseURI}/bulk-delete`, {
                     data: { ids: modelIDs },
-                    onSuccess: reroute,
                 });
             }
         },

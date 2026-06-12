@@ -19,7 +19,8 @@ class ResumeDownloadTest extends TestCase
         parent::setUp();
 
         User::factory()->create([
-            'name' => 'Test User',
+            'first_name' => 'Test',
+            'last_name' => 'User',
             'location' => 'Test City',
             'phone' => '555-0100',
             'summary' => 'A summary.',
