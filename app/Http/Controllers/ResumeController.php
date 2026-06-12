@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\Highlight;
 use App\Models\Project;
 use App\Models\SkillGroup;
 use App\Models\User;
@@ -44,6 +45,7 @@ class ResumeController extends Controller
             'email' => $user->email,
             'website' => config('app.url'),
             'summary' => $user->summary,
+            'highlights' => Highlight::ordered()->get(),
             'educations' => Education::ordered()->get(),
             'projects' => Project::orderByDesc('date')->get()->groupBy('category'),
             'experiences' => Experience::ordered()->get(),

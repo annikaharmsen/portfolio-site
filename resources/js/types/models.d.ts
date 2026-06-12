@@ -114,3 +114,11 @@ export interface Education {
 }
 
 export type Educations = Education[];
+
+export interface Highlight {
+    id: number;
+    text: string;
+    sort_order: number;
+}
+
+export type Highlights = Highlight[];

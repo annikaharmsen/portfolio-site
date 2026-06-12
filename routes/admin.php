@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\HighlightController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectHeroSectionsController;
@@ -76,6 +77,12 @@ Route::middleware('auth')->group(function () {
         ->name('educations.update');
     Route::delete('educations/{education}', [EducationController::class, 'destroy'])
         ->name('educations.destroy');
+
+    // Highlight routes
+    Route::get('highlights', [HighlightController::class, 'index'])->name('highlights.index');
+    Route::post('highlights', [HighlightController::class, 'store'])->name('highlights.store');
+    Route::put('highlights/{highlight}', [HighlightController::class, 'update'])->name('highlights.update');
+    Route::delete('highlights/{highlight}', [HighlightController::class, 'destroy'])->name('highlights.destroy');
 
     // Experience routes
     Route::get('experiences', [ExperienceController::class, 'index'])
