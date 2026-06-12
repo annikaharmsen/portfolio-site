@@ -21,11 +21,9 @@ class Tag extends Model
         static::addGlobalScope('ordered', function ($query) {
             $query->orderByRaw("
                 CASE category
-                    WHEN 'frontend' THEN 1
-                    WHEN 'backend' THEN 2
-                    WHEN 'tool' THEN 3
-                    WHEN 'skill' THEN 4
-                    ELSE 5
+                    WHEN 'tech' THEN 1
+                    WHEN 'skill' THEN 2
+                    ELSE 3
                 END
             ")->orderBy('name');
         });
