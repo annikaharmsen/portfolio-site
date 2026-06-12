@@ -14,6 +14,7 @@ class StoreTagRequest extends CmsRequest
             'name' => 'required|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id',
             'category' => 'nullable|string|max:255',
+            'skill_group_id' => 'nullable|integer|exists:skill_groups,id',
         ];
     }
 
