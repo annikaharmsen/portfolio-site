@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreHighlightRequest;
-use App\Http\Requests\UpdateHighlightRequest;
+use App\Http\Requests\SyncHighlightsRequest;
 use App\Models\Highlight;
 use Inertia\Inertia;
 
@@ -12,27 +11,23 @@ class HighlightController extends Controller
     public function index()
     {
         return Inertia::render('admin/highlights/index', [
-            'highlights' => Highlight::ordered()->get(),
+            'highlights' => Highlight::ordered()->pluck('text'),
         ]);
     }
 
-    public function store(StoreHighlightRequest $request)
+    public function sync(SyncHighlightsRequest $request)
     {
-        Highlight::create($request->validated());
+        Highlight::query()->delete();
 
-        return redirect()->route('highlights.index');
-    }
+        $rows = collect($request->validated()['highlights'])
+            ->values()
+            ->map(fn (string $text, int $index) => [
+                'text' => $text,
+                'sort_order' => $index,
+            ])
+            ->all();
 
-    public function update(UpdateHighlightRequest $request, Highlight $highlight)
-    {
-        $highlight->update($request->validated());
-
-        return redirect()->route('highlights.index');
-    }
-
-    public function destroy(Highlight $highlight)
-    {
-        $highlight->delete();
+        Highlight::insert($rows);
 
         return redirect()->route('highlights.index');
     }
