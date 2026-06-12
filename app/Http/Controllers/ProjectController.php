@@ -7,7 +7,7 @@ use App\Http\Requests\BulkUpdateProjectCategoryRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
-use App\Models\Tag;
+use App\Models\SkillGroup;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -23,9 +23,8 @@ class ProjectController extends Controller
     public function create()
     {
         return Inertia::render('admin/projects/create', [
-            'tags' => Tag::all(),
+            'skillGroups' => SkillGroup::with('tags')->ordered()->get(),
             'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
-            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
@@ -55,9 +54,8 @@ class ProjectController extends Controller
     {
         return Inertia::render('admin/projects/edit', [
             'project' => $project->load('tags'),
-            'tags' => Tag::all(),
+            'skillGroups' => SkillGroup::with('tags')->ordered()->get(),
             'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
-            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 

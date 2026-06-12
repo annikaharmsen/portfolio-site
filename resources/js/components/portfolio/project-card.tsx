@@ -66,9 +66,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             </CardHeader>
             <CardContent className="mx-6">
                 {/* description */}
-                {project.description && (
-                    <p className="mb-4 leading-relaxed whitespace-pre-wrap">{project.description}</p>
-                )}
+                {project.description && <p className="mb-4 leading-relaxed whitespace-pre-wrap">{project.description}</p>}
 
                 {/* bullets */}
                 {project.bullets && project.bullets.length > 0 && (
@@ -79,22 +77,22 @@ export default function ProjectCard({ project }: { project: Project }) {
                     </ul>
                 )}
 
-                {/* skill badges */}
-                {!!skills?.length && (
+                {/* tech badges */}
+                {!!tech?.length && (
                     <>
                         <div className="mb-4 flex flex-wrap gap-2">
-                            {skills.map((skill) => (
-                                <Badge key={`${skill.id}-${skill.name}`} variant="secondary">
-                                    {skill.name}
+                            {tech.map((tag) => (
+                                <Badge key={`${tag.id}-${tag.name}`} variant="secondary">
+                                    {tag.name}
                                 </Badge>
                             ))}
                         </div>
                     </>
                 )}
 
-                {!!tech.length && (
+                {!!skills.length && (
                     <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <IconList items={tech} />
+                        <IconList items={skills} />
                     </div>
                 )}
 

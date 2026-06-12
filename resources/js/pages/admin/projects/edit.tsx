@@ -1,17 +1,16 @@
 import { EditButton } from '@/components/app-buttons';
 import { H1 } from '@/components/headings';
 import ProjectForm from '@/components/projects/form';
-import { Project, Tags } from '@/types/models';
+import { Project, SkillGroups } from '@/types/models';
 import { Head, router } from '@inertiajs/react';
 
 interface EditProjectProps {
     project: Project;
-    tags: Tags;
+    skillGroups: SkillGroups;
     categories: string[];
-    tagCategories: string[];
 }
 
-export default function EditProject({ project, tags, categories, tagCategories }: EditProjectProps) {
+export default function EditProject({ project, skillGroups, categories }: EditProjectProps) {
     return (
         <>
             <Head title={project.title} />
@@ -20,7 +19,7 @@ export default function EditProject({ project, tags, categories, tagCategories }
                     <H1>Edit Project</H1>
                     <EditButton onClick={() => router.get(`/projects/${project.id}/hero-sections`)}>Edit Project Page</EditButton>
                 </div>
-                <ProjectForm project={project} tags={tags} categories={categories} tagCategories={tagCategories} />
+                <ProjectForm project={project} skillGroups={skillGroups} categories={categories} />
             </div>
         </>
     );
