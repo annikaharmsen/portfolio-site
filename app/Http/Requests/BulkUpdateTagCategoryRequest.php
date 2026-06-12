@@ -9,7 +9,7 @@ class BulkUpdateTagCategoryRequest extends CmsRequest
         return [
             'ids' => 'required|array|min:1',
             'ids.*' => 'integer|exists:tags,id',
-            'category' => 'required|string|max:50',
+            'skill_group_id' => 'required|integer|exists:skill_groups,id',
         ];
     }
 
