@@ -4,30 +4,32 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ProjectConfig, TagConfig } from '@/config/config';
+import { ProjectConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Tags } from '@/types/models';
-import { router, useForm, usePage } from '@inertiajs/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useForm, usePage } from '@inertiajs/react';
+import React, { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
-import BadgeSelectInput from '../badge-select-input';
+import BadgeSelectInput, { SelectBadge } from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import { store } from '../store';
 import TextareaAutosize from 'react-textarea-autosize';
 import { cn } from '@/lib/utils';
 import { textAreaStyles } from '@/components/ui/textarea';
+import CreateTagDialog from '../tags/create-tag-dialog';
 
 interface ProjectFormProps {
     project?: Project;
     tags: Tags;
     categories: string[];
+    tagCategories: string[];
 }
 
-export default function ProjectForm({ project, tags, categories }: ProjectFormProps) {
+export default function ProjectForm({ project, tags, categories, tagCategories }: ProjectFormProps) {
     const { errors } = usePage().props;
     const controller = useController(ProjectConfig.BASE_URI);
 
@@ -52,16 +54,6 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
         label: project?.label ?? '',
     });
     useUnsavedWarning(isDirty && !processing && !deleting);
-
-    // reload tag options when returning via history (preserves form state)
-    useEffect(() => {
-        const handlePopState = () => {
-            router.reload({ only: ['tags'] });
-        };
-
-        window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
-    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -92,8 +84,6 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
         },
         [setData],
     );
-
-    const createTag = useController(TagConfig.BASE_URI).create;
 
     return (
         <>
@@ -224,7 +214,7 @@ export default function ProjectForm({ project, tags, categories }: ProjectFormPr
                             options={tags}
                             textResource="name"
                             groupBy="category"
-                            onClickPlus={createTag}
+                            addAction={<CreateTagDialog categories={tagCategories} trigger={<SelectBadge>+</SelectBadge>} />}
                         />
                     </>
                     <InputError className="col-span-full">{errors.tags}</InputError>

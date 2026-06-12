@@ -24,6 +24,7 @@ class StoreProjectRequest extends CmsRequest
             'bullets.*' => 'string',
             'category' => 'nullable|string|max:255',
             'label' => 'nullable|string|max:255',
+            'inline' => 'boolean',
         ];
     }
 

@@ -18,7 +18,7 @@ trait HandlesTagCrud
         $tag = Tag::create($validated);
         $tag->projects()->sync($validated['projects']);
 
-        return Inertia::render('loading');
+        return back();
     }
 
     protected function updateTag(UpdateTagRequest $request, Tag $tag)

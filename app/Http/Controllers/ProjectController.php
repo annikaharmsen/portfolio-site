@@ -25,6 +25,7 @@ class ProjectController extends Controller
         return Inertia::render('admin/projects/create', [
             'tags' => Tag::all(),
             'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
@@ -34,7 +35,11 @@ class ProjectController extends Controller
 
         $project = Project::create($validated);
 
-        $project->tags()->sync($validated['tags']);
+        $project->tags()->sync($validated['tags'] ?? []);
+
+        if ($request->boolean('inline')) {
+            return back();
+        }
 
         return redirect("/projects/{$project->id}");
     }
@@ -52,6 +57,7 @@ class ProjectController extends Controller
             'project' => $project->load('tags'),
             'tags' => Tag::all(),
             'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     }
 
