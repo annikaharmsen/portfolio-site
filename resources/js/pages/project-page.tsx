@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Project, ProjectHeroSection } from '@/types/models';
 import { ArrowLeft } from 'lucide-react';
 import { marked } from 'marked';
+import { Fragment } from 'react';
 
 // Enable GitHub Flavored Markdown for task lists and other GFM features
 marked.use({ gfm: true });
@@ -23,7 +24,7 @@ export default function ProjectPage({ project }: { project: Project }) {
                 )}
             >
                 {section.image && (
-                    <img src={section.image.url} alt="" className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
+                    <img src={section.image.url} alt={section.image.alt ?? section.heading ?? ''} className="h-48 w-auto max-w-full rounded-2xl object-contain md:h-100 md:max-w-1/2" />
                 )}
                 <article className="w-full space-y-6">
                     <H2 className="mb-4">{section.heading}</H2>
@@ -48,10 +49,10 @@ export default function ProjectPage({ project }: { project: Project }) {
             </div>
             <div className="w-full max-w-300 px-8 md:px-16">
                 {project.hero_sections?.map((section, index) => (
-                    <>
+                    <Fragment key={section.id ?? index}>
                         <hr />
                         <HeroSection section={section} index={index} />
-                    </>
+                    </Fragment>
                 ))}
                 <hr />
             </div>
