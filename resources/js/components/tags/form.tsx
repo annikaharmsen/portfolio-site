@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput, { SelectBadge } from '../badge-select-input';
-import CreatableSkillGroupSelect from '../creatable-skill-group-select';
+import SkillGroupSelect from '../skill-group-select';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
 import { store } from '../store';
@@ -113,11 +113,12 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
                 </>
                 <>
                     <Label htmlFor="skill_group_id">Skill Group</Label>
-                    <CreatableSkillGroupSelect
+                    <SkillGroupSelect
                         id="skill_group_id"
                         value={data.skill_group_id}
                         onChange={(val) => setData('skill_group_id', val)}
                         options={skillGroups}
+                        creatable
                     />
                     <InputError>{errors.skill_group_id}</InputError>
                 </>

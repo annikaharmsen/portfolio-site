@@ -30,11 +30,6 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
     const [editingGroup, setEditingGroup] = useState<number | null>(null);
     const [editForm, setEditForm] = useState({ name: '', sort_order: 0 });
 
-    const skillGroupOptions = useMemo(
-        () => skillGroups.map((sg) => ({ id: sg.id, name: sg.name })),
-        [skillGroups],
-    );
-
     const filteredTags = useMemo(
         () => tags.filter((tag) => tag.name.toLowerCase().includes(searchTerm.toLowerCase())),
         [tags, searchTerm],
@@ -179,7 +174,7 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     className="h-9 w-full min-w-min"
                 />
                 <CategoryReassignDropdown
-                    skillGroups={skillGroupOptions}
+                    skillGroups={skillGroups}
                     disabled={modelSelection.selected.length === 0}
                     onSelect={handleBulkUpdateCategory}
                 />
