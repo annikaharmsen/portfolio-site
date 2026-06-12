@@ -72,33 +72,24 @@ export default function SkillGroupSelect({
 
     if (showInput) {
         return (
-            <div className={cn('flex gap-2', className)}>
-                <Input
-                    id={id}
-                    value={newName}
-                    onChange={(e) => setNewName(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            handleCreate();
-                        }
-                    }}
-                    placeholder="new group name"
-                    autoFocus
-                    disabled={disabled || creating}
-                />
-                <button
-                    type="button"
-                    onClick={handleCreate}
-                    disabled={creating || !newName.trim()}
-                    className="shrink-0 px-2 text-sm text-primary hover:text-primary/80 disabled:opacity-50"
-                >
-                    {creating ? 'creating...' : 'add'}
-                </button>
-                <button type="button" onClick={handleCancel} className="shrink-0 px-2 text-sm text-muted-foreground hover:text-foreground">
-                    cancel
-                </button>
-            </div>
+            <Input
+                id={id}
+                className={className}
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleCreate();
+                    } else if (e.key === 'Escape') {
+                        handleCancel();
+                    }
+                }}
+                onBlur={handleCancel}
+                placeholder="new group name"
+                autoFocus
+                disabled={disabled || creating}
+            />
         );
     }
 
