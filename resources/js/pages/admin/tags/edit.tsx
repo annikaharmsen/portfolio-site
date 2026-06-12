@@ -1,19 +1,18 @@
 import { H1 } from '@/components/headings';
 import TagForm from '@/components/tags/form';
-import { TagConfig, TagConfigInterface } from '@/config/config';
+import { TagConfig } from '@/config/config';
 import { Projects, SkillGroups, Tag } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
 interface EditTagProps {
-    tagConfig?: TagConfigInterface;
     projects: Projects;
     tag: Tag;
     categories: string[];
     skillGroups: SkillGroups;
 }
 
-export default function EditTag({ tagConfig, projects, tag, categories, skillGroups }: EditTagProps) {
-    const title = 'Edit ' + tagConfig?.TYPE;
+export default function EditTag({ projects, tag, categories, skillGroups }: EditTagProps) {
+    const title = 'Edit ' + tag.category;
 
     return (
         <>
