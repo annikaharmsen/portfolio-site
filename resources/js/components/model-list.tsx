@@ -107,9 +107,9 @@ export default function ModelList<T extends { id: number }>({
                                                 onCheckedChange={() => handle.select(model)}
                                             />
                                         </td>
-                                        {columns.map((column) => {
-                                            return column.dataComponent(model);
-                                        })}
+                                        {columns.map((column) => (
+                                            <Fragment key={column.name}>{column.dataComponent(model)}</Fragment>
+                                        ))}
                                     </tr>
                                 );
                             })
