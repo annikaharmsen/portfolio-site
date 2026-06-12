@@ -1,19 +1,19 @@
-import CategoryReassignDropdown from '@/components/category-reassign-dropdown';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { TagConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useSelection from '@/hooks/use-selection';
 import { cn } from '@/lib/utils';
 import { SkillGroup, SkillGroups, Tag, Tags } from '@/types/models';
+import { router } from '@inertiajs/react';
 import { Check, ChevronDown, Pencil, Trash2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { DeleteButton } from '../app-buttons';
 import IconComponent from '../icon-component';
-import { Button } from '@/components/ui/button';
-import { router } from '@inertiajs/react';
+import SkillGroupSelect from '../skill-group-select';
 
 interface TagListProps {
     tags: Tags;
@@ -30,10 +30,7 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
     const [editingGroup, setEditingGroup] = useState<number | null>(null);
     const [editForm, setEditForm] = useState({ name: '', sort_order: 0 });
 
-    const filteredTags = useMemo(
-        () => tags.filter((tag) => tag.name.toLowerCase().includes(searchTerm.toLowerCase())),
-        [tags, searchTerm],
-    );
+    const filteredTags = useMemo(() => tags.filter((tag) => tag.name.toLowerCase().includes(searchTerm.toLowerCase())), [tags, searchTerm]);
 
     const grouped = useMemo(() => {
         const groups: { skillGroup: SkillGroup; tags: Tag[] }[] = [];
@@ -78,8 +75,8 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
         modelSelection.clear();
     };
 
-    const handleBulkUpdateCategory = (skillGroupId: number) => {
-        controller.bulk_update_category(modelSelection.selected, skillGroupId);
+    const handleBulkUpdateGroup = (skillGroupId: number | null) => {
+        controller.bulk_update_group(modelSelection.selected, skillGroupId);
         modelSelection.clear();
     };
 
@@ -87,17 +84,9 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
         groupTags.map((tag) => {
             const isSelected = modelSelection.isSelected(tag.id);
             return (
-                <tr
-                    key={tag.id}
-                    className="border-t hover:bg-muted/50"
-                    onClick={() => controller.edit(tag)}
-                >
+                <tr key={tag.id} className="border-t hover:bg-muted/50" onClick={() => controller.edit(tag)}>
                     <td className="w-10 p-2">
-                        <Checkbox
-                            checked={isSelected}
-                            onClick={(e) => e.stopPropagation()}
-                            onCheckedChange={() => modelSelection.select(tag.id)}
-                        />
+                        <Checkbox checked={isSelected} onClick={(e) => e.stopPropagation()} onCheckedChange={() => modelSelection.select(tag.id)} />
                     </td>
                     <td className="w-10 p-2">
                         <IconComponent icon_name={tag.icon_name} className="mx-auto" />
@@ -109,8 +98,7 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
 
     const renderGroupLabel = (group: { skillGroup: SkillGroup; tags: Tag[] }) => (
         <>
-            {group.skillGroup.name}{' '}
-            <span className="text-muted-foreground">({group.tags.length})</span>
+            {group.skillGroup.name} <span className="text-muted-foreground">({group.tags.length})</span>
         </>
     );
 
@@ -142,7 +130,12 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setEditingGroup(null)}>
                         <X className="h-4 w-4" />
                     </Button>
-                    <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive hover:text-destructive" onClick={() => deleteGroup(sg.id)}>
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-7 w-7 text-destructive hover:text-destructive"
+                        onClick={() => deleteGroup(sg.id)}
+                    >
                         <Trash2 className="h-4 w-4" />
                     </Button>
                 </div>
@@ -156,7 +149,10 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     size="icon"
                     variant="ghost"
                     className="h-6 w-6 opacity-50 hover:opacity-100"
-                    onClick={(e) => { e.stopPropagation(); startEditing(sg); }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        startEditing(sg);
+                    }}
                 >
                     <Pencil className="h-3 w-3" />
                 </Button>
@@ -173,10 +169,13 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="h-9 w-full min-w-min"
                 />
-                <CategoryReassignDropdown
-                    skillGroups={skillGroups}
+                <SkillGroupSelect
+                    value={undefined}
+                    onValueChange={handleBulkUpdateGroup}
+                    options={skillGroups}
+                    placeholder="Assign Group"
                     disabled={modelSelection.selected.length === 0}
-                    onSelect={handleBulkUpdateCategory}
+                    creatable
                 />
                 <DeleteButton className="h-9" disabled={modelSelection.selected.length === 0} onClick={handleBulkDelete} showIcon>
                     Delete {modelSelection.selected.length}
@@ -203,7 +202,7 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                             <div className="rounded-md border">
                                 <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-2 text-sm font-medium hover:bg-muted/50">
                                     {renderGroupHeader(group)}
-                                    <ChevronDown className="h-4 w-4 transition-transform [[data-state=closed]_&]:rotate-(-90)" />
+                                    <ChevronDown className="[[data-state=closed]_&]:rotate-(-90) h-4 w-4 transition-transform" />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent>
                                     <table className="w-max min-w-full">

@@ -1,35 +1,30 @@
-import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SkillGroups } from '@/types/models';
 import { router } from '@inertiajs/react';
-import { Input } from '@/components/ui/input';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectSeparator,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import { useState } from 'react';
 
 const NONE_SENTINEL = '__none__';
 const NEW_SENTINEL = '__new__';
 
 interface SkillGroupSelectProps {
     id?: string;
-    value: number | null;
-    onChange: (value: number | null) => void;
+    value?: number | null;
+    onValueChange: (value: number | null) => void;
     options: SkillGroups;
     creatable?: boolean;
     placeholder?: string;
+    disabled?: boolean;
 }
 
 export default function SkillGroupSelect({
     id,
     value,
-    onChange,
+    onValueChange,
     options,
     creatable = false,
     placeholder = 'none',
+    disabled,
 }: SkillGroupSelectProps) {
     const [showInput, setShowInput] = useState(false);
     const [newName, setNewName] = useState('');
@@ -41,19 +36,14 @@ export default function SkillGroupSelect({
             setNewName('');
             return;
         }
-        if (selected === NONE_SENTINEL) {
-            onChange(null);
-            return;
-        }
-        onChange(Number(selected));
+        onValueChange(selected === NONE_SENTINEL ? null : Number(selected));
     };
 
     const handleCreate = () => {
         if (!newName.trim()) return;
         setCreating(true);
 
-        const nextSortOrder =
-            options.length > 0 ? Math.max(...options.map((sg) => sg.sort_order)) + 1 : 1;
+        const nextSortOrder = options.length > 0 ? Math.max(...options.map((sg) => sg.sort_order)) + 1 : 1;
 
         router.post(
             '/skill-groups',
@@ -62,11 +52,8 @@ export default function SkillGroupSelect({
                 preserveScroll: true,
                 onSuccess: (page) => {
                     const updatedGroups = (page.props as any).skillGroups as SkillGroups;
-                    const created = updatedGroups.reduce(
-                        (max, sg) => (sg.id > max.id ? sg : max),
-                        updatedGroups[0],
-                    );
-                    onChange(created.id);
+                    const created = updatedGroups.reduce((max, sg) => (sg.id > max.id ? sg : max), updatedGroups[0]);
+                    onValueChange(created.id);
                     setShowInput(false);
                     setNewName('');
                 },
@@ -95,36 +82,32 @@ export default function SkillGroupSelect({
                     }}
                     placeholder="new group name"
                     autoFocus
-                    disabled={creating}
+                    disabled={disabled || creating}
                 />
                 <button
                     type="button"
                     onClick={handleCreate}
                     disabled={creating || !newName.trim()}
-                    className="text-sm text-primary hover:text-primary/80 shrink-0 px-2 disabled:opacity-50"
+                    className="shrink-0 px-2 text-sm text-primary hover:text-primary/80 disabled:opacity-50"
                 >
                     {creating ? 'creating...' : 'add'}
                 </button>
-                <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="text-muted-foreground hover:text-foreground shrink-0 px-2 text-sm"
-                >
+                <button type="button" onClick={handleCancel} className="shrink-0 px-2 text-sm text-muted-foreground hover:text-foreground">
                     cancel
                 </button>
             </div>
         );
     }
 
-    const selectValue = value !== null ? String(value) : NONE_SENTINEL;
+    const selectValue = value === undefined ? '' : value === null ? NONE_SENTINEL : String(value);
 
     return (
         <Select value={selectValue} onValueChange={handleValueChange}>
-            <SelectTrigger id={id}>
+            <SelectTrigger id={id} disabled={disabled}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value={NONE_SENTINEL}>{placeholder}</SelectItem>
+                <SelectItem value={NONE_SENTINEL}>none</SelectItem>
                 {options.map((sg) => (
                     <SelectItem key={sg.id} value={String(sg.id)}>
                         {sg.name}

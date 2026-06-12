@@ -116,7 +116,7 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
                     <SkillGroupSelect
                         id="skill_group_id"
                         value={data.skill_group_id}
-                        onChange={(val) => setData('skill_group_id', val)}
+                        onValueChange={(val) => setData('skill_group_id', val)}
                         options={skillGroups}
                         creatable
                     />

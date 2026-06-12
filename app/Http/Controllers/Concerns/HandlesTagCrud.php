@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Concerns;
 
 use App\Http\Requests\BulkDeleteTagsRequest;
-use App\Http\Requests\BulkUpdateTagCategoryRequest;
+use App\Http\Requests\BulkUpdateTagGroupRequest;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\SkillGroup;
@@ -49,7 +49,7 @@ trait HandlesTagCrud
         return back();
     }
 
-    public function bulkUpdateCategory(BulkUpdateTagCategoryRequest $request)
+    public function bulkUpdateGroup(BulkUpdateTagGroupRequest $request)
     {
         $tagIds = $request->getIds();
 
