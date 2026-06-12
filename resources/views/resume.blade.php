@@ -65,6 +65,15 @@
     <h2 class="text-center">Professional Summary</h2>
     <div class="text-left indent">{{ $resume['summary'] }}</div>
 
+    @if (count($resume['highlights']) > 0)
+    <h2 class="text-center">Selected Highlights</h2>
+    <ul>
+        @foreach ($resume['highlights'] as $highlight)
+        <li>{{ $highlight->text }}</li>
+        @endforeach
+    </ul>
+    @endif
+
     @if (count($resume['educations']) > 0)
     <h2 class="text-center">Education</h2>
     @foreach ($resume['educations'] as $edu)
