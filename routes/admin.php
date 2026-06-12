@@ -1,14 +1,16 @@
 <?php
 
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\HighlightController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectHeroSectionsController;
 use App\Http\Controllers\SiteTextController;
-use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SkillGroupController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\TechnologyController;
 use App\Models\Project;
+use App\Models\SkillGroup;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,13 +20,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return Inertia::render('admin/dashboard', [
             'projects' => Project::ordered()->get(),
-            'tags' => Tag::get(),
+            'tags' => Tag::with('skillGroup')->get(),
+            'skillGroups' => SkillGroup::ordered()->get(),
+            'projectCategories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
         ]);
     })->name('home');
 
     // Project routes
     Route::delete('projects/bulk-delete', [ProjectController::class, 'bulkDelete'])
         ->name('projects.bulk-delete');
+    Route::patch('projects/bulk-update-category', [ProjectController::class, 'bulkUpdateCategory'])
+        ->name('projects.bulk-update-category');
     Route::resource('projects', ProjectController::class);
 
     // Project hero section routes
@@ -43,15 +49,9 @@ Route::middleware('auth')->group(function () {
     // Tag routes
     Route::delete('tags/bulk-delete', [TagController::class, 'bulkDelete'])
         ->name('tags.bulk-delete');
+    Route::patch('tags/bulk-update-category', [TagController::class, 'bulkUpdateCategory'])
+        ->name('tags.bulk-update-category');
     Route::resource('tags', TagController::class);
-
-    Route::delete('skills/bulk-delete', [SkillController::class, 'bulkDelete'])
-        ->name('skills.bulk-delete');
-    Route::resource('skills', SkillController::class);
-
-    Route::delete('technologies/bulk-delete', [TechnologyController::class, 'bulkDelete'])
-        ->name('technologies.bulk-delete');
-    Route::resource('technologies', TechnologyController::class);
 
     Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])
         ->name('section.edit')
@@ -59,6 +59,28 @@ Route::middleware('auth')->group(function () {
 
     Route::put('text', [SiteTextController::class, 'update'])
         ->name('text.update');
+
+    // Skill group routes
+    Route::post('skill-groups', [SkillGroupController::class, 'store'])
+        ->name('skill-groups.store');
+    Route::put('skill-groups/{skill_group}', [SkillGroupController::class, 'update'])
+        ->name('skill-groups.update');
+    Route::delete('skill-groups/{skill_group}', [SkillGroupController::class, 'destroy'])
+        ->name('skill-groups.destroy');
+
+    // Education routes
+    Route::get('educations', [EducationController::class, 'index'])
+        ->name('educations.index');
+    Route::post('educations', [EducationController::class, 'store'])
+        ->name('educations.store');
+    Route::put('educations/{education}', [EducationController::class, 'update'])
+        ->name('educations.update');
+    Route::delete('educations/{education}', [EducationController::class, 'destroy'])
+        ->name('educations.destroy');
+
+    // Highlight routes
+    Route::get('highlights', [HighlightController::class, 'index'])->name('highlights.index');
+    Route::put('highlights', [HighlightController::class, 'sync'])->name('highlights.sync');
 
     // Experience routes
     Route::get('experiences', [ExperienceController::class, 'index'])

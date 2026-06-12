@@ -61,17 +61,39 @@ export const breadcrumbTree = {
         href: '/images',
         parent: breadcrumbTree.edit_project({ project }),
     }),
-    edit_section: ({ section }: { section: TextSection }) => {
-        if (section === 'experience') return breadcrumbTree.experience_index();
-        return {
-            title: `Edit ${titleCase(section)} Section`,
-            href: `/sections/${section}/edit`,
-            parent: breadcrumbTree.dashboard(),
-        };
-    },
+    edit_section: ({ section }: { section: TextSection }) => ({
+        title: `Edit ${titleCase(section)} Section`,
+        href: `/sections/${section}/edit`,
+        parent: breadcrumbTree.dashboard(),
+    }),
     experience_index: () => ({
         title: 'Edit Experience Section',
         href: '/experiences',
+        parent: breadcrumbTree.dashboard(),
+    }),
+    education_index: () => ({
+        title: 'Edit Education Section',
+        href: '/educations',
+        parent: breadcrumbTree.dashboard(),
+    }),
+    highlight_index: () => ({
+        title: 'Edit Highlights',
+        href: '/highlights',
+        parent: breadcrumbTree.dashboard(),
+    }),
+    settings_profile: () => ({
+        title: 'Profile',
+        href: '/settings/profile',
+        parent: breadcrumbTree.dashboard(),
+    }),
+    settings_password: () => ({
+        title: 'Password',
+        href: '/settings/password',
+        parent: breadcrumbTree.dashboard(),
+    }),
+    settings_appearance: () => ({
+        title: 'Appearance',
+        href: '/settings/appearance',
         parent: breadcrumbTree.dashboard(),
     }),
 };
@@ -86,14 +108,14 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/tags/index': 'tag_index',
     'admin/tags/create': 'create_tag',
     'admin/tags/edit': 'edit_tag',
-    'admin/skills/index': 'tag_index',
-    'admin/skills/create': 'create_tag',
-    'admin/skills/edit': 'edit_tag',
-    'admin/technologies/index': 'tag_index',
-    'admin/technologies/create': 'create_tag',
-    'admin/technologies/edit': 'edit_tag',
-    'admin/images': 'select_image',
+'admin/images': 'select_image',
     'admin/sections/edit': 'edit_section',
+    'admin/experience/index': 'experience_index',
+    'admin/education/index': 'education_index',
+    'admin/highlights/index': 'highlight_index',
+    'admin/settings/profile': 'settings_profile',
+    'admin/settings/password': 'settings_password',
+    'admin/settings/appearance': 'settings_appearance',
 };
 
 type BreadcrumbProps<C extends keyof typeof breadcrumbMap> = Parameters<(typeof breadcrumbTree)[(typeof breadcrumbMap)[C]]>[0];

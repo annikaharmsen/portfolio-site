@@ -1,39 +1,40 @@
+import CreatableSelect from '@/components/creatable-select';
 import InputError from '@/components/input-error';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ProjectConfig, SkillConfig, TechConfig } from '@/config/config';
+import { ProjectConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Project, Tags } from '@/types/models';
-import { router, useForm, usePage } from '@inertiajs/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useForm, usePage } from '@inertiajs/react';
+import React, { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
-import BadgeSelectInput from '../badge-select-input';
+import BadgeSelectInput, { SelectBadge } from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import { store } from '../store';
 import TextareaAutosize from 'react-textarea-autosize';
 import { cn } from '@/lib/utils';
 import { textAreaStyles } from '@/components/ui/textarea';
+import CreateTagDialog from '../tags/create-tag-dialog';
 
 interface ProjectFormProps {
     project?: Project;
     tags: Tags;
+    categories: string[];
+    tagCategories: string[];
 }
 
-export default function ProjectForm({ project, tags }: ProjectFormProps) {
+export default function ProjectForm({ project, tags, categories, tagCategories }: ProjectFormProps) {
     const { errors } = usePage().props;
     const controller = useController(ProjectConfig.BASE_URI);
 
     const [processing, setProcessing] = useState<boolean>(false);
     const [deleting, setDeleting] = useState<boolean>(false);
-
-    const skills = tags.filter((tag) => tag.category && SkillConfig.CATEGORIES.includes(tag.category));
-    const technologies = tags.filter((tag) => tag.category && TechConfig.CATEGORIES.includes(tag.category));
 
     const [bulletsText, setBulletsText] = useState<string>(project?.bullets?.join('\n') ?? '');
 
@@ -53,16 +54,6 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
         label: project?.label ?? '',
     });
     useUnsavedWarning(isDirty && !processing && !deleting);
-
-    // reload tag options when returning via history (preserves form state)
-    useEffect(() => {
-        const handlePopState = () => {
-            router.reload({ only: ['skills', 'technologies'] });
-        };
-
-        window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
-    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -89,13 +80,10 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
 
     const handleTagsChange = useCallback(
         (updatedValue: number[]) => {
-            setData('tags', [...new Set([...data.tags, ...updatedValue])]);
+            setData('tags', updatedValue);
         },
         [setData],
     );
-
-    const createTech = useController(TechConfig.BASE_URI).create;
-    const createSkill = useController(SkillConfig.BASE_URI).create;
 
     return (
         <>
@@ -197,16 +185,13 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
 
                     <>
                         <Label htmlFor="category">Resume Category</Label>
-                        <select
+                        <CreatableSelect
                             id="category"
-                            value={data.category ?? ''}
-                            onChange={(e) => setData('category', e.target.value as 'projects' | 'personal' | null || null)}
-                            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
-                        >
-                            <option value="">— not on resume —</option>
-                            <option value="projects">Projects</option>
-                            <option value="personal">Personal Projects</option>
-                        </select>
+                            value={data.category}
+                            onChange={(val) => setData('category', val)}
+                            options={categories}
+                            placeholder="not on resume"
+                        />
                         {errors.category && <InputError message={errors.category} />}
                     </>
 
@@ -222,28 +207,14 @@ export default function ProjectForm({ project, tags }: ProjectFormProps) {
                     </>
 
                     <>
-                        <Label htmlFor="skills" className="w-full">
-                            Skills
-                        </Label>
+                        <Label htmlFor="tags" className="w-full">Tags</Label>
                         <BadgeSelectInput
-                            value={data.tags.filter((tag) => skills.find((skill) => skill.id === tag))}
+                            value={data.tags}
                             onChange={handleTagsChange}
-                            options={skills}
+                            options={tags}
                             textResource="name"
-                            onClickPlus={createSkill}
-                        />
-                    </>
-
-                    <>
-                        <Label htmlFor="technologies" className="w-full">
-                            Technologies
-                        </Label>
-                        <BadgeSelectInput
-                            value={data.tags.filter((tag) => technologies.find((technology) => technology.id === tag))}
-                            onChange={handleTagsChange}
-                            options={technologies}
-                            textResource="name"
-                            onClickPlus={createTech}
+                            groupBy="category"
+                            addAction={<CreateTagDialog categories={tagCategories} trigger={<SelectBadge>+</SelectBadge>} />}
                         />
                     </>
                     <InputError className="col-span-full">{errors.tags}</InputError>

@@ -11,9 +11,7 @@ class ExperienceController extends Controller
 {
     public function index()
     {
-        return Inertia::render('admin/sections/edit', [
-            'section' => 'experience',
-            'texts' => [],
+        return Inertia::render('admin/experience/index', [
             'experiences' => Experience::ordered()->get(),
         ]);
     }

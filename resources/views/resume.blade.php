@@ -65,6 +65,15 @@
     <h2 class="text-center">Professional Summary</h2>
     <div class="text-left indent">{{ $resume['summary'] }}</div>
 
+    @if (count($resume['highlights']) > 0)
+    <h2 class="text-center">Selected Highlights</h2>
+    <ul>
+        @foreach ($resume['highlights'] as $highlight)
+        <li>{{ $highlight->text }}</li>
+        @endforeach
+    </ul>
+    @endif
+
     @if (count($resume['educations']) > 0)
     <h2 class="text-center">Education</h2>
     @foreach ($resume['educations'] as $edu)
@@ -98,6 +107,17 @@
                     <li>{{ $bullet }}</li>
                     @endforeach
                     </ul>
+                @endif
+                @if ($project->repo_link || $project->demo_link)
+                    <p>
+                        @if ($project->repo_link)
+                            <a href="{{ $project->repo_link }}">GitHub</a>
+                        @endif
+                        @if ($project->repo_link && $project->demo_link) | @endif
+                        @if ($project->demo_link)
+                            <a href="{{ $project->demo_link }}">Live Demo</a>
+                        @endif
+                    </p>
                 @endif
             </div>
         @endforeach

@@ -7,9 +7,11 @@ import { Head, router } from '@inertiajs/react';
 interface EditProjectProps {
     project: Project;
     tags: Tags;
+    categories: string[];
+    tagCategories: string[];
 }
 
-export default function EditProject({ project, tags }: EditProjectProps) {
+export default function EditProject({ project, tags, categories, tagCategories }: EditProjectProps) {
     return (
         <>
             <Head title={project.title} />
@@ -18,7 +20,7 @@ export default function EditProject({ project, tags }: EditProjectProps) {
                     <H1>Edit Project</H1>
                     <EditButton onClick={() => router.get(`/projects/${project.id}/hero-sections`)}>Edit Project Page</EditButton>
                 </div>
-                <ProjectForm project={project} tags={tags} />
+                <ProjectForm project={project} tags={tags} categories={categories} tagCategories={tagCategories} />
             </div>
         </>
     );

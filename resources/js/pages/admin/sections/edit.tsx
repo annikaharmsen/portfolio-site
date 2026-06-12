@@ -4,17 +4,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { textAreaStyles } from '@/components/ui/textarea';
 import { SectionConfigs } from '@/config/config';
 import { cn } from '@/lib/utils';
-import { Experience } from '@/types/models';
 import { SiteTextPath, SiteTexts, TextSection } from '@/types/site-texts';
 import { router } from '@inertiajs/react';
 import { ComponentProps, FocusEventHandler } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
-export default function Edit({ section = 'intro', texts, experiences = [] }: { section?: TextSection; texts: SiteTexts; experiences?: Experience[] }) {
+export default function Edit({ section = 'intro', texts }: { section?: TextSection; texts: SiteTexts }) {
     const { EditComponent, ShowComponent } = SectionConfigs[section];
 
     const handleTabChange = () => {
-        // Force blur on the currently focused element before switching tabs
+        // force blur on the currently focused element before switching tabs
         if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur();
         }
@@ -30,14 +29,14 @@ export default function Edit({ section = 'intro', texts, experiences = [] }: { s
                 <TabsContent value={'edit'}>
                     <Card>
                         <CardContent>
-                            <EditComponent texts={texts[section]} experiences={experiences} />
+                            <EditComponent texts={texts[section]} />
                         </CardContent>
                     </Card>
                 </TabsContent>
                 <TabsContent value={'show'}>
                     <Card>
                         <CardContent>
-                            <ShowComponent texts={texts[section] || {}} experiences={experiences} />
+                            <ShowComponent texts={texts[section] || {}} />
                         </CardContent>
                     </Card>
                 </TabsContent>
