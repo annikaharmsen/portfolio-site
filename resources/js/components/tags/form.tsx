@@ -12,7 +12,7 @@ import CreatableSkillGroupSelect from '../creatable-skill-group-select';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
 import { store } from '../store';
-import CreatableSelect from '../creatable-select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import CreateProjectDialog from '../projects/create-project-dialog';
@@ -97,12 +97,18 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
 
                 <>
                     <Label htmlFor="category">Category</Label>
-                    <CreatableSelect
-                        id="category"
-                        value={data.category}
-                        onChange={(val) => setData('category', val)}
-                        options={categories}
-                    />
+                    <Select value={data.category ?? ''} onValueChange={(val) => setData('category', val || null)}>
+                        <SelectTrigger id="category">
+                            <SelectValue placeholder="select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {categories.map((cat) => (
+                                <SelectItem key={cat} value={cat}>
+                                    {cat}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                     <InputError>{errors.category}</InputError>
                 </>
                 <>
