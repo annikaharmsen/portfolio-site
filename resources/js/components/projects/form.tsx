@@ -1,35 +1,33 @@
 import InputError from '@/components/input-error';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea, textAreaStyles } from '@/components/ui/textarea';
 import { ProjectConfig } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useIndentation from '@/hooks/use-indentation';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
-import { Project, Tags } from '@/types/models';
+import { cn } from '@/lib/utils';
+import { Project, SkillGroups } from '@/types/models';
 import { useForm, usePage } from '@inertiajs/react';
 import React, { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
+import TextareaAutosize from 'react-textarea-autosize';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput, { SelectBadge } from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import { store } from '../store';
-import TextareaAutosize from 'react-textarea-autosize';
-import { cn } from '@/lib/utils';
-import { textAreaStyles } from '@/components/ui/textarea';
 import CreateTagDialog from '../tags/create-tag-dialog';
 
 interface ProjectFormProps {
     project?: Project;
-    tags: Tags;
+    skillGroups: SkillGroups;
     categories: string[];
-    tagCategories: string[];
 }
 
-export default function ProjectForm({ project, tags, categories, tagCategories }: ProjectFormProps) {
+export default function ProjectForm({ project, skillGroups, categories }: ProjectFormProps) {
     const { errors } = usePage().props;
     const controller = useController(ProjectConfig.BASE_URI);
 
@@ -60,9 +58,7 @@ export default function ProjectForm({ project, tags, categories, tagCategories }
         setProcessing(true);
         const payload = {
             ...data,
-            bullets: bulletsText
-                ? bulletsText.split('\n').filter((line) => line.trim())
-                : null,
+            bullets: bulletsText ? bulletsText.split('\n').filter((line) => line.trim()) : null,
         };
         if (project) {
             controller.update(project, payload, { onFinish: () => setProcessing(false) });
@@ -206,23 +202,26 @@ export default function ProjectForm({ project, tags, categories, tagCategories }
                             id="label"
                             value={data.label ?? ''}
                             onChange={(e) => setData('label', e.target.value)}
-                            placeholder="e.g. 2025 or In Progress"
+                            placeholder="e.g. “In Progress”"
                         />
                         {errors.label && <InputError message={errors.label} />}
                     </>
 
-                    <>
-                        <Label htmlFor="tags" className="w-full">Tags</Label>
-                        <BadgeSelectInput
-                            value={data.tags}
-                            onChange={handleTagsChange}
-                            options={tags}
-                            textResource="name"
-                            groupBy="category"
-                            addAction={<CreateTagDialog categories={tagCategories} trigger={<SelectBadge>+</SelectBadge>} />}
-                        />
-                    </>
-                    <InputError className="col-span-full">{errors.tags}</InputError>
+                    {skillGroups.map(({ name: groupName, tags }) => (
+                        <div key={groupName} className="mb-2">
+                            <Label htmlFor="tags" className="w-full">
+                                {groupName}
+                            </Label>
+                            <BadgeSelectInput
+                                value={data.tags}
+                                onChange={handleTagsChange}
+                                options={tags!}
+                                textResource="name"
+                                addAction={<CreateTagDialog trigger={<SelectBadge>+</SelectBadge>} />}
+                            />
+                            <InputError className="col-span-full">{errors.tags}</InputError>
+                        </div>
+                    ))}
                 </FormGridLayout>
 
                 <div className="mt-8 flex justify-between">

@@ -12,7 +12,6 @@ import { store } from '../store';
 import { SaveButton } from '../app-buttons';
 
 interface CreateTagDialogProps {
-    categories: string[];
     trigger: ReactNode;
 }
 
@@ -22,7 +21,8 @@ interface FormErrors {
     category?: string;
 }
 
-export default function CreateTagDialog({ categories, trigger }: CreateTagDialogProps) {
+export default function CreateTagDialog({ trigger }: CreateTagDialogProps) {
+    const categories = TagConfig.CATEGORIES;
     const [open, setOpen] = useState(false);
     const [processing, setProcessing] = useState(false);
     const [errors, setErrors] = useState<FormErrors>({});

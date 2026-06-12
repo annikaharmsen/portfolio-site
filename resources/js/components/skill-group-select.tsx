@@ -1,7 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SkillGroups } from '@/types/models';
-import { cn } from '@/lib/utils';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
