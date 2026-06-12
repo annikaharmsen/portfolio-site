@@ -6,6 +6,7 @@ use App\Http\Requests\BulkDeleteTagsRequest;
 use App\Http\Requests\BulkUpdateTagCategoryRequest;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
+use App\Models\SkillGroup;
 use App\Models\Tag;
 use Inertia\Inertia;
 
@@ -50,8 +51,21 @@ trait HandlesTagCrud
 
     public function bulkUpdateCategory(BulkUpdateTagCategoryRequest $request)
     {
-        Tag::whereIn('id', $request->getIds())
+        $tagIds = $request->getIds();
+
+        // capture old groups before reassigning
+        $oldGroupIds = Tag::whereIn('id', $tagIds)
+            ->whereNotNull('skill_group_id')
+            ->pluck('skill_group_id')
+            ->unique();
+
+        Tag::whereIn('id', $tagIds)
             ->update(['skill_group_id' => $request->validated()['skill_group_id']]);
+
+        // delete old groups that are now empty
+        SkillGroup::whereIn('id', $oldGroupIds)
+            ->whereDoesntHave('tags')
+            ->delete();
 
         return back();
     }
