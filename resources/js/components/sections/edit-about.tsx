@@ -31,7 +31,7 @@ export default function EditAbout({ texts = {} }: { texts?: AboutTexts }) {
                 return (
                     <>
                         {cards.map(([key, card], index) => (
-                            <Card key={index} className="gap-y-2">
+                            <Card key={key} className="gap-y-2">
                                 <CardHeader>
                                     <CardTitle>
                                         <SiteTextInput

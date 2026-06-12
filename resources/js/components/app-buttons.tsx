@@ -32,7 +32,7 @@ export const EditButton = ({ showIcon, ...props }: ComponentProps<typeof Button>
 export const LinkButton = ({ href, newTab, children, ...props }: { href?: string, newTab?: boolean } & ComponentProps<typeof Button>) => (
     <Button onClick={(e) => e.stopPropagation()} asChild={!!href} disabled={!href} {...props}>
         {href ? (
-            <a href={href} target={newTab ? "_blank" : ''} rel={newTab ? "noopener noreferrer" : ''}>
+            <a href={href} target={newTab ? "_blank" : undefined} rel={newTab ? "noopener noreferrer" : undefined}>
                 {children}
             </a>
         ) : (
