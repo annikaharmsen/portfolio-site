@@ -19,6 +19,10 @@ trait HandlesTagCrud
         $tag = Tag::create($validated);
         $tag->projects()->sync($validated['projects']);
 
+        if ($request->boolean('inline')) {
+            return back();
+        }
+
         return redirect()->route('tags.index');
     }
 

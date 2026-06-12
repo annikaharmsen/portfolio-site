@@ -25,9 +25,11 @@ interface ProjectFormProps {
     project?: Project;
     skillGroups: SkillGroups;
     categories: string[];
+    inline?: boolean;
+    onSuccess?: () => void;
 }
 
-export default function ProjectForm({ project, skillGroups, categories }: ProjectFormProps) {
+export default function ProjectForm({ project, skillGroups, categories, inline, onSuccess }: ProjectFormProps) {
     const { errors } = usePage().props;
     const controller = useController(ProjectConfig.BASE_URI);
 
@@ -51,7 +53,7 @@ export default function ProjectForm({ project, skillGroups, categories }: Projec
         category: project?.category ?? null,
         label: project?.label ?? '',
     });
-    useUnsavedWarning(isDirty && !processing && !deleting);
+    useUnsavedWarning(!inline && isDirty && !processing && !deleting);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -59,11 +61,16 @@ export default function ProjectForm({ project, skillGroups, categories }: Projec
         const payload = {
             ...data,
             bullets: bulletsText ? bulletsText.split('\n').filter((line) => line.trim()) : null,
+            ...(inline ? { inline: true } : {}),
         };
         if (project) {
             controller.update(project, payload, { onFinish: () => setProcessing(false) });
         } else {
-            controller.store(payload, { onFinish: () => setProcessing(false) });
+            controller.store(payload, {
+                preserveScroll: inline,
+                onSuccess: () => onSuccess?.(),
+                onFinish: () => setProcessing(false),
+            });
         }
     };
 
@@ -207,7 +214,7 @@ export default function ProjectForm({ project, skillGroups, categories }: Projec
                         {errors.label && <InputError message={errors.label} />}
                     </>
 
-                    {skillGroups.map(({ name: groupName, tags }) => (
+                    {!inline && skillGroups.map(({ name: groupName, tags }) => (
                         <div key={groupName} className="mb-2">
                             <Label htmlFor="tags" className="w-full">
                                 {groupName}
@@ -225,9 +232,9 @@ export default function ProjectForm({ project, skillGroups, categories }: Projec
                 </FormGridLayout>
 
                 <div className="mt-8 flex justify-between">
-                    {project && <DeleteButton onClick={handleDelete} disabled={deleting} />}
+                    {!inline && project && <DeleteButton onClick={handleDelete} disabled={deleting} />}
                     <div className="flex w-full justify-end space-x-2">
-                        <CancelButton onClick={controller.index} />
+                        {!inline && <CancelButton onClick={controller.index} />}
                         <SaveButton disabled={processing} onClick={handleSubmit}>
                             {processing ? 'Saving...' : project ? 'Update' : 'Create'}
                         </SaveButton>

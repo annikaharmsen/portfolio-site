@@ -24,9 +24,11 @@ interface TagFormProps {
     className?: string;
     categories: string[];
     skillGroups: SkillGroups;
+    inline?: boolean;
+    onSuccess?: () => void;
 }
 
-export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, tag, className, categories, skillGroups }: TagFormProps) {
+export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, tag, className, categories, skillGroups, inline, onSuccess }: TagFormProps) {
     const controller = useController(baseURI);
     const { errors } = usePage().props;
 
@@ -40,7 +42,7 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
         category: tag?.category ?? null,
         skill_group_id: tag?.skill_group_id ?? null,
     });
-    useUnsavedWarning(isDirty && !processing && !deleting);
+    useUnsavedWarning(!inline && isDirty && !processing && !deleting);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -49,7 +51,12 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
         if (tag) {
             controller.update(tag, data, { onFinish: () => setProcessing(false) });
         } else {
-            controller.store(data, { onFinish: () => setProcessing(false) });
+            const payload = inline ? { ...data, inline: true } : data;
+            controller.store(payload, {
+                preserveScroll: inline,
+                onSuccess: () => onSuccess?.(),
+                onFinish: () => setProcessing(false),
+            });
         }
     };
 
@@ -87,13 +94,15 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
                     <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="name" />
                     <InputError>{errors.name}</InputError>
                 </>
-                <div>
-                    <Label htmlFor="projects" className="block">
-                        Projects
-                    </Label>
-                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} addAction={<CreateProjectDialog trigger={<SelectBadge>+</SelectBadge>} />} />
-                    <InputError>{errors.projects}</InputError>
-                </div>
+                {!inline && (
+                    <div>
+                        <Label htmlFor="projects" className="block">
+                            Projects
+                        </Label>
+                        <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} addAction={<CreateProjectDialog trigger={<SelectBadge>+</SelectBadge>} />} />
+                        <InputError>{errors.projects}</InputError>
+                    </div>
+                )}
 
                 <>
                     <Label htmlFor="category">Category</Label>
@@ -125,9 +134,9 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
             </FormGridLayout>
 
             <div className="mt-8 flex justify-between">
-                {!!tag && <DeleteButton onClick={handleDelete} disabled={deleting} />}
+                {!inline && !!tag && <DeleteButton onClick={handleDelete} disabled={deleting} />}
                 <div className="flex w-full justify-end space-x-2">
-                    <CancelButton onClick={controller.index} />
+                    {!inline && <CancelButton onClick={controller.index} />}
                     <SaveButton disabled={processing} onClick={handleSubmit}>
                         {processing ? 'Saving...' : tag ? 'Update' : 'Create'}
                     </SaveButton>

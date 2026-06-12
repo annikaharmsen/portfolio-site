@@ -3,39 +3,24 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 // Define the state type
 interface IconSelectorState {
-    searchTerm: string;
-    selectedIcon: string | null;
     iconList: string[];
-    isOpen: boolean;
 }
 
 // Create a slice
 const iconSelectorSlice = createSlice({
     name: 'iconSelector',
     initialState: {
-        searchTerm: '',
-        selectedIcon: null,
         iconList: [],
-        isOpen: false,
     } as IconSelectorState,
     reducers: {
-        setSearchTerm: (state, action: PayloadAction<string>) => {
-            state.searchTerm = action.payload;
-        },
-        setSelectedIcon: (state, action: PayloadAction<string | null>) => {
-            state.selectedIcon = action.payload;
-        },
         setIconList: (state, action: PayloadAction<string[]>) => {
             state.iconList = action.payload;
-        },
-        setIsOpen: (state, action: PayloadAction<boolean>) => {
-            state.isOpen = action.payload;
         },
     },
 });
 
 // Export actions
-export const { setSearchTerm, setSelectedIcon, setIconList, setIsOpen } = iconSelectorSlice.actions;
+export const { setIconList } = iconSelectorSlice.actions;
 
 // Create store
 export const store = configureStore({

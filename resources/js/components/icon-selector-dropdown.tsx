@@ -1,11 +1,11 @@
 'use client';
 
-import { setIconList, setIsOpen, setSearchTerm } from '@/components/store';
+import { setIconList } from '@/components/store';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ChevronDown, icons, X } from 'lucide-react';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { List, RowComponentProps } from 'react-window';
 import { ClassNameValue } from 'tailwind-merge';
@@ -24,15 +24,11 @@ interface IconSelectorProps {
 
 const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = null, onChange, className }: IconSelectorProps) => {
     const dispatch = useDispatch();
-    const { searchTerm, iconList, isOpen } = useSelector(
-        (state: {
-            iconSelector: {
-                searchTerm: string;
-                iconList: IconName[];
-                isOpen: boolean;
-            };
-        }) => state.iconSelector,
+    const iconList = useSelector(
+        (state: { iconSelector: { iconList: IconName[] } }) => state.iconSelector.iconList,
     );
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
     const searchInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -47,21 +43,21 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
 
     const handleOpenChange = useCallback(
         (open: boolean) => {
-            dispatch(setIsOpen(open));
+            setIsOpen(open);
             if (open) {
                 setTimeout(() => searchInputRef.current?.focus(), 0);
             } else {
-                dispatch(setSearchTerm(''));
+                setSearchTerm('');
             }
         },
-        [dispatch],
+        [],
     );
 
     const handleSearchChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch(setSearchTerm(e.target.value));
+            setSearchTerm(e.target.value);
         },
-        [dispatch],
+        [],
     );
 
     const IconItem = useCallback(
@@ -74,7 +70,7 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
                     className="flex cursor-pointer items-center p-2 hover:bg-gray-100"
                     onClick={() => {
                         onChange?.(iconName);
-                        dispatch(setIsOpen(false));
+                        setIsOpen(false);
                     }}
                 >
                     <IconComponent className="mr-2 h-4 w-4" />
@@ -83,11 +79,11 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
                 </div>
             );
         },
-        [filteredIcons, value, onChange, dispatch],
+        [filteredIcons, value, onChange],
     );
 
     return (
-        <div id={id} className={cn('relative min-w-[300px]', className)}>
+        <div id={id} className={cn('relative', className)}>
             <DropdownMenu.Root open={isOpen} onOpenChange={handleOpenChange}>
                 <DropdownMenu.Trigger asChild>
                     <button className="flex h-9 w-full min-w-0 items-center justify-between rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50">
@@ -99,22 +95,20 @@ const IconSelectorDropdownClient: React.FC<IconSelectorProps> = ({ id, value = n
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
                     </button>
                 </DropdownMenu.Trigger>
-                <DropdownMenu.Portal>
-                    <DropdownMenu.Content className="w-[300px] overflow-hidden rounded-md border border-border bg-popover shadow-lg" align="start">
-                        <div className="p-2">
-                            <Input
-                                ref={searchInputRef}
-                                placeholder="Search icons..."
-                                value={searchTerm}
-                                onChange={handleSearchChange}
-                                className="h-8"
-                            />
-                        </div>
-                        <div className="scroll max-h-[400px] overflow-auto border-t">
-                            <List rowCount={filteredIcons.length} rowComponent={IconItem} rowHeight={ITEM_HEIGHT} rowProps={{}} />
-                        </div>
-                    </DropdownMenu.Content>
-                </DropdownMenu.Portal>
+                <DropdownMenu.Content className="z-[100] w-[300px] overflow-hidden rounded-md border border-border bg-popover shadow-lg" align="start">
+                    <div className="p-2">
+                        <Input
+                            ref={searchInputRef}
+                            placeholder="Search icons..."
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="h-8"
+                        />
+                    </div>
+                    <div className="scroll max-h-[400px] overflow-auto border-t">
+                        <List rowCount={filteredIcons.length} rowComponent={IconItem} rowHeight={ITEM_HEIGHT} rowProps={{}} />
+                    </div>
+                </DropdownMenu.Content>
             </DropdownMenu.Root>
             {value && (
                 <button
