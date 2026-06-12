@@ -22,7 +22,7 @@ export default function ImageSelector({
     const gridItems = images.map((img) => (
         <img key={img.alt + ' - ' + img.id} className="size-full object-contain" src={img.url} alt={img.alt} onClick={() => setImageID(img.id)} />
     ));
-    while (gridItems.length < 4) gridItems.push(<div className="hidden aspect-square size-full border bg-accent/30 lg:block" />);
+    while (gridItems.length < 4) gridItems.push(<div key={`placeholder-${gridItems.length}`} className="hidden aspect-square size-full border bg-accent/30 lg:block" />);
 
     return (
         <>
@@ -33,7 +33,7 @@ export default function ImageSelector({
                             <img
                                 className="size-full max-h-fit max-w-fit border-2 object-contain"
                                 src={getSelectedImg()?.url}
-                                alt={getSelectedImg()?.alt}
+                                alt={getSelectedImg()?.alt ?? ''}
                             />
                             <div className="absolute top-0 left-0 size-full bg-white/65 opacity-0 hover:opacity-100">
                                 <span className="absolute top-1/2 left-1/2 -translate-1/2 text-center *:m-2">
