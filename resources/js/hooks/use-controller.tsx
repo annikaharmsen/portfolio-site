@@ -41,10 +41,10 @@ export default function useController<T extends { id: number }>(baseURI: BaseURI
                 });
             }
         },
-        bulk_update_category: (modelIDs: number[], category: string) => {
+        bulk_update_category: (modelIDs: number[], skillGroupId: number) => {
             router.patch(`${baseURI}/bulk-update-category`, {
                 ids: modelIDs,
-                category,
+                skill_group_id: skillGroupId,
             });
         },
     };
