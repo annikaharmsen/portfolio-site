@@ -90,7 +90,7 @@ export function AppSidebar() {
 
             <SidebarContent>
                 {mainNav.map((group) => (
-                    <NavSection title={group.title} items={group.items} />
+                    <NavSection key={group.title} title={group.title} items={group.items} />
                 ))}
             </SidebarContent>
 

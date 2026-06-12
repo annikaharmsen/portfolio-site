@@ -28,7 +28,7 @@ export default function ImageUploadForm() {
                         <Label htmlFor="image">Upload new image</Label>
                         <Input name="image" type="file" onChange={handleImageInput} />
                     </>
-                    <>{imageURL && <img src={imageURL} />}</>
+                    <>{imageURL && <img src={imageURL} alt="Upload preview" />}</>
                     <>
                         <Label htmlFor="alt">Add alt text</Label>
                         <Input name="alt" type="text" />
