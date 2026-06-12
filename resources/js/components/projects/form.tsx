@@ -1,5 +1,5 @@
-import CreatableSelect from '@/components/creatable-select';
 import InputError from '@/components/input-error';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -185,13 +185,18 @@ export default function ProjectForm({ project, tags, categories, tagCategories }
 
                     <>
                         <Label htmlFor="category">Resume Category</Label>
-                        <CreatableSelect
-                            id="category"
-                            value={data.category}
-                            onChange={(val) => setData('category', val)}
-                            options={categories}
-                            placeholder="not on resume"
-                        />
+                        <Select value={data.category ?? ''} onValueChange={(val) => setData('category', val || null)}>
+                            <SelectTrigger id="category">
+                                <SelectValue placeholder="not on resume" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {categories.map((cat) => (
+                                    <SelectItem key={cat} value={cat}>
+                                        {cat}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         {errors.category && <InputError message={errors.category} />}
                     </>
 
