@@ -10,17 +10,16 @@ interface DashboardProps {
     projects: Projects;
     tags: Tags;
     skillGroups: SkillGroups;
-    projectCategories: string[];
 }
 
-export default function Dashboard({ projects, tags, skillGroups, projectCategories }: DashboardProps) {
+export default function Dashboard({ projects, tags, skillGroups }: DashboardProps) {
     return (
         <>
             <Head title="Dashboard" />
             <div className="grid h-full w-full gap-4 rounded-xl min-[1500px]:grid-cols-2">
                 <Card className="max-w-full overflow-x-auto">
                     <CardContent>
-                        <ModelList<Project> models={projects} modelConfig={ProjectConfig} columns={ProjectTableColumns} searchBy="title" categories={projectCategories} />
+                        <ModelList<Project> models={projects} modelConfig={ProjectConfig} columns={ProjectTableColumns} searchBy="title" />
                     </CardContent>
                 </Card>
                 <Card className="max-w-full overflow-x-auto">

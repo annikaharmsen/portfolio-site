@@ -30,9 +30,9 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
     const [editingGroup, setEditingGroup] = useState<number | null>(null);
     const [editForm, setEditForm] = useState({ name: '', sort_order: 0 });
 
-    const tagCategories = useMemo(
-        () => [...new Set(tags.map((t) => t.category).filter((c): c is string => !!c))].sort(),
-        [tags],
+    const skillGroupOptions = useMemo(
+        () => skillGroups.map((sg) => ({ id: sg.id, name: sg.name })),
+        [skillGroups],
     );
 
     const filteredTags = useMemo(
@@ -78,19 +78,13 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
         router.delete(`/skill-groups/${id}`, { preserveScroll: true });
     };
 
-    const createGroup = () => {
-        router.post('/skill-groups', { name: 'New Group', sort_order: skillGroups.length + 1 }, {
-            preserveScroll: true,
-        });
-    };
-
     const handleBulkDelete = () => {
         controller.bulk_delete(modelSelection.selected);
         modelSelection.clear();
     };
 
-    const handleBulkUpdateCategory = (category: string) => {
-        controller.bulk_update_category(modelSelection.selected, category);
+    const handleBulkUpdateCategory = (skillGroupId: number) => {
+        controller.bulk_update_category(modelSelection.selected, skillGroupId);
         modelSelection.clear();
     };
 
@@ -185,7 +179,7 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     className="h-9 w-full min-w-min"
                 />
                 <CategoryReassignDropdown
-                    categories={tagCategories}
+                    skillGroups={skillGroupOptions}
                     disabled={modelSelection.selected.length === 0}
                     onSelect={handleBulkUpdateCategory}
                 />
@@ -226,13 +220,6 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     ))}
                 </div>
             )}
-
-            <div
-                onClick={createGroup}
-                className="flex h-12 cursor-pointer items-center justify-center rounded-md border border-dashed text-muted-foreground hover:bg-accent/50"
-            >
-                + New Skill Group
-            </div>
 
             <div
                 onClick={() => controller.create()}

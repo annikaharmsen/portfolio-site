@@ -6,14 +6,13 @@ import { Head } from '@inertiajs/react';
 
 interface ProjectIndexProps {
     projects: Projects;
-    categories: string[];
 }
 
-export default function ProjectIndex({ projects, categories }: ProjectIndexProps) {
+export default function ProjectIndex({ projects }: ProjectIndexProps) {
     return (
         <>
             <Head title="Projects" />
-            <ModelList<Project> models={projects} columns={ProjectTableColumns} modelConfig={ProjectConfig} searchBy="title" categories={categories} />
+            <ModelList<Project> models={projects} columns={ProjectTableColumns} modelConfig={ProjectConfig} searchBy="title" />
         </>
     );
 }
