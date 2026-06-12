@@ -34,7 +34,11 @@ class ProjectController extends Controller
 
         $project = Project::create($validated);
 
-        $project->tags()->sync($validated['tags']);
+        $project->tags()->sync($validated['tags'] ?? []);
+
+        if ($request->boolean('inline')) {
+            return back();
+        }
 
         return redirect("/projects/{$project->id}");
     }
