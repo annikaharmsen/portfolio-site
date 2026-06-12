@@ -39,7 +39,7 @@ trait HandlesTagCrud
     {
         $tag->delete();
 
-        return Inertia::render('loading');
+        return redirect()->route('tags.index');
     }
 
     public function bulkDelete(BulkDeleteTagsRequest $request)

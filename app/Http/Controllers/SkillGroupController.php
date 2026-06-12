@@ -28,6 +28,6 @@ class SkillGroupController extends Controller
         $skillGroup->tags()->update(['skill_group_id' => null]);
         $skillGroup->delete();
 
-        return redirect()->back();
+        return redirect()->route('skill-groups.index');
     }
 }

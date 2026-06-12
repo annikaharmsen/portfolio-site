@@ -51,6 +51,6 @@ class ImageController extends Controller
         Storage::disk('public')->delete(str_replace('/storage/', '', $image->url));
         $image->delete();
 
-        return back();
+        return redirect()->route('images.index');
     }
 }
