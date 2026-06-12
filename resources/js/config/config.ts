@@ -9,7 +9,7 @@ import { SectionTexts, TextSectionComponent } from '@/types/site-texts';
 export type ModelType = 'Project' | 'Tag';
 export type ModelURI = '/projects' | '/tags';
 
-const TAG_CATEGORIES = ['frontend', 'backend', 'tool', 'skill'] as const;
+const TAG_CATEGORIES = ['tech', 'skill'] as const;
 export type TagCategory = (typeof TAG_CATEGORIES)[number];
 
 export interface ModelConfigInterface {

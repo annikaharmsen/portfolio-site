@@ -4,10 +4,6 @@ namespace App\Enums;
 
 enum TagCategory: string
 {
-    case frontend = 'frontend';
-    case backend = 'backend';
-    case tool = 'tool';
-
+    case tech = 'tech';
     case skill = 'skill';
-
 }

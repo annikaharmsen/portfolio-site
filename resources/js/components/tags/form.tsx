@@ -2,16 +2,17 @@ import { TagConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
-import { Projects, Tag } from '@/types/models';
+import { Projects, SkillGroups, Tag } from '@/types/models';
 import { useForm, usePage } from '@inertiajs/react';
 import { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
 import BadgeSelectInput, { SelectBadge } from '../badge-select-input';
+import SkillGroupSelect from '../skill-group-select';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
 import { store } from '../store';
-import CreatableSelect from '../creatable-select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import CreateProjectDialog from '../projects/create-project-dialog';
@@ -22,9 +23,10 @@ interface TagFormProps {
     tag?: Tag;
     className?: string;
     categories: string[];
+    skillGroups: SkillGroups;
 }
 
-export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, tag, className, categories }: TagFormProps) {
+export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, tag, className, categories, skillGroups }: TagFormProps) {
     const controller = useController(baseURI);
     const { errors } = usePage().props;
 
@@ -36,6 +38,7 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
         name: (!!tag && tag.name) || '',
         projects: (!!tag && tag.projects?.map((project) => project.id)) || [],
         category: tag?.category ?? null,
+        skill_group_id: tag?.skill_group_id ?? null,
     });
     useUnsavedWarning(isDirty && !processing && !deleting);
 
@@ -94,13 +97,30 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
 
                 <>
                     <Label htmlFor="category">Category</Label>
-                    <CreatableSelect
-                        id="category"
-                        value={data.category}
-                        onChange={(val) => setData('category', val)}
-                        options={categories}
-                    />
+                    <Select value={data.category ?? ''} onValueChange={(val) => setData('category', val || null)}>
+                        <SelectTrigger id="category">
+                            <SelectValue placeholder="select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {categories.map((cat) => (
+                                <SelectItem key={cat} value={cat}>
+                                    {cat}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                     <InputError>{errors.category}</InputError>
+                </>
+                <>
+                    <Label htmlFor="skill_group_id">Skill Group</Label>
+                    <SkillGroupSelect
+                        id="skill_group_id"
+                        value={data.skill_group_id}
+                        onValueChange={(val) => setData('skill_group_id', val)}
+                        options={skillGroups}
+                        creatable
+                    />
+                    <InputError>{errors.skill_group_id}</InputError>
                 </>
             </FormGridLayout>
 
