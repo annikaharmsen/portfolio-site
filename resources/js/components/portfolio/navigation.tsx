@@ -19,7 +19,7 @@ export default function Navigation({ mobile = false, hide = [] }: { mobile?: boo
         </a>
     );
 
-    const links = ['intro', 'about', 'skills', 'projects', 'contact'].filter((link) => !hide.includes(link)).reverse();
+    const links = ['intro', 'about', 'skills & experience', 'projects', 'contact'].filter((link) => !hide.includes(link)).reverse();
 
     return (
         <>

@@ -29,10 +29,10 @@ export const EditButton = ({ showIcon, ...props }: ComponentProps<typeof Button>
     </Button>
 );
 
-export const LinkButton = ({ href, newTab, children, ...props }: { href?: string, newTab?: boolean } & ComponentProps<typeof Button>) => (
+export const LinkButton = ({ href, newTab, children, ...props }: { href?: string; newTab?: boolean } & ComponentProps<typeof Button>) => (
     <Button onClick={(e) => e.stopPropagation()} asChild={!!href} disabled={!href} {...props}>
         {href ? (
-            <a href={href} target={newTab ? "_blank" : undefined} rel={newTab ? "noopener noreferrer" : undefined}>
+            <a href={href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener noreferrer' : undefined}>
                 {children}
             </a>
         ) : (
@@ -56,7 +56,7 @@ export const GitHubButton = ({ href, hoverVariant = 'accent', className, childre
     </LinkButton>
 );
 
-export const LinkedinButton = ({ href, hoverVariant = 'accent', className, children = 'Linkedin', ...props }: HoverButton<typeof LinkButton>) => (
+export const LinkedinButton = ({ href, hoverVariant = 'accent', className, children = 'LinkedIn', ...props }: HoverButton<typeof LinkButton>) => (
     <LinkButton href={href} newTab size="sm" variant="outline" className={cn(hoverBaseStyles, hoverVariants[hoverVariant], className)} {...props}>
         <Linkedin className="mr-2 h-4 w-4" />
         {children}
