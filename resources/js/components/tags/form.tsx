@@ -1,6 +1,5 @@
 import { TagConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
-import useReroute from '@/hooks/use-reroute';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, Tag } from '@/types/models';
@@ -27,7 +26,6 @@ interface TagFormProps {
 
 export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, tag, className, categories }: TagFormProps) {
     const controller = useController(baseURI);
-    const { reroute } = useReroute();
     const { errors } = usePage().props;
 
     const [processing, setProcessing] = useState<boolean>(false);
@@ -46,9 +44,9 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
 
         setProcessing(true);
         if (tag) {
-            controller.update(tag, data, { onSuccess: reroute, onFinish: () => setProcessing(false) });
+            controller.update(tag, data, { onFinish: () => setProcessing(false) });
         } else {
-            controller.store(data, { onSuccess: reroute, onFinish: () => setProcessing(false) });
+            controller.store(data, { onFinish: () => setProcessing(false) });
         }
     };
 
