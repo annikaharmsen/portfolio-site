@@ -80,9 +80,7 @@ Route::middleware('auth')->group(function () {
 
     // Highlight routes
     Route::get('highlights', [HighlightController::class, 'index'])->name('highlights.index');
-    Route::post('highlights', [HighlightController::class, 'store'])->name('highlights.store');
-    Route::put('highlights/{highlight}', [HighlightController::class, 'update'])->name('highlights.update');
-    Route::delete('highlights/{highlight}', [HighlightController::class, 'destroy'])->name('highlights.destroy');
+    Route::put('highlights', [HighlightController::class, 'sync'])->name('highlights.sync');
 
     // Experience routes
     Route::get('experiences', [ExperienceController::class, 'index'])
