@@ -25,7 +25,7 @@ class ProjectController extends Controller
         return Inertia::render('admin/projects/create', [
             'tags' => Tag::all(),
             'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
-            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'tagCategories' => array_column(\App\Enums\TagCategory::cases(), 'value'),
         ]);
     }
 
@@ -57,7 +57,7 @@ class ProjectController extends Controller
             'project' => $project->load('tags'),
             'tags' => Tag::all(),
             'categories' => Project::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
-            'tagCategories' => Tag::whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'tagCategories' => array_column(\App\Enums\TagCategory::cases(), 'value'),
         ]);
     }
 
