@@ -51,7 +51,7 @@ trait HandlesTagCrud
     public function bulkUpdateCategory(BulkUpdateTagCategoryRequest $request)
     {
         Tag::whereIn('id', $request->getIds())
-            ->update(['category' => $request->validated()['category']]);
+            ->update(['skill_group_id' => $request->validated()['skill_group_id']]);
 
         return back();
     }
