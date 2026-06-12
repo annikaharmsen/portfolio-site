@@ -81,6 +81,21 @@ export const breadcrumbTree = {
         href: '/highlights',
         parent: breadcrumbTree.dashboard(),
     }),
+    settings_profile: () => ({
+        title: 'Profile',
+        href: '/settings/profile',
+        parent: breadcrumbTree.dashboard(),
+    }),
+    settings_password: () => ({
+        title: 'Password',
+        href: '/settings/password',
+        parent: breadcrumbTree.dashboard(),
+    }),
+    settings_appearance: () => ({
+        title: 'Appearance',
+        href: '/settings/appearance',
+        parent: breadcrumbTree.dashboard(),
+    }),
 };
 
 const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
@@ -98,6 +113,9 @@ const breadcrumbMap: Record<string, keyof typeof breadcrumbTree> = {
     'admin/experience/index': 'experience_index',
     'admin/education/index': 'education_index',
     'admin/highlights/index': 'highlight_index',
+    'admin/settings/profile': 'settings_profile',
+    'admin/settings/password': 'settings_password',
+    'admin/settings/appearance': 'settings_appearance',
 };
 
 type BreadcrumbProps<C extends keyof typeof breadcrumbMap> = Parameters<(typeof breadcrumbTree)[(typeof breadcrumbMap)[C]]>[0];
