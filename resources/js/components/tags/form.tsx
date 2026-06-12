@@ -1,20 +1,21 @@
-import { ProjectConfig, TagConfigInterface } from '@/config/config';
+import { TagConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
 import useReroute from '@/hooks/use-reroute';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, Tag } from '@/types/models';
-import { router, useForm, usePage } from '@inertiajs/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useForm, usePage } from '@inertiajs/react';
+import { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
-import BadgeSelectInput from '../badge-select-input';
+import BadgeSelectInput, { SelectBadge } from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
 import { store } from '../store';
 import CreatableSelect from '../creatable-select';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import CreateProjectDialog from '../projects/create-project-dialog';
 
 interface TagFormProps {
     tagConfig: TagConfigInterface;
@@ -39,15 +40,6 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
         category: tag?.category ?? null,
     });
     useUnsavedWarning(isDirty && !processing && !deleting);
-
-    useEffect(() => {
-        const handlePopState = () => {
-            router.reload({ only: ['projects'] });
-        };
-
-        window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
-    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -74,8 +66,6 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
         [setData],
     );
 
-    const createProject = useController(ProjectConfig.BASE_URI).create;
-
     return (
         <form onSubmit={handleSubmit} className={className}>
             <FormGridLayout>
@@ -100,7 +90,7 @@ export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, ta
                     <Label htmlFor="projects" className="block">
                         Projects
                     </Label>
-                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} onClickPlus={createProject} />
+                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} addAction={<CreateProjectDialog trigger={<SelectBadge>+</SelectBadge>} />} />
                     <InputError>{errors.projects}</InputError>
                 </div>
 
