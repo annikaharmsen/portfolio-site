@@ -7,7 +7,7 @@ import { breadcrumbTree } from '@/hooks/use-breadcrumbs';
 import { NavGroup, type NavItem } from '@/types';
 import { DemoConfig } from '@/types/demo';
 import { Link, usePage } from '@inertiajs/react';
-import { Badge, Briefcase, FolderClosed, GraduationCap, Info, LayoutGrid, MessageCircle, Text } from 'lucide-react';
+import { Badge, Briefcase, FolderClosed, GraduationCap, Info, LayoutGrid, MessageCircle, Star, Text } from 'lucide-react';
 import { NavSection } from './nav-main';
 
 const mainNav: NavGroup[] = [
@@ -30,6 +30,15 @@ const mainNav: NavGroup[] = [
             {
                 ...breadcrumbTree.tag_index({ tagConfig: TagConfig }),
                 icon: Badge,
+            },
+        ],
+    },
+    {
+        title: 'Resume',
+        items: [
+            {
+                ...breadcrumbTree.highlight_index(),
+                icon: Star,
             },
         ],
     },
