@@ -1,6 +1,7 @@
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SkillGroups } from '@/types/models';
+import { cn } from '@/lib/utils';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -15,6 +16,7 @@ interface SkillGroupSelectProps {
     creatable?: boolean;
     placeholder?: string;
     disabled?: boolean;
+    className?: string;
 }
 
 export default function SkillGroupSelect({
@@ -25,6 +27,7 @@ export default function SkillGroupSelect({
     creatable = false,
     placeholder = 'none',
     disabled,
+    className,
 }: SkillGroupSelectProps) {
     const [showInput, setShowInput] = useState(false);
     const [newName, setNewName] = useState('');
@@ -69,7 +72,7 @@ export default function SkillGroupSelect({
 
     if (showInput) {
         return (
-            <div className="flex gap-2">
+            <div className={cn('flex gap-2', className)}>
                 <Input
                     id={id}
                     value={newName}
@@ -103,7 +106,7 @@ export default function SkillGroupSelect({
 
     return (
         <Select value={selectValue} onValueChange={handleValueChange}>
-            <SelectTrigger id={id} disabled={disabled}>
+            <SelectTrigger id={id} disabled={disabled} className={className}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>

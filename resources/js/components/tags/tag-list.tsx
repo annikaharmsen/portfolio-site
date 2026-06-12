@@ -175,9 +175,10 @@ export default function TagList({ tags, skillGroups, accordion = false, classNam
                     options={skillGroups}
                     placeholder="Assign Group"
                     disabled={modelSelection.selected.length === 0}
+                    className="w-40 shrink-0"
                     creatable
                 />
-                <DeleteButton className="h-9" disabled={modelSelection.selected.length === 0} onClick={handleBulkDelete} showIcon>
+                <DeleteButton className="h-9 w-40" disabled={modelSelection.selected.length === 0} onClick={handleBulkDelete} showIcon>
                     Delete {modelSelection.selected.length}
                 </DeleteButton>
             </div>
