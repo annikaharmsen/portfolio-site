@@ -1,5 +1,5 @@
-import CreatableSelect from '@/components/creatable-select';
 import InputError from '@/components/input-error';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -100,12 +100,18 @@ export default function CreateTagDialog({ categories, trigger }: CreateTagDialog
 
                     <div>
                         <Label htmlFor="tag-category">Category</Label>
-                        <CreatableSelect
-                            id="tag-category"
-                            value={category}
-                            onChange={setCategory}
-                            options={categories}
-                        />
+                        <Select value={category ?? ''} onValueChange={(val) => setCategory(val || null)}>
+                            <SelectTrigger id="tag-category">
+                                <SelectValue placeholder="select a category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {categories.map((cat) => (
+                                    <SelectItem key={cat} value={cat}>
+                                        {cat}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         <InputError message={errors.category} />
                     </div>
 

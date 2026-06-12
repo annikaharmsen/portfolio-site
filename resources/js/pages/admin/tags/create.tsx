@@ -1,16 +1,17 @@
 import { H1 } from '@/components/headings';
 import TagForm from '@/components/tags/form';
 import { TagConfig, TagConfigInterface } from '@/config/config';
-import { Projects } from '@/types/models';
+import { Projects, SkillGroups } from '@/types/models';
 import { Head } from '@inertiajs/react';
 
 interface CreateTagProps {
     tagConfig?: TagConfigInterface;
     projects: Projects;
     categories: string[];
+    skillGroups: SkillGroups;
 }
 
-export default function CreateTag({ tagConfig = TagConfig, projects, categories }: CreateTagProps) {
+export default function CreateTag({ tagConfig = TagConfig, projects, categories, skillGroups }: CreateTagProps) {
     const title = 'Create ' + tagConfig.TYPE;
 
     return (
@@ -18,7 +19,7 @@ export default function CreateTag({ tagConfig = TagConfig, projects, categories 
             <Head title={title} />
             <div className="m-12 *:mb-12 md:min-w-160">
                 <H1 className="w-full">{title}</H1>
-                <TagForm tagConfig={tagConfig} projects={projects} categories={categories} />
+                <TagForm tagConfig={tagConfig} projects={projects} categories={categories} skillGroups={skillGroups} />
             </div>
         </>
     );

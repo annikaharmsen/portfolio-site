@@ -49,8 +49,8 @@ Route::middleware('auth')->group(function () {
     // Tag routes
     Route::delete('tags/bulk-delete', [TagController::class, 'bulkDelete'])
         ->name('tags.bulk-delete');
-    Route::patch('tags/bulk-update-category', [TagController::class, 'bulkUpdateCategory'])
-        ->name('tags.bulk-update-category');
+    Route::patch('tags/bulk-update-group', [TagController::class, 'bulkUpdateGroup'])
+        ->name('tags.bulk-update-group');
     Route::resource('tags', TagController::class);
 
     Route::get('sections/{section}/edit', [SiteTextController::class, 'edit'])
