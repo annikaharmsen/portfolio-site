@@ -1,5 +1,4 @@
 import { IconName } from '@/components/icon-selector-dropdown';
-import { TagCategory } from '@/config/config';
 
 export type Project = {
     //columns
@@ -14,7 +13,7 @@ export type Project = {
     hidden: boolean;
     date?: string;
     bullets?: string[] | null;
-    category?: 'projects' | 'personal' | null;
+    category?: string | null;
     label?: string | null;
     // relations
     tags?: Tags;
@@ -47,7 +46,7 @@ export type Tag = {
     id: number;
     icon_name: IconName;
     name: string;
-    category?: TagCategory;
+    category?: string | null;
     skill_group_id?: number | null;
     // relations
     projects?: Projects;
@@ -79,6 +78,9 @@ export type User = {
     remember_token?: string | null;
     created_at: string | null;
     updated_at: string | null;
+    location: string | null;
+    phone: string | null;
+    summary: string | null;
     // relations
     notifications: DatabaseNotifications;
     // counts

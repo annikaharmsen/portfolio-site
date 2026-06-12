@@ -8,9 +8,10 @@ interface EditTagProps {
     tagConfig?: TagConfigInterface;
     projects: Projects;
     tag: Tag;
+    categories: string[];
 }
 
-export default function EditTag({ tagConfig, projects, tag }: EditTagProps) {
+export default function EditTag({ tagConfig, projects, tag, categories }: EditTagProps) {
     const title = 'Edit ' + tagConfig?.TYPE;
 
     return (
@@ -20,7 +21,7 @@ export default function EditTag({ tagConfig, projects, tag }: EditTagProps) {
                 <div className="flex items-center justify-between *:my-0">
                     <H1>{title}</H1>
                 </div>
-                <TagForm tag={tag} tagConfig={TagConfig} projects={projects} />
+                <TagForm tag={tag} tagConfig={TagConfig} projects={projects} categories={categories} />
             </div>
         </>
     );

@@ -7,9 +7,10 @@ import { Head } from '@inertiajs/react';
 interface CreateTagProps {
     tagConfig?: TagConfigInterface;
     projects: Projects;
+    categories: string[];
 }
 
-export default function CreateTag({ tagConfig = TagConfig, projects }: CreateTagProps) {
+export default function CreateTag({ tagConfig = TagConfig, projects, categories }: CreateTagProps) {
     const title = 'Create ' + tagConfig.TYPE;
 
     return (
@@ -17,7 +18,7 @@ export default function CreateTag({ tagConfig = TagConfig, projects }: CreateTag
             <Head title={title} />
             <div className="m-12 *:mb-12 md:min-w-160">
                 <H1 className="w-full">{title}</H1>
-                <TagForm tagConfig={tagConfig} projects={projects} />
+                <TagForm tagConfig={tagConfig} projects={projects} categories={categories} />
             </div>
         </>
     );

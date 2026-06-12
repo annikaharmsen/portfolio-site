@@ -2,12 +2,12 @@ import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { SkillConfig, TagConfig, TechConfig } from '@/config/config';
+import { TagConfig } from '@/config/config';
 import { breadcrumbTree } from '@/hooks/use-breadcrumbs';
 import { NavGroup, type NavItem } from '@/types';
 import { DemoConfig } from '@/types/demo';
 import { Link, usePage } from '@inertiajs/react';
-import { Badge, BadgeCheck, Briefcase, FolderClosed, Info, LayoutGrid, MessageCircle, Text, Wrench } from 'lucide-react';
+import { Badge, Briefcase, FolderClosed, GraduationCap, Info, LayoutGrid, MessageCircle, Star, Text } from 'lucide-react';
 import { NavSection } from './nav-main';
 
 const mainNav: NavGroup[] = [
@@ -31,13 +31,14 @@ const mainNav: NavGroup[] = [
                 ...breadcrumbTree.tag_index({ tagConfig: TagConfig }),
                 icon: Badge,
             },
+        ],
+    },
+    {
+        title: 'Resume',
+        items: [
             {
-                ...breadcrumbTree.tag_index({ tagConfig: TechConfig }),
-                icon: Wrench,
-            },
-            {
-                ...breadcrumbTree.tag_index({ tagConfig: SkillConfig }),
-                icon: BadgeCheck,
+                ...breadcrumbTree.highlight_index(),
+                icon: Star,
             },
         ],
     },
@@ -59,6 +60,10 @@ const mainNav: NavGroup[] = [
             {
                 ...breadcrumbTree.experience_index(),
                 icon: Briefcase,
+            },
+            {
+                ...breadcrumbTree.education_index(),
+                icon: GraduationCap,
             },
         ],
     },

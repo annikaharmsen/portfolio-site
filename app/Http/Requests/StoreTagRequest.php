@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Enums\LucideIcon;
-use App\Enums\TagCategory;
 use Illuminate\Validation\Rule;
 
 class StoreTagRequest extends CmsRequest
@@ -14,7 +13,7 @@ class StoreTagRequest extends CmsRequest
             'icon_name' => ['required', Rule::enum(LucideIcon::class)],
             'name' => 'required|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id',
-            'category' => Rule::enum(TagCategory::class),
+            'category' => 'nullable|string|max:255',
         ];
     }
 

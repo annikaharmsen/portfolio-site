@@ -1,31 +1,31 @@
-import { ProjectConfig, TagConfigInterface } from '@/config/config';
+import { TagConfigInterface } from '@/config/config';
 import useController from '@/hooks/use-controller';
-import useReroute from '@/hooks/use-reroute';
 import useUnsavedWarning from '@/hooks/use-unsaved-warning';
 import FormGridLayout from '@/layouts/form-grid-layout';
 import { Projects, Tag } from '@/types/models';
-import { router, useForm, usePage } from '@inertiajs/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useForm, usePage } from '@inertiajs/react';
+import { useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
 import { CancelButton, DeleteButton, SaveButton } from '../app-buttons';
-import BadgeSelectInput from '../badge-select-input';
+import BadgeSelectInput, { SelectBadge } from '../badge-select-input';
 import IconSelectorDropdownClient, { IconName } from '../icon-selector-dropdown';
 import InputError from '../input-error';
 import { store } from '../store';
+import CreatableSelect from '../creatable-select';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import CreateProjectDialog from '../projects/create-project-dialog';
 
 interface TagFormProps {
     tagConfig: TagConfigInterface;
     projects: Projects;
     tag?: Tag;
     className?: string;
+    categories: string[];
 }
 
-export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI: baseURI }, projects, tag, className }: TagFormProps) {
+export default function TagForm({ tagConfig: { BASE_URI: baseURI }, projects, tag, className, categories }: TagFormProps) {
     const controller = useController(baseURI);
-    const { reroute } = useReroute();
     const { errors } = usePage().props;
 
     const [processing, setProcessing] = useState<boolean>(false);
@@ -35,27 +35,18 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         icon_name: (!!tag && tag.icon_name) || null,
         name: (!!tag && tag.name) || '',
         projects: (!!tag && tag.projects?.map((project) => project.id)) || [],
-        category: (!!tag && tag.category) || categories.length === 1 ? categories[0] : undefined,
+        category: tag?.category ?? null,
     });
     useUnsavedWarning(isDirty && !processing && !deleting);
-
-    useEffect(() => {
-        const handlePopState = () => {
-            router.reload({ only: ['projects'] });
-        };
-
-        window.addEventListener('popstate', handlePopState);
-        return () => window.removeEventListener('popstate', handlePopState);
-    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         setProcessing(true);
         if (tag) {
-            controller.update(tag, data, { onSuccess: reroute, onFinish: () => setProcessing(false) });
+            controller.update(tag, data, { onFinish: () => setProcessing(false) });
         } else {
-            controller.store(data, { onSuccess: reroute, onFinish: () => setProcessing(false) });
+            controller.store(data, { onFinish: () => setProcessing(false) });
         }
     };
 
@@ -72,8 +63,6 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
         },
         [setData],
     );
-
-    const createProject = useController(ProjectConfig.BASE_URI).create;
 
     return (
         <form onSubmit={handleSubmit} className={className}>
@@ -95,33 +84,23 @@ export default function TagForm({ tagConfig: { CATEGORIES: categories, BASE_URI:
                     <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="name" />
                     <InputError>{errors.name}</InputError>
                 </>
-                <div className={!categories.length ? 'col-span-full' : ''}>
+                <div>
                     <Label htmlFor="projects" className="block">
                         Projects
                     </Label>
-                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} onClickPlus={createProject} />
+                    <BadgeSelectInput value={data.projects} onChange={handleProjectsChange} options={projects} addAction={<CreateProjectDialog trigger={<SelectBadge>+</SelectBadge>} />} />
                     <InputError>{errors.projects}</InputError>
                 </div>
 
                 <>
-                    {categories.length > 1 && (
-                        <>
-                            <Label htmlFor="category">Category</Label>
-                            <Select defaultValue={data.category} onValueChange={(value) => setData('category', value as typeof data.category)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {categories.map((category) => (
-                                        <SelectItem key={category} value={category}>
-                                            {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <InputError>{errors.category}</InputError>
-                        </>
-                    )}
+                    <Label htmlFor="category">Category</Label>
+                    <CreatableSelect
+                        id="category"
+                        value={data.category}
+                        onChange={(val) => setData('category', val)}
+                        options={categories}
+                    />
+                    <InputError>{errors.category}</InputError>
                 </>
             </FormGridLayout>
 
