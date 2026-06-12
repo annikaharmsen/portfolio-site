@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TagCategory;
 use App\Http\Controllers\Concerns\HandlesTagCrud;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\Project;
@@ -25,7 +26,8 @@ class TagController extends Controller
     {
         return Inertia::render('admin/tags/create', [
             'projects' => Project::all(),
-            'categories' => Tag::withoutGlobalScope('ordered')->whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'categories' => array_column(TagCategory::cases(), 'value'),
+            'skillGroups' => SkillGroup::ordered()->get(),
         ]);
     }
 
@@ -41,7 +43,8 @@ class TagController extends Controller
         return Inertia::render('admin/tags/edit', [
             'tag' => $tag->load('projects'),
             'projects' => Project::all(),
-            'categories' => Tag::withoutGlobalScope('ordered')->whereNotNull('category')->distinct()->pluck('category')->sort()->values(),
+            'categories' => array_column(TagCategory::cases(), 'value'),
+            'skillGroups' => SkillGroup::ordered()->get(),
         ]);
     }
 
