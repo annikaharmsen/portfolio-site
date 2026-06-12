@@ -20,7 +20,7 @@ import { store } from '../store';
 import TextareaAutosize from 'react-textarea-autosize';
 import { cn } from '@/lib/utils';
 import { textAreaStyles } from '@/components/ui/textarea';
-import CreateTagDialog from './create-tag-dialog';
+import CreateTagDialog from '../tags/create-tag-dialog';
 
 interface ProjectFormProps {
     project?: Project;
