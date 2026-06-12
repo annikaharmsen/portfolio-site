@@ -49,7 +49,7 @@ class ResumeController extends Controller
             'educations' => Education::ordered()->get(),
             'projects' => Project::orderByDesc('date')->get()->groupBy('category'),
             'experiences' => Experience::ordered()->get(),
-            'skill_groups' => SkillGroup::with('tags')->ordered()->get(),
+            'skill_groups' => SkillGroup::has('tags')->with('tags')->ordered()->get(),
         ];
     }
 }
