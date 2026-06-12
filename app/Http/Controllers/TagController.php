@@ -31,13 +31,6 @@ class TagController extends Controller
         ]);
     }
 
-    public function show(Tag $tag)
-    {
-        return Inertia::render('admin/tags/show', [
-            'tag' => $tag,
-        ]);
-    }
-
     public function edit(Tag $tag)
     {
         return Inertia::render('admin/tags/edit', [

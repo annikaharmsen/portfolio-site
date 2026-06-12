@@ -19,7 +19,7 @@ trait HandlesTagCrud
         $tag = Tag::create($validated);
         $tag->projects()->sync($validated['projects']);
 
-        return redirect()->route('tags.show', $tag);
+        return redirect()->route('tags.index');
     }
 
     protected function updateTag(UpdateTagRequest $request, Tag $tag)
@@ -32,7 +32,7 @@ trait HandlesTagCrud
             $tag->projects()->sync($validated['projects']);
         }
 
-        return redirect()->route('tags.show', $tag);
+        return redirect()->route('tags.index');
     }
 
     protected function destroyTag(Tag $tag)
