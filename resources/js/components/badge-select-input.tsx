@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { ComponentProps, MouseEventHandler, useEffect, useMemo, useReducer } from 'react';
+import { ComponentProps, MouseEventHandler, ReactNode, useEffect, useMemo, useReducer } from 'react';
 import { Badge } from './ui/badge';
 
 interface badgeSelectInputProps<
@@ -14,6 +14,7 @@ interface badgeSelectInputProps<
     textResource?: TextResource;
     groupBy?: keyof Option;
     onClickPlus?: MouseEventHandler;
+    addAction?: ReactNode;
 }
 
 export default function BadgeSelectInput({
@@ -24,6 +25,7 @@ export default function BadgeSelectInput({
     textResource = 'title',
     groupBy,
     onClickPlus,
+    addAction,
 }: badgeSelectInputProps) {
     const [selectedValues, toggleValue] = useReducer((prevValues: number[], toggledValue: number): number[] => {
         const updatedValues = prevValues.includes(toggledValue)
@@ -80,7 +82,7 @@ export default function BadgeSelectInput({
                     </div>
                 </div>
             ))}
-            {onClickPlus && <SelectBadge onClick={onClickPlus}>+</SelectBadge>}
+            {addAction ? addAction : onClickPlus && <SelectBadge onClick={onClickPlus}>+</SelectBadge>}
         </>
     );
 }

@@ -5,13 +5,14 @@ import { Head } from '@inertiajs/react';
 interface CreateProjectProps {
     tags: Tags;
     categories: string[];
+    tagCategories: string[];
 }
 
-export default function CreateProject({ tags, categories }: CreateProjectProps) {
+export default function CreateProject({ tags, categories, tagCategories }: CreateProjectProps) {
     return (
         <>
             <Head title="New Project" />
-            <ProjectForm tags={tags} categories={categories} />
+            <ProjectForm tags={tags} categories={categories} tagCategories={tagCategories} />
         </>
     );
 }
