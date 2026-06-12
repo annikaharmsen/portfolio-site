@@ -14,7 +14,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     const hasProjectPage = !!project.hero_sections?.length;
     const isClickable = hasProjectPage || mainLink;
 
-    const tech = project.tags?.filter((tag) => tag.category && ['frontend', 'backend', 'tool'].includes(tag.category)) || [];
+    const tech = project.tags?.filter((tag) => tag.category === 'tech') || [];
     const skills = project.tags?.filter((tag) => tag.category === 'skill') || [];
 
     const DateEl = () => (
