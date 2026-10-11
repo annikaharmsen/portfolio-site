@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSkillGroupRequest;
 use App\Http\Requests\UpdateSkillGroupRequest;
 use App\Models\SkillGroup;
+use App\Services\Cms\SkillGroupService;
 
 class SkillGroupController extends Controller
 {
@@ -22,11 +23,9 @@ class SkillGroupController extends Controller
         return redirect()->back();
     }
 
-    public function destroy(SkillGroup $skillGroup)
+    public function destroy(SkillGroup $skillGroup, SkillGroupService $skillGroups)
     {
-        // nullify tags so they become ungrouped rather than being deleted
-        $skillGroup->tags()->update(['skill_group_id' => null]);
-        $skillGroup->delete();
+        $skillGroups->delete($skillGroup);
 
         return redirect()->route('skill-groups.index');
     }

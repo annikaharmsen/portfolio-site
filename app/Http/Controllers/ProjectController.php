@@ -8,6 +8,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\SkillGroup;
+use App\Services\Cms\ProjectService;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -28,13 +29,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(StoreProjectRequest $request)
+    public function store(StoreProjectRequest $request, ProjectService $projects)
     {
-        $validated = $request->validated();
-
-        $project = Project::create($validated);
-
-        $project->tags()->sync($validated['tags'] ?? []);
+        $project = $projects->create($request->validated());
 
         if ($request->boolean('inline')) {
             return back();
@@ -59,15 +56,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project, ProjectService $projects)
     {
-        $validated = $request->validated();
-
-        $project->update($validated);
-
-        if (isset($validated['tags'])) {
-            $project->tags()->sync($validated['tags']);
-        }
+        $projects->update($project, $request->validated());
 
         return redirect("/projects/{$project->id}");
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\LucideIcon;
+use App\Enums\TagCategory;
 use Illuminate\Validation\Rule;
 
 class UpdateTagRequest extends CmsRequest
@@ -13,7 +14,7 @@ class UpdateTagRequest extends CmsRequest
             'icon_name' => ['nullable', Rule::enum(LucideIcon::class)],
             'name' => 'nullable|string|min:1|max:255',
             'projects' => 'array|distinct|exists:projects,id',
-            'category' => 'nullable|string|max:255',
+            'category' => ['nullable', Rule::enum(TagCategory::class)],
             'skill_group_id' => 'nullable|integer|exists:skill_groups,id',
         ];
     }

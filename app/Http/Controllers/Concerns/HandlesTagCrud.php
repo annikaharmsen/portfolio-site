@@ -8,16 +8,13 @@ use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\SkillGroup;
 use App\Models\Tag;
-use Inertia\Inertia;
+use App\Services\Cms\TagService;
 
 trait HandlesTagCrud
 {
-    public function store(StoreTagRequest $request)
+    public function store(StoreTagRequest $request, TagService $tags)
     {
-        $validated = $request->validated();
-
-        $tag = Tag::create($validated);
-        $tag->projects()->sync($validated['projects']);
+        $tags->create($request->validated());
 
         if ($request->boolean('inline')) {
             return back();
@@ -28,13 +25,7 @@ trait HandlesTagCrud
 
     protected function updateTag(UpdateTagRequest $request, Tag $tag)
     {
-        $validated = $request->validated();
-
-        $tag->update($validated);
-
-        if (isset($validated['projects'])) {
-            $tag->projects()->sync($validated['projects']);
-        }
+        app(TagService::class)->update($tag, $request->validated());
 
         return redirect()->route('tags.index');
     }

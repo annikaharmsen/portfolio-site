@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateSiteTextRequest;
 use App\Models\SiteText;
+use App\Services\Cms\SiteTextService;
 use Inertia\Inertia;
 
 class SiteTextController extends Controller
@@ -16,22 +17,13 @@ class SiteTextController extends Controller
         ]);
     }
 
-    public function update(UpdateSiteTextRequest $request)
+    public function update(UpdateSiteTextRequest $request, SiteTextService $siteTexts)
     {
         $validated = $request->validated();
 
-        $path = $validated['path'];
-        $text = $validated['text'];
+        $siteTexts->set($validated['path'], $validated['text'] ?? null);
 
-        // (soft) delete existing record
-        SiteText::where('path', $path)->delete();
-
-        // create new record if text is not nullish
-        if ($text) {
-            SiteText::create($validated);
-        }
-
-        $section = explode('.', $path, 2)[0];
+        $section = explode('.', $validated['path'], 2)[0];
 
         return redirect("/sections/{$section}/edit");
     }
