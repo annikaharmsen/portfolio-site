@@ -105,6 +105,11 @@ class AdminMcpAuthTest extends TestCase
         $this->rpc('tools/list', [], $this->bearer(['something-else']))->assertForbidden();
     }
 
+    public function test_a_wildcard_token_is_forbidden(): void
+    {
+        $this->rpc('tools/list', [], $this->bearer(['*']))->assertForbidden();
+    }
+
     public function test_a_logged_in_browser_session_is_not_enough(): void
     {
         $this->actingAs($this->user, 'web');

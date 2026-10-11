@@ -151,7 +151,18 @@ class CmsContent
     private static function validate(string $requestClass, array $data): array
     {
         $request = new $requestClass;
+        $rules = $request->rules();
 
-        return Validator::validate($data, $request->rules(), $request->messages());
+        // fields without a rule would be dropped silently; name them instead, so a typo isn't reported as success
+        $fields = array_filter(array_keys($rules), fn (string $key) => ! str_contains($key, '.') && $key !== 'inline');
+        $unknown = array_diff(array_keys($data), $fields);
+
+        if ($unknown !== []) {
+            throw ValidationException::withMessages([
+                'data' => 'Unknown field(s): '.implode(', ', $unknown).'. Allowed: '.implode(', ', $fields).'.',
+            ]);
+        }
+
+        return Validator::validate($data, $rules, $request->messages());
     }
 }

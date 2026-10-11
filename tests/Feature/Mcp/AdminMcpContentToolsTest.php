@@ -12,6 +12,8 @@ use App\Mcp\Tools\UpdateContent;
 use App\Mcp\Tools\UpdateProjectTags;
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\Highlight;
+use App\Models\Image;
 use App\Models\Project;
 use App\Models\SkillGroup;
 use App\Models\Tag;
@@ -272,6 +274,28 @@ class AdminMcpContentToolsTest extends TestCase
             ->assertOk()->assertHasNoErrors();
         $this->assertSame('3.9', $education->fresh()->gpa);
         $this->assertSame('2022-05-15', $education->fresh()->graduation_date->toDateString());
+    }
+
+    public function test_unknown_fields_are_rejected_instead_of_ignored(): void
+    {
+        $project = $this->project(['title' => 'Before']);
+
+        $this->server()->tool(UpdateContent::class, ['type' => 'project', 'id' => $project->id, 'data' => ['titel' => 'Typo']])
+            ->assertHasErrors(['Unknown field(s): titel.']);
+        $this->server()->tool(CreateContent::class, ['type' => 'skill_group', 'data' => ['name' => 'X', 'id' => 5]])
+            ->assertHasErrors(['Unknown field(s): id.']);
+
+        $this->assertSame('Before', $project->fresh()->title);
+        $this->assertSame(0, SkillGroup::count());
+    }
+
+    public function test_list_content_reads_highlights_and_images(): void
+    {
+        Highlight::create(['text' => 'Shipped a CMS', 'sort_order' => 0]);
+        Image::create(['url' => '/storage/images/hero.png', 'alt' => 'Hero shot']);
+
+        $this->server()->tool(ListContent::class, ['type' => 'highlight'])->assertOk()->assertSee('Shipped a CMS');
+        $this->server()->tool(ListContent::class, ['type' => 'image'])->assertOk()->assertSee('Hero shot');
     }
 
     public function test_update_of_a_soft_deleted_record_is_refused(): void
