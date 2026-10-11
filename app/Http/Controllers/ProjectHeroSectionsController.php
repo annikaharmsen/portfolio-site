@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProjectHeroSectionsRequest;
 use App\Models\Project;
-use App\Models\ProjectHeroSection;
+use App\Services\Cms\HeroSectionService;
 use Inertia\Inertia;
 
 class ProjectHeroSectionsController extends Controller
@@ -16,22 +16,9 @@ class ProjectHeroSectionsController extends Controller
         ]);
     }
 
-    public function update(UpdateProjectHeroSectionsRequest $request, Project $project)
+    public function update(UpdateProjectHeroSectionsRequest $request, Project $project, HeroSectionService $heroSections)
     {
-        $validated = $request->validated();
-
-        $submittedIDs = [];
-        foreach ($validated['hero_sections'] as $sectionData) {
-            $section = ProjectHeroSection::findOrNew($sectionData['id'] ?? null);
-            $section->fill($sectionData);
-            $section->project_id = $project->id;
-            $section->save();
-
-            $submittedIDs[] = $section->id;
-        }
-
-        // Delete sections not in submission
-        $project->hero_sections()->whereNotIn('id', $submittedIDs)->delete();
+        $heroSections->sync($project, $request->validated()['hero_sections']);
 
         return redirect("/projects/{$project->id}/edit");
     }

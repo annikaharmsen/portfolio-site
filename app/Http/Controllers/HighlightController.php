@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SyncHighlightsRequest;
 use App\Models\Highlight;
+use App\Services\Cms\HighlightService;
 use Inertia\Inertia;
 
 class HighlightController extends Controller
@@ -15,19 +16,9 @@ class HighlightController extends Controller
         ]);
     }
 
-    public function sync(SyncHighlightsRequest $request)
+    public function sync(SyncHighlightsRequest $request, HighlightService $highlights)
     {
-        Highlight::query()->delete();
-
-        $rows = collect($request->validated()['highlights'])
-            ->values()
-            ->map(fn (string $text, int $index) => [
-                'text' => $text,
-                'sort_order' => $index,
-            ])
-            ->all();
-
-        Highlight::insert($rows);
+        $highlights->replace($request->validated()['highlights']);
 
         return redirect()->route('highlights.index');
     }
