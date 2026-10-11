@@ -6,7 +6,8 @@ on:
       - production
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: read
 
 concurrency:
   group: deploy
@@ -17,6 +18,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # the build imports ziggy from vendor/
+      - name: Build assets
+        run: |
+          composer install --no-dev --no-interaction --prefer-dist --no-scripts
+          npm ci
+          npm run build
+
       - name: Deploy over SSH
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
@@ -27,5 +49,5 @@ jobs:
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/deploy_key
-          # the key only runs the server's deploy script; "portfolio" picks this site
-          ssh -i ~/.ssh/deploy_key "forge@$DEPLOY_HOST" portfolio
+          # the key only runs the server's deploy script; "portfolio" picks this site, and deploy.sh reads the built assets from stdin
+          tar -czf - -C public/build . | ssh -o ServerAliveInterval=30 -i ~/.ssh/deploy_key "forge@$DEPLOY_HOST" portfolio
