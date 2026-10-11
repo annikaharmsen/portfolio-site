@@ -177,6 +177,21 @@ Regenerate the icon bundle (automatically triggered on project saves):
 php artisan icons:generate
 ```
 
+### Admin MCP Server
+
+An MCP server at `https://admin.<APP_DOMAIN>/mcp/admin` lets an MCP client (e.g. Claude Code) read and edit the CMS content with the admin forms' validation. It's off unless `MCP_ADMIN_ENABLED=true`, never runs on the demo admin, and only accepts a token with the `mcp:admin` ability:
+
+```bash
+# create a token (expires in 90 days; --days to change), shown once
+php artisan mcp:admin-token admin@example.com
+
+# connect Claude Code
+claude mcp add --transport http portfolio-admin https://admin.example.com/mcp/admin --header "Authorization: Bearer <token>"
+
+# revoke the user's MCP tokens
+php artisan mcp:admin-token admin@example.com --revoke
+```
+
 ## Database Models
 
 - **Project**: Stores project data (icon, title, subtitle, description, links, featured status, date)
