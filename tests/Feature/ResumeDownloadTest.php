@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\ResumeController;
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\Project;
 use App\Models\SkillGroup;
 use App\Models\Tag;
 use App\Models\User;
@@ -60,6 +62,16 @@ class ResumeDownloadTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertHeader('content-type', 'application/pdf');
+    }
+
+    public function test_resume_lists_only_visible_projects(): void
+    {
+        Project::create(['icon_name' => 'Code', 'title' => 'Visible', 'category' => 'Personal Projects']);
+        Project::create(['icon_name' => 'Code', 'title' => 'Hidden', 'category' => 'Personal Projects', 'hidden' => true]);
+
+        $projects = app(ResumeController::class)->preview()->getData()['resume']['projects'];
+
+        $this->assertSame(['Visible'], $projects->flatten()->pluck('title')->all());
     }
 
     public function test_resume_sets_download_filename(): void

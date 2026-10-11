@@ -47,7 +47,7 @@ class ResumeController extends Controller
             'summary' => $user->summary,
             'highlights' => Highlight::ordered()->get(),
             'educations' => Education::ordered()->get(),
-            'projects' => Project::orderByDesc('date')->get()->groupBy('category'),
+            'projects' => Project::where('hidden', false)->orderByDesc('date')->get()->groupBy('category'),
             'experiences' => Experience::ordered()->get(),
             'skill_groups' => SkillGroup::has('tags')->with('tags')->ordered()->get(),
         ];
