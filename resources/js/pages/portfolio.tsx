@@ -7,10 +7,26 @@ import ShowContact from '@/components/sections/show-contact';
 import ShowIntro from '@/components/sections/show-intro';
 import TechSkillsSection from '@/components/sections/tech-skills-section';
 import AboveTheFold from '@/layouts/above-the-fold';
-import { Educations, Experiences, Projects, SkillGroups, User } from '@/types/models';
+import { Educations, Experiences, Highlights, Projects, SkillGroups, User } from '@/types/models';
 import { SiteTexts } from '@/types/site-texts';
 
-export default function Portfolio({ texts, skillGroups, user, projects, experiences, educations }: { texts: SiteTexts; skillGroups: SkillGroups; user: User; projects: Projects; experiences: Experiences; educations?: Educations }) {
+export default function Portfolio({
+    texts,
+    skillGroups,
+    user,
+    projects,
+    experiences,
+    educations,
+    highlights,
+}: {
+    texts: SiteTexts;
+    skillGroups: SkillGroups;
+    user: User;
+    projects: Projects;
+    experiences: Experiences;
+    educations?: Educations;
+    highlights?: Highlights;
+}) {
     return (
         <>
             <Navigation />
@@ -23,7 +39,7 @@ export default function Portfolio({ texts, skillGroups, user, projects, experien
                 </AboveTheFold>
 
                 <section id="about" className="bg-muted py-16">
-                    <AboutSection texts={texts.about || {}} educations={educations} />
+                    <AboutSection texts={texts.about || {}} educations={educations} highlights={highlights} />
                 </section>
                 <TechSkillsSection skillGroups={skillGroups} />
                 {projects && projects.length > 0 && <ProjectsSection projects={projects} />}

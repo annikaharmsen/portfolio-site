@@ -2,6 +2,7 @@
 
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\Highlight;
 use App\Models\Project;
 use App\Models\SiteText;
 use App\Models\SkillGroup;
@@ -21,6 +22,7 @@ Route::get('/', function () {
             ->get(),
         'experiences' => Experience::ordered()->get(),
         'educations' => Education::ordered()->get(),
+        'highlights' => Highlight::ordered()->get(),
     ]);
 })->name('portfolio');
 
