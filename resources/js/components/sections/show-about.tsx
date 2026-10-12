@@ -1,14 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatMonthYear } from '@/lib/utils';
 import { Education, Highlight } from '@/types/models';
 import { AboutTexts } from '@/types/site-texts';
 import { AboutShell } from '../about-shell';
 import Markdown from '../markdown';
 
 function EducationCard({ education }: { education: Education }) {
-    const gradYear = new Date(education.graduation_date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-    });
+    const gradYear = formatMonthYear(education.graduation_date);
 
     return (
         <Card className="border-none bg-background">

@@ -59,7 +59,12 @@ export function pluralize(str: string): string {
     return str;
 }
 
-export const openLink = (link: string, e?: React.MouseEvent) => {
+// Date-only values arrive as UTC midnight, so format in UTC to keep the stored month in every viewer time zone
+export function formatMonthYear(date: string): string {
+    return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: 'UTC' });
+}
+
+export const openLink =(link: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
 
     window.open(link);
