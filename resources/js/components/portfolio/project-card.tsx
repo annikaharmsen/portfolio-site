@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn, openLink } from '@/lib/utils';
+import { cn, formatMonthYear, openLink } from '@/lib/utils';
 import { Project } from '@/types/models';
 import { Link, router } from '@inertiajs/react';
 import { ChevronRight, ExternalLink, Star } from 'lucide-react';
@@ -17,18 +17,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     const tech = project.tags?.filter((tag) => tag.category === 'tech') || [];
     const skills = project.tags?.filter((tag) => tag.category === 'skill') || [];
 
-    const DateEl = () => (
-        <>
-            {project.date && (
-                <span className="mt-1 text-xs text-muted-foreground">
-                    {new Date(project.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                    })}
-                </span>
-            )}
-        </>
-    );
+    const DateEl = () => <>{project.date && <span className="mt-1 text-xs text-muted-foreground">{formatMonthYear(project.date)}</span>}</>;
 
     return (
         <Card
