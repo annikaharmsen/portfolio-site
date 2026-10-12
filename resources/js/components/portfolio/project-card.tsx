@@ -17,15 +17,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     const tech = project.tags?.filter((tag) => tag.category === 'tech') || [];
     const skills = project.tags?.filter((tag) => tag.category === 'skill') || [];
 
-    const DateEl = () => (
-        <>
-            {project.date && (
-                <span className="mt-1 text-xs text-muted-foreground">
-                    {formatMonthYear(project.date)}
-                </span>
-            )}
-        </>
-    );
+    const DateEl = () => <>{project.date && <span className="mt-1 text-xs text-muted-foreground">{formatMonthYear(project.date)}</span>}</>;
 
     return (
         <Card

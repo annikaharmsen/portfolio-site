@@ -64,7 +64,7 @@ export function formatMonthYear(date: string): string {
     return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: 'UTC' });
 }
 
-export const openLink =(link: string, e?: React.MouseEvent) => {
+export const openLink = (link: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
 
     window.open(link);
